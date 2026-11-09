@@ -1,4 +1,4 @@
-# ThoiLoanServer v3.2
+# ThoiLoanServer v3.3
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3, không cần cài thêm gói nào.
@@ -98,6 +98,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v3.3**
+- Sửa lệch id công trình: game cấp id công trình mới theo nhóm (số công trình cùng nhóm + 1), còn server cũ
+  cấp id chung cho cả làng, nên "xong ngay" và nâng cấp công trình mới trỏ nhầm công trình khác
+  (ví dụ nâng RES_2 thành nâng nhầm trại quân). Server giờ đánh id theo nhóm và tìm theo (nhóm, id).
+  `state.json` cũ được tự đánh lại id một lần.
 
 **v3.2**
 - Tiến độ hướng dẫn "đã xong" = 70 (trước là 69). Game coi hướng dẫn còn chạy khi ≤ 69 (`TutorialMgr::isDoing`)

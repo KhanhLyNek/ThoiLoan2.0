@@ -30,7 +30,7 @@ def _place(payload):
         return 1, "TỪ CHỐI %s: chỉ được có một công trình loại này" % btype
     if not levels:
         return 1, "TỪ CHỐI %s: không có ảnh nào của loại này" % btype
-    new_id = state.next_id(st)
+    new_id = state.next_id(st, btype)
     if 1 in levels:
         st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1})
         c = state.pay(st, btype, 1)
@@ -45,12 +45,12 @@ def _place(payload):
 
 @handler(2003)
 def upgrade(ctx, ctl, cmd, payload):
-    """sendUpgradeBuilding: trừ giá cấp kế tiếp, lưu cấp mới."""
-    bid, _ = parse_id_and_type(payload)
+    """sendUpgradeBuilding: [chuỗi loại][int id][int][byte]. Trừ giá cấp kế tiếp, lưu cấp mới."""
+    bid, btype = parse_id_and_type(payload)
     st = state.load()
-    b = state.find_building(st, bid)
+    b = state.find_building(st, bid, btype=btype or None)
     if not b:
-        ctx.log("nâng cấp: không thấy công trình id=%s" % bid)
+        ctx.log("nâng cấp: không thấy công trình %s id=%s" % (btype, bid))
         return False
     new_level = b["level"] + 1
     if b["type"] in gamedata.COST and str(new_level) not in gamedata.COST[b["type"]]:
@@ -65,10 +65,10 @@ def upgrade(ctx, ctl, cmd, payload):
 
 @handler(2004)
 def collect(ctx, ctl, cmd, payload):
-    """sendCollect: thu hoạch mỏ theo thời gian (Resource.json)."""
+    """sendCollect: [int id] (chỉ mỏ, nhóm RES). Thu hoạch theo thời gian (Resource.json)."""
     bid, _ = parse_id_and_type(payload)
     st = state.load()
-    b = state.find_building(st, bid)
+    b = state.find_building(st, bid, category="RES")
     if not b or b["type"] not in gamedata.RES_INFO:
         ctx.log("thu hoạch: id=%s không phải mỏ" % bid)
         return False

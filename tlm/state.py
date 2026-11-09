@@ -3,6 +3,9 @@
 Cấu trúc state.json:
   player     : tên, cấp, kinh nghiệm, vàng, dầu, dầu đen, G, tutorial_step
   buildings  : [{id, type, x, y, level, (collected_at)}]
+               id đánh THEO NHÓM (3 chữ đầu của loại: RES, STO, DEF...), 1, 2, 3... giống game:
+               game tự cấp id công trình mới = số công trình cùng nhóm + 1 (thấy trong log:
+               STO_2 đầu tiên -> id 1, RES_2 khi đã có RES_1 -> id 2).
   obstacles  : [{id, type, x, y}]
 Sửa tay được (tắt server trước), xoá file = làng về ban đầu.
 """
@@ -62,10 +65,18 @@ def load():
         if st["player"].get("tutorial_step") == 69:      # 69 = "bỏ qua" của bản cũ, thực ra vẫn đang chạy
             st["player"]["tutorial_step"] = TUTORIAL_DONE
             changed = True
+        if st.get("id_scheme") != "per_category":     # state cũ đánh id chung -> đánh lại theo nhóm
+            seen = {}
+            for b in st["buildings"]:
+                cat = b["type"][:3]
+                seen[cat] = seen.get(cat, 0) + 1
+                b["id"] = seen[cat]
+            st["id_scheme"] = "per_category"
+            changed = True
         if config.USE_OBB:
             if not any(b["type"].startswith("BDH") for b in st["buildings"]):
                 hut = dict(DEFAULT_BUILDER_HUT)
-                hut["id"] = next_id(st)
+                hut["id"] = next_id(st, hut["type"])
                 st["buildings"].append(hut)
                 changed = True
             if "obstacles" not in st:
@@ -76,12 +87,16 @@ def load():
         return st
 
 
-def next_id(st):
-    return max([b["id"] for b in st["buildings"]] or [0]) + 1
+def next_id(st, btype):
+    """id cho công trình mới = số công trình cùng nhóm + 1 (giống cách game tự cấp)."""
+    cat = btype[:3]
+    return max([b["id"] for b in st["buildings"] if b["type"][:3] == cat] or [0]) + 1
 
 
-def find_building(st, bid):
-    return next((b for b in st["buildings"] if b["id"] == bid), None)
+def find_building(st, bid, btype=None, category=None):
+    """Tìm theo (nhóm, id). id chỉ duy nhất trong nhóm nên luôn cần loại hoặc nhóm."""
+    cat = category or (btype[:3] if btype else None)
+    return next((b for b in st["buildings"] if b["id"] == bid and (cat is None or b["type"][:3] == cat)), None)
 
 
 def capacities(st=None):
