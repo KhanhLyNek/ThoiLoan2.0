@@ -1,4 +1,4 @@
-# ThoiLoanServer v3.1
+# ThoiLoanServer v3.2
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3, không cần cài thêm gói nào.
@@ -98,6 +98,11 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v3.2**
+- Tiến độ hướng dẫn "đã xong" = 70 (trước là 69). Game coi hướng dẫn còn chạy khi ≤ 69 (`TutorialMgr::isDoing`)
+  và khi đó khoá các tab cửa hàng (`ShopGUI2::finishStart`), hộp nâng cấp (`BuildingInfoGUI::setUpgradeDialog`)
+  và luyện quân (`TrainDialogGUI`). `state.json` cũ có giá trị 69 được tự đổi thành 70.
 
 **v3.1**
 - Công trình gửi trạng thái 2 (bình thường) thay vì 0, nên có nút nâng cấp và kho được tính sức chứa.

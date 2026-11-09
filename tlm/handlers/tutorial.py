@@ -7,7 +7,7 @@ from . import handler
 def update_tutorial(ctx, ctl, cmd, payload):
     st = state.load()
     p = st["player"]
-    if p.get("tutorial_step", 69) <= 68:
+    if p.get("tutorial_step", state.TUTORIAL_DONE) < state.TUTORIAL_DONE:
         p["tutorial_step"] = p.get("tutorial_step", 0) + 1
         state.save(st)
         ctx.log("hướng dẫn: bước %d" % p["tutorial_step"])

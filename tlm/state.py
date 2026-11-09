@@ -14,10 +14,12 @@ from . import config, gamedata
 
 _lock = threading.RLock()
 
-# tutorial_step: tiến độ hướng dẫn (ô @0x110 của GetPlayerInfo). > 68 = đã xong. 69 = bỏ qua.
+# tutorial_step: tiến độ hướng dẫn (ô @0x110 của GetPlayerInfo). Game coi hướng dẫn CÒN ĐANG CHẠY khi
+# <= 69 (TutorialMgr::isDoing) và khi đó khoá tab cửa hàng, hộp nâng cấp, luyện quân. 70 = đã xong.
+TUTORIAL_DONE = 70
 DEFAULT_PLAYER = {"name": "Khach", "level": 1, "exp": 0,
                   "gold": 5000, "elixir": 5000, "dark_elixir": 0, "coin": 1000,
-                  "tutorial_step": 69}
+                  "tutorial_step": TUTORIAL_DONE}
 DEFAULT_BUILDINGS = [
     {"id": 1, "type": "TOW_1", "x": 20, "y": 19, "level": 1 if config.USE_OBB else 10},
     {"id": 2, "type": "AMC_1", "x": 20, "y": 24, "level": 1},
@@ -57,6 +59,9 @@ def load():
             if k not in st["player"]:
                 st["player"][k] = v
                 changed = True
+        if st["player"].get("tutorial_step") == 69:      # 69 = "bỏ qua" của bản cũ, thực ra vẫn đang chạy
+            st["player"]["tutorial_step"] = TUTORIAL_DONE
+            changed = True
         if config.USE_OBB:
             if not any(b["type"].startswith("BDH") for b in st["buildings"]):
                 hut = dict(DEFAULT_BUILDER_HUT)
