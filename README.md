@@ -1,7 +1,7 @@
-# ThoiLoanServer v3.3
+# ThoiLoanServer v4.0
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
-Chỉ dùng thư viện chuẩn của Python 3, không cần cài thêm gói nào.
+Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
 
 ## Cài lần đầu (Termux)
 
@@ -38,11 +38,43 @@ cd ~/ThoiLoan2.0 && git add logs && git commit -m log && git push
 
 Báo cáo sập: dán vào file `logs/crash.txt` rồi đẩy lên giống như trên.
 
+## Tài khoản và trang quản trị
+
+- Mỗi **nút đăng nhập** (Google, Facebook, Zalo) trên mỗi máy là **một tài khoản riêng**: `google-<mã máy>`...
+  Đây không phải đăng nhập Google thật (Google từ chối APK đã ký lại), chỉ là các ô lưu riêng.
+- Làng cũ (`state.json` bản 3.x) tự chuyển sang tài khoản **đăng nhập đầu tiên**.
+- **Trang quản trị:** mở trình duyệt trên điện thoại, vào **http://127.0.0.1:8080/admin** (lúc server đang chạy).
+  Sửa tên, cấp, kinh nghiệm, **vàng / dầu hồng / dầu đen / G** (đặt số hoặc cộng thêm), cấp từng công trình.
+  Lưu xong, trong game bấm **Về nhà** hoặc vào lại game để thấy.
+- Vàng và dầu hiện trong game tối đa bằng sức chứa (nhà chính + kho). Lưu số lớn hơn vẫn được, game nhận thêm khi kho lớn lên.
+
+## Lưu bằng MySQL (tuỳ chọn)
+
+Mặc định lưu file JSON trong `/sdcard/ThoiLoan2.0/accounts/`. Để dùng MySQL (MariaDB) ngay trong Termux:
+
+```
+pkg install mariadb
+pip install pymysql
+mysqld_safe &                        # bật MySQL (mỗi lần mở Termux mới)
+mariadb -u $(whoami) -e "CREATE DATABASE thoiloan CHARACTER SET utf8mb4; CREATE USER 'tlm'@'localhost' IDENTIFIED BY 'tlm123'; GRANT ALL ON thoiloan.* TO 'tlm'@'localhost';"
+```
+
+Rồi tạo file `/sdcard/ThoiLoan2.0/db.json`:
+
+```
+{"type": "mysql", "host": "127.0.0.1", "port": 3306, "user": "tlm", "password": "tlm123", "database": "thoiloan"}
+```
+
+Lần chạy đầu với MySQL, các tài khoản JSON có sẵn được tự chép vào bảng `accounts`. Không muốn cài MySQL thì có
+thể dùng `{"type": "sqlite"}` (có sẵn trong Python). Nếu không mở được MySQL, server báo lỗi và dừng
+(không tự chơi trên bản JSON cũ để tránh lệch dữ liệu).
+
 ## Dữ liệu người chơi (`/sdcard/ThoiLoan2.0/`)
 
 | File | Ý nghĩa |
 |---|---|
-| `state.json` | Làng: người chơi (vàng, dầu, G, hướng dẫn...), công trình, chướng ngại. Xoá file = làng về ban đầu |
+| `accounts/` | Mỗi tài khoản một file JSON (khi lưu kiểu JSON) |
+| `db.json` | (tuỳ chọn) chọn kiểu lưu: json / sqlite / mysql |
 | `log.txt` | Log lần chạy hiện tại |
 | `old_logs/` | Log cũ, nén theo giờ tạo |
 | `replies.json` | (tuỳ chọn) luật trả lời tay, ưu tiên hơn tự trả lời |
@@ -55,7 +87,9 @@ server.py                  điểm chạy: khởi tạo thư mục, log, mở c�
 tlm/
   config.py                cổng, IP, tuỳ chọn, thư mục dữ liệu
   logger.py                log ra màn hình + log.txt, nén log cũ
-  state.py                 đọc/ghi state.json, sức chứa, trừ/cộng tài nguyên
+  state.py                 đọc/ghi làng theo tài khoản, sức chứa, trừ/cộng tài nguyên
+  storage.py               kho lưu: JSON / SQLite / MySQL (chọn bằng db.json)
+  admin.py                 trang quản trị web /admin
   gamedata.py              dữ liệu tĩnh: ảnh có sẵn, giá, mỏ, sức chứa
   data/*.json              bảng đã giải mã từ APK/OBB/JSON của game
   protocol/
@@ -66,13 +100,13 @@ tlm/
     player_info.py         dựng GetPlayerInfo (1001)
     building_info.py       dựng BuildingInfo (1002)
   handlers/                mỗi lệnh game một hàm xử lý (@handler(cmd))
-    session.py             1001 getUserInfo, 1006 về nhà
+    session.py             1 đăng nhập (chọn tài khoản), 1001 getUserInfo, 1006 về nhà
     city.py                2001 xây, 2003 nâng cấp, 2004 thu hoạch, 2010/2011 dọn chướng ngại
     tutorial.py            1009 bước hướng dẫn
     finish.py              2005/2006 xây-nâng cấp-dọn xong, 2011 RemoveComplete (thưởng G, kinh nghiệm)
     battle.py              9003 kết thúc trận (đang ghi log để giải mã)
   game_server.py           TCP: tách khung -> replies.json -> handler -> tự trả lời
-  http_server.py           /info, /login (đăng nhập khách), /mail
+  http_server.py           /info, /login (đăng nhập theo nút + máy), /mail, /admin
 tools/fake_client.py       client giả để thử nhanh
 ```
 
@@ -98,6 +132,11 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v4.0**
+- Nhiều tài khoản: mỗi nút đăng nhập trên mỗi máy một làng riêng. Làng cũ tự chuyển sang tài khoản đầu tiên.
+- Kho lưu chọn được: JSON (mặc định), SQLite, MySQL (`db.json`).
+- Trang quản trị `http://127.0.0.1:8080/admin`: sửa 4 loại tài nguyên, tên, cấp, kinh nghiệm, cấp công trình.
 
 **v3.3**
 - Sửa lệch id công trình: game cấp id công trình mới theo nhóm (số công trình cùng nhóm + 1), còn server cũ
