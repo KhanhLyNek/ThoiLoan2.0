@@ -36,7 +36,7 @@ def finish(ctx, ctl, cmd, payload):
 
 
 def _obstacle_done(ctx, ctl, bid, btype):
-    st = state.load()
+    st = state.load(ctx.account)
     o = next((x for x in st.get("obstacles", []) if x["id"] == bid), None)
     if o:                                         # phòng khi chưa xoá lúc bắt đầu dọn (2010)
         st["obstacles"].remove(o)
@@ -45,6 +45,6 @@ def _obstacle_done(ctx, ctl, bid, btype):
     p = st["player"]
     p["coin"] = int(p.get("coin", 0)) + g
     p["exp"] = int(p.get("exp", 0)) + exp
-    state.save(st)
+    state.save(st, ctx.account)
     ctx.push(ctl, 2011, u32(bid) + u8(g) + u32(0) + bytes(256),
              " RemoveComplete id=%d: +%d G, +%d kinh nghiệm" % (bid, g, exp))

@@ -9,6 +9,7 @@ class Context:
     def __init__(self, sock, tag):
         self.sock, self.tag = sock, tag
         self.silent = False          # True khi replies.json đã trả lời thay (handler chỉ chạy logic)
+        self.account = "default"     # tài khoản (sessionKey), gán khi game gửi Login (cmd 1)
 
     def log(self, msg):
         log("%s   %s" % (self.tag, msg))

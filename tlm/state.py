@@ -1,21 +1,26 @@
-"""Trạng thái người chơi (lưu state.json trong thư mục dữ liệu).
+"""Trạng thái người chơi, MỖI TÀI KHOẢN MỘT BẢN (lưu qua tầng storage: JSON / SQLite / MySQL).
 
-Cấu trúc state.json:
+Tài khoản = sessionKey lúc đăng nhập: "<google|facebook|zalo>-<deviceId>".
+state.json cũ (bản 3.x) được tự gán cho tài khoản ĐẦU TIÊN đăng nhập (đổi tên thành state.json.da_chuyen).
+
+Cấu trúc một state:
   player     : tên, cấp, kinh nghiệm, vàng, dầu, dầu đen, G, tutorial_step
   buildings  : [{id, type, x, y, level, (collected_at)}]
                id đánh THEO NHÓM (3 chữ đầu của loại: RES, STO, DEF...), 1, 2, 3... giống game:
                game tự cấp id công trình mới = số công trình cùng nhóm + 1 (thấy trong log:
                STO_2 đầu tiên -> id 1, RES_2 khi đã có RES_1 -> id 2).
   obstacles  : [{id, type, x, y}]
-Sửa tay được (tắt server trước), xoá file = làng về ban đầu.
+Sửa qua trang quản trị http://127.0.0.1:8080/admin (hoặc sửa file khi server tắt).
 """
 import json
 import os
 import threading
 
-from . import config, gamedata
+from . import config, gamedata, storage
+from .logger import log
 
 _lock = threading.RLock()
+DEFAULT_ACCOUNT = "default"
 
 # tutorial_step: tiến độ hướng dẫn (ô @0x110 của GetPlayerInfo). Game coi hướng dẫn CÒN ĐANG CHẠY khi
 # <= 69 (TutorialMgr::isDoing) và khi đó khoá tab cửa hàng, hộp nâng cấp, luyện quân. 70 = đã xong.
@@ -31,32 +36,37 @@ DEFAULT_BUILDINGS = [
 DEFAULT_BUILDER_HUT = {"id": 4, "type": "BDH_1", "x": 18, "y": 21, "level": 1}
 
 
-def _path():
+def _legacy_path():
     return config.data_path("state.json")
 
 
-def save(st):
+def save(st, account=DEFAULT_ACCOUNT):
     with _lock:
-        tmp = _path() + ".tmp"
-        with open(tmp, "w", encoding="utf-8") as f:
-            json.dump(st, f, ensure_ascii=False, indent=1)
-        os.replace(tmp, _path())
+        storage.open_storage().put(account, st)
 
 
-def load():
-    """Đọc state.json; tạo mới hoặc bổ sung các khoá thiếu (tương thích state cũ)."""
+def new_state():
+    return {"buildings": [dict(b) for b in DEFAULT_BUILDINGS]}
+
+
+def load(account=DEFAULT_ACCOUNT):
+    """Đọc state của tài khoản; tạo mới (hoặc nhận làng cũ state.json) và bổ sung khoá thiếu."""
     with _lock:
-        st = None
-        try:
-            with open(_path(), "r", encoding="utf-8") as f:
-                st = json.load(f)
-            if not st.get("buildings"):
-                st = None
-        except (FileNotFoundError, ValueError):
-            st = None
-        changed = st is None
-        if st is None:
-            st = {"buildings": [dict(b) for b in DEFAULT_BUILDINGS]}
+        st = storage.open_storage().get(account)
+        changed = False
+        if not st or not st.get("buildings"):
+            st, changed = None, True
+            legacy = _legacy_path()
+            if os.path.isfile(legacy):
+                try:
+                    with open(legacy, "r", encoding="utf-8") as f:
+                        st = json.load(f)
+                    os.replace(legacy, legacy + ".da_chuyen")
+                    log("Đã chuyển làng cũ (state.json) sang tài khoản %s" % account)
+                except (OSError, ValueError):
+                    st = None
+            if not st or not st.get("buildings"):
+                st = new_state()
         st.setdefault("player", {})
         for k, v in DEFAULT_PLAYER.items():
             if k not in st["player"]:
@@ -83,8 +93,12 @@ def load():
                 st["obstacles"] = [dict(o) for o in gamedata.INIT_OBSTACLES]
                 changed = True
         if changed:
-            save(st)
+            save(st, account)
         return st
+
+
+def list_accounts():
+    return storage.open_storage().keys()
 
 
 def next_id(st, btype):
@@ -99,9 +113,8 @@ def find_building(st, bid, btype=None, category=None):
     return next((b for b in st["buildings"] if b["id"] == bid and (cat is None or b["type"][:3] == cat)), None)
 
 
-def capacities(st=None):
+def capacities(st):
     """Sức chứa (vàng, dầu, dầu đen) = nhà chính + các kho."""
-    st = st or load()
     gold = elixir = dark = 0
     for b in st["buildings"]:
         if b["type"] == "TOW_1":

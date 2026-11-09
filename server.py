@@ -7,6 +7,7 @@ Tuỳ chọn:
   --empty     tự trả lời với dữ liệu rỗng thay vì đệm số 0
   --no-push   không tự đẩy dữ liệu làng sau getUserInfo / về nhà
   --no-obb    chưa đặt OBB: chỉ dùng ảnh có trong APK
+  --admin-remote  cho máy khác trong mạng mở trang quản trị /admin
 Biến môi trường: TLM_HOME (thư mục dữ liệu), TLM_IP, TLM_HTTP_PORT, TLM_GAME_PORT, TLM_CHAT_PORT
 """
 import os
@@ -20,7 +21,7 @@ from tlm import config  # noqa: E402
 
 config.init_data_dir()
 
-from tlm import logger, state  # noqa: E402
+from tlm import logger, state, storage  # noqa: E402
 from tlm.logger import log  # noqa: E402
 
 
@@ -38,10 +39,9 @@ def main():
     from tlm import game_server, http_server
     handlers = load_all()
     log("Đã nạp %d handler: %s" % (len(handlers), ", ".join(str(c) for c in sorted(handlers))))
-    st = state.load()
-    log("Làng: %d công trình, %d chướng ngại | tuỳ chọn: tự trả lời=%s, đẩy làng=%s, OBB=%s"
-        % (len(st["buildings"]), len(st.get("obstacles", [])),
-           config.AUTO_REPLY, config.PUSH_ENABLED, config.USE_OBB))
+    store = storage.open_storage()
+    log("Kho lưu: %s | %d tài khoản | tuỳ chọn: tự trả lời=%s, đẩy làng=%s, OBB=%s"
+        % (store.kind, len(store.keys()), config.AUTO_REPLY, config.PUSH_ENABLED, config.USE_OBB))
     try:
         http = http_server.create_server()
         game, chat = game_server.create_servers()
@@ -51,6 +51,7 @@ def main():
     for srv, name in ((http, "HTTP"), (game, "GAME"), (chat, "CHAT")):
         threading.Thread(target=srv.serve_forever, daemon=True).start()
         log("Đang lắng nghe %s trên cổng %d" % (name, srv.server_address[1]))
+    log("Trang quản trị: http://127.0.0.1:%d/admin" % config.HTTP_PORT)
     log("Sẵn sàng. Mở game đi. Ctrl+C để dừng.")
     try:
         while True:

@@ -1,9 +1,10 @@
-"""Tầng HTTP: /info (cấu hình server), /login (đăng nhập khách), /mail (hộp thư)."""
+"""Tầng HTTP: /info (cấu hình server), /login (đăng nhập theo nút + máy), /mail (hộp thư), /admin (quản trị)."""
 import json
+import re
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from . import config
+from . import admin, config
 from .data import load_table
 from .logger import log
 
@@ -34,9 +35,30 @@ class HttpHandler(BaseHTTPRequestHandler):
             # TokenMgr::parseDataLogin chỉ cần {"error": 0, "sessionKey": "..."}
             form = urllib.parse.parse_qs(body.decode("utf-8", "replace"))
             dev = (form.get("deviceId") or ["guest"])[0]
-            session = "guest-" + dev
+            social = (form.get("social") or ["guest"])[0]
+            # mỗi nút đăng nhập (google/facebook/zalo) trên mỗi máy = một tài khoản riêng
+            session = re.sub(r"[^A-Za-z0-9_.@-]", "_", "%s-%s" % (social, dev))[:120]
             payload = json.dumps({"error": 0, "sessionKey": session}).encode("utf-8")
-            log("    -> ĐĂNG NHẬP KHÁCH (social=%s): sessionKey=%s" % ((form.get("social") or ["?"])[0], session))
+            log("    -> ĐĂNG NHẬP (nút %s): tài khoản %s" % (social, session))
+        elif self.path.startswith("/admin"):
+            if self.client_address[0] not in ("127.0.0.1", "::1") and not config.ADMIN_REMOTE:
+                payload, ctype, status = b"Chi truy cap tu chinh may nay (127.0.0.1).", "text/plain; charset=utf-8", 403
+            else:
+                status, ctype, payload, location = admin.handle(method, self.path, body)
+                if location:
+                    self.send_response(303)
+                    self.send_header("Location", location)
+                    self.send_header("Content-Length", "0")
+                    self.end_headers()
+                    return
+            self.send_response(status)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(payload)))
+            self.send_header("Connection", "close")
+            self.end_headers()
+            if method != "HEAD":
+                self.wfile.write(payload)
+            return
         elif self.path.startswith("/mail"):
             # CityMgr::finishGetListMessage đọc thẳng doc["data"] (thiếu -> sập)
             payload = json.dumps({"data": []}).encode("utf-8")

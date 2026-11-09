@@ -2,7 +2,7 @@
 import os
 import sys
 
-VERSION = "3.3"
+VERSION = "4.0"
 FOLDER_NAME = "ThoiLoan2.0"          # thư mục dữ liệu ngoài bộ nhớ chung (log, state.json...)
 
 BIND_HOST = "0.0.0.0"
@@ -17,6 +17,7 @@ AUTO_REPLY = "--no-auto" not in ARGS      # tự trả lời mọi lệnh game c
 AUTO_PAD = 0 if "--empty" in ARGS else 512  # số byte 0 đệm cho phản hồi tự động
 PUSH_ENABLED = "--no-push" not in ARGS    # tự đẩy dữ liệu làng sau getUserInfo / về nhà
 USE_OBB = "--no-obb" not in ARGS          # đã đặt OBB main.1380 -> dùng ảnh APK + OBB
+ADMIN_REMOTE = "--admin-remote" in ARGS   # cho máy khác trong mạng mở trang /admin (mặc định chỉ máy này)
 
 DATA_DIR = None          # gán trong init_data_dir()
 SHARED_OK = False

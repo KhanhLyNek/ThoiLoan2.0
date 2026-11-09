@@ -1,14 +1,28 @@
 """Phiên chơi: thông tin người chơi, dữ liệu làng, về nhà."""
 from .. import config, state
 from ..packets import building_info, player_info
+from ..protocol.codec import Reader
 from . import handler
+
+
+@handler(1)
+def login(ctx, ctl, cmd, payload):
+    """Login: dữ liệu bắt đầu bằng sessionKey (chuỗi) do /login cấp -> chọn tài khoản cho kết nối."""
+    try:
+        key = Reader(payload).str().strip()
+    except Exception:
+        key = ""
+    if key:
+        ctx.account = key
+    ctx.log("tài khoản: %s" % ctx.account)
+    return False                      # server tự trả lời "thành công"
 
 
 def push_city(ctx, ctl, with_player=False):
     """Đẩy dữ liệu làng. Game KHÔNG tự xin công trình (getBuildingInfo không có chỗ gọi)."""
     if not config.PUSH_ENABLED:
         return
-    st = state.load()
+    st = state.load(ctx.account)
     if with_player:
         ctx.push(ctl, 1001, player_info.build(st, log=ctx.log), " [thông tin người chơi]")
     ctx.push(ctl, 1002, building_info.build(st),
@@ -19,7 +33,7 @@ def push_city(ctx, ctl, with_player=False):
 @handler(1001)
 def get_user_info(ctx, ctl, cmd, payload):
     """getUserInfo: trả GetPlayerInfo rồi đẩy BuildingInfo + TroopInfo."""
-    st = state.load()
+    st = state.load(ctx.account)
     ctx.reply(ctl, 1001, 0, player_info.build(st, log=ctx.log), "GỬI cmd=1001 GetPlayerInfo")
     if not ctx.silent:
         push_city(ctx, ctl)
