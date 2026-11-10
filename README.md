@@ -1,4 +1,4 @@
-# ThoiLoanServer v4.4
+# ThoiLoanServer v4.5
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -109,6 +109,7 @@ tlm/
     profile.py             8002 thành tựu (16 mục)
     shop.py                1076 mua tài nguyên thiếu bằng G
     army.py                11001-11003 luyện quân
+    single.py              9039 phó bản (màn hiện tại)
   game_server.py           TCP: tách khung -> replies.json -> handler -> tự trả lời
   http_server.py           /info, /login (đăng nhập theo nút + máy), /mail, /admin
 tools/fake_client.py       client giả để thử nhanh
@@ -136,6 +137,10 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v4.5**
+- Bấm Tấn công không còn văng: gói phó bản 9039 gửi màn hiện tại = 1 (lưu trong tài khoản, `single_map`).
+  Bản cũ gửi 0 -> màn Tấn công tìm mốc "point0" trên bản đồ (không có, mốc bắt đầu từ 1) -> con trỏ rỗng.
 
 **v4.4**
 - Luyện quân không còn văng: phản hồi cmd 11001 gửi đúng `[id trại lính][giờ xong]` thay vì toàn số 0

@@ -29,7 +29,8 @@ TUTORIAL_DONE = 70
 TUTORIAL_CRYSTAL_DONE = 15
 DEFAULT_PLAYER = {"name": "Khach", "level": 1, "exp": 0,
                   "gold": 5000, "elixir": 5000, "dark_elixir": 0, "coin": 1000,
-                  "tutorial_step": TUTORIAL_DONE, "tutorial_crystal": TUTORIAL_CRYSTAL_DONE}
+                  "tutorial_step": TUTORIAL_DONE, "tutorial_crystal": TUTORIAL_CRYSTAL_DONE,
+                  "single_map": 1}                 # phó bản: màn đang mở (1-50)
 DEFAULT_BUILDINGS = [
     {"id": 1, "type": "TOW_1", "x": 20, "y": 19, "level": 1 if config.USE_OBB else 10},
     {"id": 2, "type": "AMC_1", "x": 20, "y": 24, "level": 1},
