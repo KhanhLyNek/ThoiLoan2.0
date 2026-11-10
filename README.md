@@ -1,4 +1,4 @@
-# ThoiLoanServer v4.2
+# ThoiLoanServer v4.3
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -135,6 +135,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v4.3**
+- Mở luyện quân ở trại lính không còn văng: làng luôn có lâu đài bang (đổ nát, cấp 0) như `InitGame.json`;
+  thiếu nó thì `ArmyManagerGUI::setLabel` gọi `ClanCastleObject::getTotalTroopClan` trên đối tượng rỗng.
+- Công trình vừa đặt nhận đúng id game tự cấp (lần đầu game nhắc tới nó), nên "xong ngay" và nâng cấp
+  không còn trỏ nhầm (log: trại lính đầu tiên game gọi là id 2).
 
 **v4.2**
 - G không còn bị "hoàn lại": "xong ngay" bằng G (2006) trừ G theo thời gian còn lại, mua tài nguyên thiếu

@@ -32,7 +32,7 @@ def _place(payload, account):
         return 1, "TỪ CHỐI %s: không có ảnh nào của loại này" % btype
     new_id = state.next_id(st, btype)
     if 1 in levels:
-        st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1,
+        st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1, "pending_id": True,
                                 "busy_until": time.time() + gamedata.build_time(btype, 1)})
         c = state.pay(st, btype, 1)
         state.save(st, account)
