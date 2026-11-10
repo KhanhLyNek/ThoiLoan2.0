@@ -1,4 +1,4 @@
-# ThoiLoanServer v5.0
+# ThoiLoanServer v5.1
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -140,6 +140,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v5.1**
+- Vào trận có lính để thả: BattleInfo gửi kèm lính trong trại (`[tên][số lượng][cấp]`, danh sách mà
+  `BattleMgr::addTroop` và thanh chọn lính đọc). Bản 5.0 gửi rỗng nên thanh chọn lính trống.
+- Phó bản không còn văng khi nạp làng: phó bản vẽ nhà chính và trại lính bằng ảnh Goblin
+  (`TOW_1_GOBLIN_<cấp>`, `BAR_1_GOBLIN_<cấp>`), OBB chỉ có cấp 1, nên hai công trình này luôn cấp 1 trong phó bản.
 
 **v5.0** - đánh trận
 - Phó bản và chinh phạt có làng đối thủ: gói BattleInfo (9001) đã giải mã. Mỗi công trình: id, loại, ô (= y*44 + x),
