@@ -18,5 +18,6 @@ MAX_MAP = 50
 def single_map_info(ctx, ctl, cmd, payload):
     st = state.load(ctx.account)
     cur = max(1, min(MAX_MAP, int(st["player"].get("single_map", 1))))
-    ctx.reply(ctl, 9039, 0, u32(cur) + u32(0) + bytes(256), "GỬI cmd=9039 SingleMap: màn hiện tại %d" % cur)
+    ctx.reply(ctl, 9039, 0, u32(cur) + u32(0) + bytes(256),
+              "GỬI cmd=9039 SingleMap: đã mở tới màn %d" % cur)
     return True

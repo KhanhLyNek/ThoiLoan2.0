@@ -1,6 +1,6 @@
 """Phiên chơi: thông tin người chơi, dữ liệu làng, về nhà."""
 from .. import config, state
-from ..packets import building_info, player_info
+from ..packets import building_info, player_info, troop_info
 from ..protocol.codec import Reader
 from . import handler
 
@@ -23,11 +23,15 @@ def push_city(ctx, ctl, with_player=False):
     if not config.PUSH_ENABLED:
         return
     st = state.load(ctx.account)
+    from .army import fit_to_camps
+    if fit_to_camps(st):
+        state.save(st, ctx.account)
     if with_player:
         ctx.push(ctl, 1001, player_info.build(st, log=ctx.log), " [thông tin người chơi]")
     ctx.push(ctl, 1002, building_info.build(st),
              " [%d công trình + %d chướng ngại]" % (len(st["buildings"]), len(st.get("obstacles", []))))
-    ctx.push(ctl, 1003, bytes(512), " [quân: toàn số 0]")
+    ctx.push(ctl, 1003, troop_info.build(st),
+             " [quân: %s]" % (", ".join("%s x%s" % kv for kv in sorted(st.get("troops", {}).items())) or "trống"))
 
 
 @handler(1001)

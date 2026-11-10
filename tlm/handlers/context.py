@@ -10,6 +10,7 @@ class Context:
         self.sock, self.tag = sock, tag
         self.silent = False          # True khi replies.json đã trả lời thay (handler chỉ chạy logic)
         self.account = "default"     # tài khoản (sessionKey), gán khi game gửi Login (cmd 1)
+        self.battle = None           # trận đang đánh (phó bản / chinh phạt), gán ở cmd 9001
 
     def log(self, msg):
         log("%s   %s" % (self.tag, msg))

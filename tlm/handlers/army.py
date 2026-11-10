@@ -5,11 +5,37 @@ Phản hồi game cần (nhánh thành công trong ServerCommunication::onReceiv
   [int id trại lính][double giờ xong] -> GameDataMgr::getBuilding(id) rồi gán giờ xong vào trại (@0x40).
   Trả toàn số 0 (bản cũ) -> id 0 không có công trình -> con trỏ rỗng -> game sập.
 11002 / 11003 cùng lớp phản hồi (chưa rõ dữ liệu gửi lên): trả lại int đầu tiên game gửi làm id trại.
-Số lính đã luyện được ghi vào state["troops"] (chưa gửi lại cho game: gói TroopInfo chưa giải mã).
+Số lính đã luyện được ghi vào state["troops"] (giới hạn theo sức chứa trại quân) và gửi lại khi vào game
+qua gói TroopInfo (cmd 1003).
 """
 from .. import state
+from ..data import load_table
 from ..protocol.codec import Reader, f64, u32
 from . import handler
+
+_GEN = load_table("battle_gen.json")
+
+
+def camp_capacity(st):
+    """Tổng chỗ trong các trại quân (ArmyCamp.json, capacity theo cấp)."""
+    return sum(int(_GEN["camp_capacity"].get(str(b["level"]), 20)) for b in st["buildings"] if b["type"].startswith("AMC"))
+
+
+def used_space(troops):
+    return sum(int(_GEN["housing"].get(t, 1)) * int(n) for t, n in troops.items())
+
+
+def fit_to_camps(st):
+    """Cắt bớt quân vượt sức chứa trại (bản 4.4 chưa giới hạn). Trả về True nếu có thay đổi."""
+    troops = st.get("troops", {})
+    cap, changed = camp_capacity(st), False
+    while troops and used_space(troops) > cap:
+        t = max(troops, key=lambda k: int(troops[k]))
+        troops[t] = int(troops[t]) - 1
+        if troops[t] <= 0:
+            del troops[t]
+        changed = True
+    return changed
 
 
 @handler(11001, 11002, 11003)
@@ -24,9 +50,12 @@ def train_troop(ctx, ctl, cmd, payload):
             count = r.u16() if r.remaining() >= 2 else 1
             st = state.load(ctx.account)
             troops = st.setdefault("troops", {})
+            room = camp_capacity(st) - used_space(troops)
+            space = int(_GEN["housing"].get(troop, 1))
+            count = max(0, min(count, room // max(1, space)))
             troops[troop] = int(troops.get(troop, 0)) + count
             state.save(st, ctx.account)
-            note = ": %s x%d (tổng %d)" % (troop, count, troops[troop])
+            note = ": %s +%d (tổng %d, trại %d/%d chỗ)" % (troop, count, troops[troop], used_space(troops), camp_capacity(st))
         except Exception as e:
             note = " (không đọc được dữ liệu: %s)" % e
     ctx.log("LUYỆN QUÂN cmd %d trại id=%d%s" % (cmd, bid, note))
