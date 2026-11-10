@@ -12,6 +12,7 @@ from .data import load_table
 GEN = load_table("battle_gen.json")
 MAP_W = 44                                     # BaseMap::cellToIso: ô = y * 44 + x (CityMap rộng 0x2c)
 LOOT_HOLDERS = ("TOW", "STO", "RES")
+GOBLIN_LEVEL1 = ("TOW_1", "BAR_1")            # chỉ có ảnh *_GOBLIN_1 trong OBB
 BOT_NAMES = ["Hắc Long", "Bạch Hổ", "Thanh Phong", "Lão Tướng", "Kiếm Khách", "Sơn Tặc", "Hải Tặc",
              "Thủ Lĩnh Đỏ", "Chiến Binh", "Lãnh Chúa", "Thợ Săn", "Du Mục", "Phù Thuỷ", "Hiệp Sĩ"]
 
@@ -80,6 +81,11 @@ def single_map(level):
     th = min(11, 1 + (int(level) - 1) // 5)
     fill = 0.5 + 0.5 * (((int(level) - 1) % 5) / 4.0)       # trong cùng cấp nhà chính, màn sau đông hơn
     base = generate(th, seed=1000 + int(level), gold=info["gold"], elixir=info["elixir"], fill=fill)
+    # Phó bản vẽ theo giao diện Goblin: nhà chính và trại lính dùng ảnh TOW_1_GOBLIN_<cấp> / BAR_1_GOBLIN_<cấp>,
+    # OBB chỉ có cấp 1 -> cấp khác làm Avatar::changeFrame văng (BuildingObject::addToBattle).
+    for b in base:
+        if b["type"] in GOBLIN_LEVEL1:
+            b["level"] = 1
     return base, "Phó bản %s" % info.get("name", level), th
 
 
