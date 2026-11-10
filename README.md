@@ -1,4 +1,4 @@
-# ThoiLoanServer v4.5
+# ThoiLoanServer v5.0
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -91,6 +91,7 @@ tlm/
   storage.py               kho lưu: JSON / SQLite / MySQL (chọn bằng db.json)
   admin.py                 trang quản trị web /admin
   costs.py                 quy đổi thời gian / tài nguyên ra G (giống game)
+  botbase.py               dựng làng đối thủ cho phó bản (cố định theo màn) và chinh phạt (ngẫu nhiên)
   gamedata.py              dữ liệu tĩnh: ảnh có sẵn, giá, mỏ, sức chứa
   data/*.json              bảng đã giải mã từ APK/OBB/JSON của game
   protocol/
@@ -100,15 +101,17 @@ tlm/
   packets/
     player_info.py         dựng GetPlayerInfo (1001)
     building_info.py       dựng BuildingInfo (1002)
+    troop_info.py          dựng TroopInfo (1003): quân trong trại
+    battle_info.py         dựng BattleInfo (9001): làng đối thủ
   handlers/                mỗi lệnh game một hàm xử lý (@handler(cmd))
     session.py             1 đăng nhập (chọn tài khoản), 1001 getUserInfo, 1006 về nhà
     city.py                2001 xây, 2003 nâng cấp, 2004 thu hoạch, 2010/2011 dọn chướng ngại
     tutorial.py            1009 bước hướng dẫn
     finish.py              2005/2006 xây-nâng cấp-dọn xong, 2011 RemoveComplete (thưởng G, kinh nghiệm)
-    battle.py              9003 kết thúc trận (đang ghi log để giải mã)
+    battle.py              9001 vào trận, 9003 kết thúc trận (chiến lợi phẩm, mở màn), 11018 quân vào trận
     profile.py             8002 thành tựu (16 mục)
     shop.py                1076 mua tài nguyên thiếu bằng G
-    army.py                11001-11003 luyện quân
+    army.py                11001-11003 luyện quân (giới hạn theo sức chứa trại)
     single.py              9039 phó bản (màn hiện tại)
   game_server.py           TCP: tách khung -> replies.json -> handler -> tự trả lời
   http_server.py           /info, /login (đăng nhập theo nút + máy), /mail, /admin
@@ -137,6 +140,15 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v5.0** - đánh trận
+- Phó bản và chinh phạt có làng đối thủ: gói BattleInfo (9001) đã giải mã. Mỗi công trình: id, loại, ô (= y*44 + x),
+  cấp, vàng/dầu/dầu đen chứa bên trong (phá ra thì thành chiến lợi phẩm). Làng do `botbase.py` dựng theo
+  `TownHall.json`: phó bản 50 màn cố định (nhà chính cấp 1 -> 10, chiến lợi phẩm theo `SingleBattle.json`),
+  chinh phạt ngẫu nhiên quanh cấp nhà chính của bạn.
+- Kết thúc trận (9003) đã giải mã: sao, vàng, dầu, dầu đen, phần trăm phá. Server cộng chiến lợi phẩm và mở
+  màn phó bản kế tiếp khi thắng (>= 1 sao).
+- Quân không còn mất: gói TroopInfo (1003) gửi lại quân trong trại. Luyện quân giới hạn theo sức chứa trại.
 
 **v4.5**
 - Bấm Tấn công không còn văng: gói phó bản 9039 gửi màn hiện tại = 1 (lưu trong tài khoản, `single_map`).
