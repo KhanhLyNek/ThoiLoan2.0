@@ -22,5 +22,5 @@ def handler(*cmds):
 
 
 def load_all():
-    from . import session, city, tutorial, battle, finish, profile, shop  # noqa: F401  (đăng ký handler)
+    from . import session, city, tutorial, battle, finish, profile, shop, army  # noqa: F401  (đăng ký handler)
     return HANDLERS
