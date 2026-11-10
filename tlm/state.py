@@ -36,8 +36,9 @@ DEFAULT_BUILDINGS = [
     {"id": 3, "type": "RES_1", "x": 25, "y": 19, "level": 1},
 ]
 DEFAULT_BUILDER_HUT = {"id": 4, "type": "BDH_1", "x": 18, "y": 21, "level": 1}
-# Lâu đài bang đổ nát (cấp 0) như InitGame.json. Game luôn cần có, thiếu thì mở luyện quân bị sập.
-DEFAULT_CLAN_CASTLE = {"id": 1, "type": "CLC_1", "x": 30, "y": 22, "level": 0}
+# Lâu đài bang: game luôn cần có (thiếu thì mở luyện quân bị sập). InitGame.json đặt cấp 0 (đổ nát) nhưng
+# ClanCastle.json chỉ có cấu hình cấp 1-7, gửi cấp 0 làm game văng lúc dựng làng -> dùng cấp 1.
+DEFAULT_CLAN_CASTLE = {"id": 1, "type": "CLC_1", "x": 30, "y": 22, "level": 1}
 
 
 def _legacy_path():
@@ -98,6 +99,10 @@ def load(account=DEFAULT_ACCOUNT):
                 changed = True
             if not any(b["type"].startswith("CLC") for b in st["buildings"]):
                 st["buildings"].append(dict(DEFAULT_CLAN_CASTLE))
+                changed = True
+        for b in st["buildings"]:                     # lâu đài cấp 0 (bản 4.3) -> cấp 1
+            if b["type"].startswith("CLC") and b["level"] < 1:
+                b["level"] = 1
                 changed = True
         if changed:
             save(st, account)
