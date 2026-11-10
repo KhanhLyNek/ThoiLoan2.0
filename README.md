@@ -1,4 +1,4 @@
-# ThoiLoanServer v4.3
+# ThoiLoanServer v4.3.1
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -135,6 +135,10 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v4.3.1**
+- Lâu đài bang gửi cấp 1 thay vì 0: `ClanCastle.json` không có cấu hình cấp 0, game văng ngay khi dựng làng.
+  Lâu đài cấp 0 đã lưu được tự nâng lên cấp 1.
 
 **v4.3**
 - Mở luyện quân ở trại lính không còn văng: làng luôn có lâu đài bang (đổ nát, cấp 0) như `InitGame.json`;
