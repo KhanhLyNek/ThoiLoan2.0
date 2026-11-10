@@ -10,12 +10,17 @@ CAP_TOWNHALL = {int(k): v for k, v in _cap["townhall"].items()}
 CAP_STORAGE = {t: {int(k): v for k, v in lv.items()} for t, lv in _cap["storage"].items()}
 INIT_OBSTACLES = load_table("init_obstacles.json")
 OBSTACLE_EXP = load_table("obstacle_exp.json")       # chướng ngại -> kinh nghiệm khi dọn
+BUILD_TIME = load_table("build_time.json")           # loại -> cấp -> giây xây/nâng cấp/dọn
 RES_KEY = {"gold": "gold", "elixir": "elixir", "darkElixir": "dark_elixir"}
 
 # Nhóm danh sách trong BuildingInfo theo tiền tố tên (chỉ nhóm đã xác nhận định dạng qua readData).
 CATEGORY = {"TOW": "townhall", "BAR": "barrack", "AMC": "armycamp", "LAB": "lab", "RES": "resources",
             "STO": "storage", "DEF": "defense", "BDH": "builderhut", "TRA": "trap"}
 SINGLE = {"townhall", "lab"}
+
+
+def build_time(btype, level):
+    return int(BUILD_TIME.get(btype, {}).get(str(level), 0) or 0)
 
 
 def cost_of(btype, level):

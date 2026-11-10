@@ -32,7 +32,8 @@ def _place(payload, account):
         return 1, "TỪ CHỐI %s: không có ảnh nào của loại này" % btype
     new_id = state.next_id(st, btype)
     if 1 in levels:
-        st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1})
+        st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1,
+                                "busy_until": time.time() + gamedata.build_time(btype, 1)})
         c = state.pay(st, btype, 1)
         state.save(st, account)
         return 0, "ĐÃ XÂY %s cấp 1 tại (%d,%d), id=%d, trừ %s (vàng/dầu/dầu đen/G)" % (btype, x, y, new_id, c)
@@ -58,6 +59,7 @@ def upgrade(ctx, ctl, cmd, payload):
         return False
     c = state.pay(st, b["type"], new_level)
     b["level"] = new_level
+    b["busy_until"] = time.time() + gamedata.build_time(b["type"], new_level)
     state.save(st, ctx.account)
     ctx.log("NÂNG CẤP %s id=%d lên cấp %d, trừ %s" % (b["type"], bid, new_level, c))
     return False                      # để server tự trả lời "thành công"
@@ -93,6 +95,7 @@ def remove_obstacle(ctx, ctl, cmd, payload):
     o = next((x for x in st.get("obstacles", []) if x["id"] == bid), None)
     if o:
         st["obstacles"].remove(o)
+        st.setdefault("timers", {})["OBS:%d" % bid] = time.time() + gamedata.build_time(o["type"], 1)
         c = state.pay(st, o["type"], 1)
         state.save(st, ctx.account)
         ctx.log("DỌN CHƯỚNG NGẠI %s id=%d, trừ %s" % (o["type"], bid, c))

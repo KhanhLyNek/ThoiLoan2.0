@@ -6,10 +6,12 @@ Phản hồi game cần (đọc từ ServerCommunication::onReceived, nhánh th�
              Trả sai (toàn số 0 như bản cũ) -> game không tìm thấy id 0 và gửi lại mỗi giây.
   2011 RemoveComplete      : [int id][byte G thưởng][int] -> ObstacleObject::getReward cộng G
              và kinh nghiệm (exp của Obstacle.json) rồi xoá chướng ngại.
+Xong ngay bằng G (2006): server tính G theo thời gian còn lại (costs.time_cost, giống game) và trừ G.
 """
 import random
+import time
 
-from .. import gamedata, state
+from .. import costs, gamedata, state
 from ..protocol.codec import Reader, f64, u8, u32
 from . import handler
 
@@ -26,6 +28,7 @@ def finish(ctx, ctl, cmd, payload):
     except Exception as e:
         ctx.log("hoàn tất: không đọc được dữ liệu (%s)" % e)
         return False
+    _settle_timer(ctx, btype, bid, quick=(cmd == 2006))
     ctx.reply(ctl, cmd, 0, u32(bid) + f64(0) + bytes(256),
               "GỬI cmd=%d FinishBuilding id=%d (xong ngay)" % (cmd, bid))
     if btype.startswith("OBS"):
@@ -33,6 +36,26 @@ def finish(ctx, ctl, cmd, payload):
     else:
         ctx.log("HOÀN TẤT %s id=%d%s" % (btype, bid, " (dùng G)" if cmd == 2006 else ""))
     return True
+
+
+def _settle_timer(ctx, btype, bid, quick):
+    """Xoá hẹn giờ của công trình/chướng ngại; nếu xong ngay bằng G thì trừ G theo thời gian còn lại."""
+    st = state.load(ctx.account)
+    now = time.time()
+    until = None
+    if btype.startswith("OBS"):
+        until = st.get("timers", {}).pop("OBS:%d" % bid, None)
+    else:
+        b = state.find_building(st, bid, btype=btype)
+        if b:
+            until = b.pop("busy_until", None)
+    if quick:
+        left = max(0, int((until or now) - now))
+        g = costs.time_cost(left)
+        p = st["player"]
+        p["coin"] = max(0, int(p.get("coin", 0)) - g)
+        ctx.log("XONG NGAY %s id=%d bằng G: còn %ds -> trừ %d G (còn %d G)" % (btype, bid, left, g, p["coin"]))
+    state.save(st, ctx.account)
 
 
 def _obstacle_done(ctx, ctl, bid, btype):
