@@ -1,4 +1,4 @@
-# ThoiLoanServer v4.0
+# ThoiLoanServer v4.1
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -132,6 +132,10 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v4.1**
+- Tắt hướng dẫn "ngọc bổ trợ" tự bật khi nâng nhà chính: gửi ô `@0x114` của GetPlayerInfo = 15 (đã xong).
+  Game bật hướng dẫn này khi ô đó ≤ 14 (`CityMgr::onGetTroopInfo` -> `startTutorialCrystal`).
 
 **v4.0**
 - Nhiều tài khoản: mỗi nút đăng nhập trên mỗi máy một làng riêng. Làng cũ tự chuyển sang tài khoản đầu tiên.

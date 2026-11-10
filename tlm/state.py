@@ -25,9 +25,11 @@ DEFAULT_ACCOUNT = "default"
 # tutorial_step: tiến độ hướng dẫn (ô @0x110 của GetPlayerInfo). Game coi hướng dẫn CÒN ĐANG CHẠY khi
 # <= 69 (TutorialMgr::isDoing) và khi đó khoá tab cửa hàng, hộp nâng cấp, luyện quân. 70 = đã xong.
 TUTORIAL_DONE = 70
+# tutorial_crystal: hướng dẫn "ngọc bổ trợ" (ô @0x114). <= 14 -> game tự bật khi nhà chính đủ cấp. 15 = đã xong.
+TUTORIAL_CRYSTAL_DONE = 15
 DEFAULT_PLAYER = {"name": "Khach", "level": 1, "exp": 0,
                   "gold": 5000, "elixir": 5000, "dark_elixir": 0, "coin": 1000,
-                  "tutorial_step": TUTORIAL_DONE}
+                  "tutorial_step": TUTORIAL_DONE, "tutorial_crystal": TUTORIAL_CRYSTAL_DONE}
 DEFAULT_BUILDINGS = [
     {"id": 1, "type": "TOW_1", "x": 20, "y": 19, "level": 1 if config.USE_OBB else 10},
     {"id": 2, "type": "AMC_1", "x": 20, "y": 24, "level": 1},

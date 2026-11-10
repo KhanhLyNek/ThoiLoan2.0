@@ -3,6 +3,7 @@
 Offset @0x.. là vị trí trường trong đối tượng gói của game. Game chép (gói + 0x28) vào
 GameDataMgr+0x298 và GameDataMgr+0xd0 (CityMgr::onGetPlayerInfo).
 ĐÃ XÁC NHẬN trên máy: cấp @0x58, vàng @0x60, G @0x64, dầu hồng @0x68, hướng dẫn @0x110 (> 69 = xong).
+Hướng dẫn ngọc bổ trợ @0x114 (GameDataMgr+0x1bc): <= 14 thì CityMgr::onGetTroopInfo gọi startTutorialCrystal.
 """
 from .. import state
 from ..protocol.codec import f64, pstr, u8, u16, u32
@@ -41,4 +42,11 @@ def build(st, log=None):
     d += u32(0) + f64(0) + u8(0) + u8(0)    # @0x1b0 @0x218 cờ@0x220 @0x1b4
     d += u32(0)                             # @0x1b8
     d += u8(0)                              # danh sách byte thứ ba: 0
+    d += u8(0) + u8(0)                      # @0x224 @0x228
+    d += u8(0) + u8(0) + u8(0)              # @0x1d8 @0x1d9 @0x1da
+    d += u16(0)                             # @0x1dc
+    d += u8(0) + u8(0)                      # @0x22c @0x22d
+    d += u8(0)                              # cờ @0x1e0
+    d += bytes(8)                           # @0x1e8 (getDoubleA, 8 byte)
+    d += u32(p.get("tutorial_crystal", state.TUTORIAL_CRYSTAL_DONE))  # @0x114 HƯỚNG DẪN NGỌC (> 14 = xong)
     return d + bytes(256)                   # các trường còn lại = 0
