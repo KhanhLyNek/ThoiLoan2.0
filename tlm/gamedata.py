@@ -15,8 +15,8 @@ RES_KEY = {"gold": "gold", "elixir": "elixir", "darkElixir": "dark_elixir"}
 
 # Nhóm danh sách trong BuildingInfo theo tiền tố tên (chỉ nhóm đã xác nhận định dạng qua readData).
 CATEGORY = {"TOW": "townhall", "BAR": "barrack", "AMC": "armycamp", "LAB": "lab", "RES": "resources",
-            "STO": "storage", "DEF": "defense", "BDH": "builderhut", "TRA": "trap"}
-SINGLE = {"townhall", "lab"}
+            "STO": "storage", "DEF": "defense", "CLC": "clancastle", "BDH": "builderhut", "TRA": "trap"}
+SINGLE = {"townhall", "lab", "clancastle"}
 
 
 def build_time(btype, level):

@@ -36,6 +36,8 @@ DEFAULT_BUILDINGS = [
     {"id": 3, "type": "RES_1", "x": 25, "y": 19, "level": 1},
 ]
 DEFAULT_BUILDER_HUT = {"id": 4, "type": "BDH_1", "x": 18, "y": 21, "level": 1}
+# Lâu đài bang đổ nát (cấp 0) như InitGame.json. Game luôn cần có, thiếu thì mở luyện quân bị sập.
+DEFAULT_CLAN_CASTLE = {"id": 1, "type": "CLC_1", "x": 30, "y": 22, "level": 0}
 
 
 def _legacy_path():
@@ -94,6 +96,9 @@ def load(account=DEFAULT_ACCOUNT):
             if "obstacles" not in st:
                 st["obstacles"] = [dict(o) for o in gamedata.INIT_OBSTACLES]
                 changed = True
+            if not any(b["type"].startswith("CLC") for b in st["buildings"]):
+                st["buildings"].append(dict(DEFAULT_CLAN_CASTLE))
+                changed = True
         if changed:
             save(st, account)
         return st
@@ -110,9 +115,27 @@ def next_id(st, btype):
 
 
 def find_building(st, bid, btype=None, category=None):
-    """Tìm theo (nhóm, id). id chỉ duy nhất trong nhóm nên luôn cần loại hoặc nhóm."""
+    """Tìm theo (nhóm, id). id chỉ duy nhất trong nhóm nên luôn cần loại hoặc nhóm.
+
+    Công trình vừa đặt mang cờ "pending_id": id server đoán có thể khác id game tự cấp (log: trại lính đầu
+    tiên game gọi là id 2). Lần đầu game nhắc tới nó bằng (loại, id) không khớp công trình nào, server nhận
+    id của game cho công trình chờ mới nhất cùng loại.
+    """
     cat = category or (btype[:3] if btype else None)
-    return next((b for b in st["buildings"] if b["id"] == bid and (cat is None or b["type"][:3] == cat)), None)
+    b = next((b for b in st["buildings"] if b["id"] == bid and (cat is None or b["type"][:3] == cat)), None)
+    if b is not None and (not btype or b["type"] == btype or not b.get("pending_id")):
+        b.pop("pending_id", None)
+        return b
+    pending = [x for x in st["buildings"] if x.get("pending_id") and (x["type"] == btype if btype else x["type"][:3] == cat)]
+    if pending:
+        b = pending[-1]
+        clash = next((x for x in st["buildings"] if x is not b and x["id"] == bid and x["type"][:3] == b["type"][:3]), None)
+        if clash is not None:                     # id game chọn đang bị công trình khác giữ -> đổi id công trình kia
+            clash["id"] = max(x["id"] for x in st["buildings"] if x["type"][:3] == b["type"][:3]) + 1
+        b["id"] = bid
+        b.pop("pending_id", None)
+        return b
+    return b
 
 
 def capacities(st):

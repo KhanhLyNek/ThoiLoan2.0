@@ -9,7 +9,7 @@ Trạng thái @0x68 (suy từ GameDataMgr::refreshBuilderList / getTotalResource
   Gửi 0 (bản cũ) làm công trình không có nút nâng cấp và kho không được tính.
 """
 from .. import config, gamedata
-from ..protocol.codec import pstr, u16, u32
+from ..protocol.codec import pstr, u8, u16, u32
 
 STATE_NORMAL = 2
 TAIL = bytes(8) + u16(0) + u32(0)
@@ -42,7 +42,14 @@ def build(st):
         data += u16(0)
     data += lst("resources") + lst("storage") + lst("defense")
     data += u16(0)                                          # tường: chưa hỗ trợ
-    data += u16(0)                                          # lâu đài bang: chưa hỗ trợ
+    clc = groups.get("clancastle")                          # lâu đài bang: cờ 1 + đối tượng + phần thêm
+    if clc:                                                 # (game mặc định ai cũng có; thiếu -> mở luyện quân
+        data += (u16(1) + _head(clc[0]) + TAIL              #  sập ở ClanCastleObject::getTotalTroopClan)
+                 + bytes(8)                                 # double@0x248
+                 + u8(0)                                    # byte: chưa vào bang (>0 thì đọc thêm byte + chuỗi)
+                 + u16(0))                                  # số quân bang gửi: 0
+    else:
+        data += u16(0)
     huts = groups.get("builderhut", [])                     # nhà thợ xây: id, tên, x, y, int, chuỗi, double
     data += u16(len(huts)) + b"".join(u32(h["id"]) + pstr(h["type"]) + bytes([h["x"] & 0xFF, h["y"] & 0xFF])
                                       + u32(0) + pstr("") + bytes(8) for h in huts)
