@@ -1,4 +1,4 @@
-# ThoiLoanServer v4.1
+# ThoiLoanServer v4.2
 
 Server giả chạy localhost cho **Thời Loạn Mobile** (`gsn.zps.thoiloan` 7.6.12), chạy trong Termux.
 Chỉ dùng thư viện chuẩn của Python 3 (riêng lưu bằng MySQL cần thêm `pymysql`).
@@ -90,6 +90,7 @@ tlm/
   state.py                 đọc/ghi làng theo tài khoản, sức chứa, trừ/cộng tài nguyên
   storage.py               kho lưu: JSON / SQLite / MySQL (chọn bằng db.json)
   admin.py                 trang quản trị web /admin
+  costs.py                 quy đổi thời gian / tài nguyên ra G (giống game)
   gamedata.py              dữ liệu tĩnh: ảnh có sẵn, giá, mỏ, sức chứa
   data/*.json              bảng đã giải mã từ APK/OBB/JSON của game
   protocol/
@@ -105,6 +106,8 @@ tlm/
     tutorial.py            1009 bước hướng dẫn
     finish.py              2005/2006 xây-nâng cấp-dọn xong, 2011 RemoveComplete (thưởng G, kinh nghiệm)
     battle.py              9003 kết thúc trận (đang ghi log để giải mã)
+    profile.py             8002 thành tựu (16 mục)
+    shop.py                1076 mua tài nguyên thiếu bằng G
   game_server.py           TCP: tách khung -> replies.json -> handler -> tự trả lời
   http_server.py           /info, /login (đăng nhập theo nút + máy), /mail, /admin
 tools/fake_client.py       client giả để thử nhanh
@@ -132,6 +135,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 4. Lệnh trả về làm game sập: thêm vào `tlm/data/skip_auto.json`.
 
 ## Thay đổi
+
+**v4.2**
+- G không còn bị "hoàn lại": "xong ngay" bằng G (2006) trừ G theo thời gian còn lại, mua tài nguyên thiếu
+  bằng G (1076) trừ G và cộng tài nguyên. Công thức theo `Utility::getCostToBuyTime` / `getCostToBuyResources`
+  (1 phút = 2 G, 1 giờ = 40 G, 1 ngày = 520 G, 1 tuần = 2000 G; 250 vàng = 3 G).
+- Tab Thành tựu không còn văng: server gửi đủ 16 thành tựu (gói 8002) thay vì bỏ qua.
 
 **v4.1**
 - Tắt hướng dẫn "ngọc bổ trợ" tự bật khi nâng nhà chính: gửi ô `@0x114` của GetPlayerInfo = 15 (đã xong).
