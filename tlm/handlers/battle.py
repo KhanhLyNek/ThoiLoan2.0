@@ -6,6 +6,10 @@
      [thời gian @0x3c][SỐ SAO @0x44 (upStar)][VÀNG][DẦU][DẦU ĐEN] (BattleMgr::addMoney @0x5c/0x60/0x64)
      [tham số][PHẦN TRĂM PHÁ @0x50 (addPercentLife)], rồi chuỗi kiểm tra và vài int.
      Server cộng chiến lợi phẩm (giới hạn theo sức chứa) và mở màn phó bản kế tiếp khi thắng (>= 1 sao).
+9002 BattleMgr::queueAddTroop: thả 1 lính = [chuỗi loại lính][int ô][int thời điểm][int số thứ tự].
+     KHÔNG trả lời: lính đầu tiên game gửi thẳng (không vào hàng đợi), nên phản hồi 9002 làm
+     BattleMgr::onGetAddTroopMsg xoá phần tử đầu của hàng đợi rỗng -> memmove âm -> sập.
+     Server đếm lính đã thả rồi trừ khỏi trại khi trận kết thúc (9003).
 11018: đội quân mang vào trận [short số loại] + [chuỗi][short] (chỉ ghi log).
 """
 import random
@@ -25,13 +29,13 @@ def find_battle(ctx, ctl, cmd, payload):
     if map_id > 1000:
         level = min(MAX_MAP, map_id - 1000)
         base, name, th = botbase.single_map(level)
-        ctx.battle = {"kind": "single", "level": level}
+        ctx.battle = {"kind": "single", "level": level, "dropped": {}}
         enemy_id = map_id
         what = "PHÓ BẢN màn %d" % level
     else:
         player_th = next((b["level"] for b in st["buildings"] if b["type"] == "TOW_1"), 1)
         base, name, th, seed = botbase.random_enemy(player_th)
-        ctx.battle = {"kind": "pvp", "seed": seed}
+        ctx.battle = {"kind": "pvp", "seed": seed, "dropped": {}}
         enemy_id = 900000 + seed % 100000
         what = "CHINH PHẠT"
     loot = [sum(b.get(k, 0) for b in base) for k in ("gold", "elixir", "dark")]
@@ -54,6 +58,16 @@ def end_battle(ctx, ctl, cmd, payload):
             state.add_resource(st, key, amount)
     note = ""
     battle = getattr(ctx, "battle", None) or {}
+    dropped = battle.get("dropped") or {}
+    if dropped:
+        troops = st.setdefault("troops", {})
+        for t, n in dropped.items():
+            left = int(troops.get(t, 0)) - n
+            if left > 0:
+                troops[t] = left
+            else:
+                troops.pop(t, None)
+        note += ", đã dùng " + ", ".join("%s x%d" % kv for kv in sorted(dropped.items()))
     if battle.get("kind") == "single" and stars > 0:
         lvl = battle["level"]
         rec = st.setdefault("single_stars", {})
@@ -61,12 +75,29 @@ def end_battle(ctx, ctl, cmd, payload):
         p = st["player"]
         if int(p.get("single_map", 1)) <= lvl < MAX_MAP:
             p["single_map"] = lvl + 1
-            note = ", mở màn %d" % (lvl + 1)
+            note += ", mở màn %d" % (lvl + 1)
     state.save(st, ctx.account)
     ctx.battle = None
     ctx.log("KẾT THÚC TRẬN: %d sao, phá %d%%, cướp vàng %d / dầu %d / dầu đen %d%s"
             % (stars, percent, gold, elixir, dark, note))
     return False
+
+
+@handler(9002)
+def add_troop(ctx, ctl, cmd, payload):
+    try:
+        r = Reader(payload)
+        troop = r.str()
+        cell, tick, seq = r.u32(), r.u32(), r.u32()
+    except Exception as e:
+        ctx.log("thả lính: không đọc được (%s)" % e)
+        return True
+    battle = getattr(ctx, "battle", None)
+    if battle is not None:
+        d = battle.setdefault("dropped", {})
+        d[troop] = d.get(troop, 0) + 1
+    ctx.log("THẢ LÍNH %s (ô %d, t=%d, #%d)" % (troop, cell, tick, seq))
+    return True                       # không trả lời, xem ghi chú đầu file
 
 
 @handler(11018)
