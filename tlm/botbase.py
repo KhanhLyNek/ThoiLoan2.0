@@ -81,9 +81,13 @@ def single_map(level):
     th = min(11, 1 + (int(level) - 1) // 5)
     fill = 0.5 + 0.5 * (((int(level) - 1) % 5) / 4.0)       # trong cùng cấp nhà chính, màn sau đông hơn
     base = generate(th, seed=1000 + int(level), gold=info["gold"], elixir=info["elixir"], fill=fill)
-    # Phó bản vẽ theo giao diện Goblin: nhà chính và trại lính dùng ảnh TOW_1_GOBLIN_<cấp> / BAR_1_GOBLIN_<cấp>,
-    # OBB chỉ có cấp 1 -> cấp khác làm Avatar::changeFrame văng (BuildingObject::addToBattle).
-    for b in base:
+    # Phó bản vẽ theo giao diện Goblin (BuildingObject::addToBattle, chế độ 5): TOW_1 và BAR_1 đổi tên ảnh thành
+    # "<loại>_GOBLIN_1". Nhà chính vẽ từ file ảnh rời (buildings/TOW_1_GOBLIN_1) nên chạy được. Trại lính lại vẽ từ
+    # atlas AMC.plist, mà atlas này KHÔNG có khung BAR_1_GOBLIN_1 -> CCSprite::createWithSpriteFrameName trả rỗng
+    # -> Avatar::changeFrame sập (log 23:20). Vì vậy phó bản bỏ trại lính, nhà chính để cấp 1.
+    base = [b for b in base if b["type"] != "BAR_1"]
+    for i, b in enumerate(base, 1):
+        b["id"] = i
         if b["type"] in GOBLIN_LEVEL1:
             b["level"] = 1
     return base, "Phó bản %s" % info.get("name", level), th
