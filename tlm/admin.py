@@ -10,6 +10,7 @@ import time
 import urllib.parse
 
 from . import gamedata, state
+from .handlers import inventory
 
 RES = [("gold", "Vàng"), ("elixir", "Dầu hồng"), ("dark_elixir", "Dầu đen"), ("coin", "G")]
 CSS = """
@@ -94,11 +95,19 @@ def _edit_page(key, msg=""):
 được, game sẽ hiện tới mức sức chứa và tự nhận thêm khi bạn xây hoặc nâng kho.</p></div>
 <div class=box><h3>Công trình</h3><table><tr><th>Loại</th><th>id</th><th>Vị trí</th><th>Cấp</th><th>Xoá</th></tr>
 %s</table><p class=small>Chướng ngại còn lại: %d</p></div>
+<div class=box><h3>Kho đồ</h3><table><tr><th>Vật phẩm</th><th>Số lượng</th></tr>%s</table>
+<div class=grid><div><b>Thêm vật phẩm</b><select name=item_add>%s</select></div>
+<div><b>Số lượng</b><input type=number name=item_count placeholder='0' min=0></div></div>
+<p class=small>Túi tài nguyên dùng trong game sẽ cộng vàng / dầu / dầu đen (tối đa bằng sức chứa).</p></div>
 <button type=submit>Lưu</button>
 <p class=small>Sau khi lưu: trong game bấm <b>Về nhà</b> hoặc thoát vào lại để thấy thay đổi.</p>
 </form>""" % (q(key), q(key), q(str(p.get("name", ""))), int(p.get("level", 1)), int(p.get("exp", 0)),
               int(p.get("tutorial_step", state.TUTORIAL_DONE)), "".join(res_cells), "".join(brows),
-              len(st.get("obstacles", [])))
+              len(st.get("obstacles", [])),
+              "".join("<tr><td>%s</td><td>%d</td></tr>" % (q(inventory.item_name(i["type"], i["sub"])), i["count"])
+                      for i in st.get("items", []) if i.get("count")) or "<tr><td colspan=2>Trống</td></tr>",
+              "".join("<option value='%s-%s'>%s</option>" % (t, sb, q(inventory.item_name(t, sb)))
+                      for t in ("1", "2", "3") for sb in sorted(gamedata.ITEMS.get(t, {}), key=int)))
     return _page(key, body)
 
 
@@ -142,6 +151,12 @@ def _save(form):
             b["level"] = lv; changes.append("%s#%d cấp %d" % (b["type"], b["id"], lv))
         keep.append(b)
     st["buildings"] = keep
+    cnt = _int(form, "item_count", 0)
+    sel = (form.get("item_add") or [""])[0]
+    if cnt and "-" in sel:
+        t, sb = sel.split("-", 1)
+        inventory.add_item(st, int(t), int(sb), cnt)
+        changes.append("kho đồ +%d %s" % (cnt, inventory.item_name(t, sb)))
     state.save(st, key)
     return key, ("Đã lưu (%s) lúc %s." % (", ".join(changes), time.strftime("%H:%M:%S")) if changes
                  else "Không có gì thay đổi.")

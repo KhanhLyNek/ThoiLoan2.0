@@ -15,7 +15,16 @@ def place_building(ctx, ctl, cmd, payload):
     return True
 
 
-def _place(payload, account):
+@handler(2042)
+def place_deco_quest(ctx, ctl, cmd, payload):
+    """sendPlaceDecoQuest: [chuỗi loại][byte x][byte y][int][int] - trang trí thưởng nhiệm vụ (miễn phí)."""
+    err, note = _place(payload, ctx.account, free=True)
+    ctx.log(note)
+    ctx.reply(ctl, 2042, err, desc="GỬI cmd=2042 (đặt trang trí thưởng) error=%d" % err)
+    return True
+
+
+def _place(payload, account, free=False):
     try:
         r = Reader(payload)
         btype = r.str(); x = r.u8(); y = r.u8()
@@ -28,9 +37,23 @@ def _place(payload, account):
         return 1, "TỪ CHỐI %s: loại này chưa hỗ trợ (hỗ trợ: %s)" % (btype, ", ".join(sorted(gamedata.CATEGORY)))
     if cat in gamedata.SINGLE and any(gamedata.CATEGORY.get(b["type"][:3]) == cat for b in st["buildings"]):
         return 1, "TỪ CHỐI %s: chỉ được có một công trình loại này" % btype
+    new_id = state.next_id(st, btype)
+    if cat == "decoration":
+        info = gamedata.DECO.get(btype)
+        if info is None:
+            return 1, "TỪ CHỐI %s: không có trong Decoration.json" % btype
+        coin = state.effective_resources(st)[3]
+        price = 0 if free else info["coin"]
+        if coin < price:
+            return 1, "TỪ CHỐI %s: thiếu G (cần %d, có %d)" % (btype, info["coin"], coin)
+        st["player"]["coin"] = coin - price
+        st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1, "pending_id": True,
+                                "placed_at": int(time.time())})
+        state.save(st, account)
+        return 0, ("ĐÃ ĐẶT TRANG TRÍ %s tại (%d,%d), id=%d, trừ %d G, hiệu ứng %s +%s%% trong %d ngày"
+                   % (btype, x, y, new_id, price, info["typeBuff"], info["buff"], info["time"] // 86400))
     if not levels:
         return 1, "TỪ CHỐI %s: không có ảnh nào của loại này" % btype
-    new_id = state.next_id(st, btype)
     if 1 in levels:
         st["buildings"].append({"id": new_id, "type": btype, "x": x, "y": y, "level": 1, "pending_id": True,
                                 "busy_until": time.time() + gamedata.build_time(btype, 1)})

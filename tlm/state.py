@@ -6,9 +6,10 @@ state.json cũ (bản 3.x) được tự gán cho tài khoản ĐẦU TIÊN đă
 Cấu trúc một state:
   player     : tên, cấp, kinh nghiệm, vàng, dầu, dầu đen, G, tutorial_step
   buildings  : [{id, type, x, y, level, (collected_at)}]
-               id đánh THEO NHÓM (3 chữ đầu của loại: RES, STO, DEF...), 1, 2, 3... giống game:
-               game tự cấp id công trình mới = số công trình cùng nhóm + 1 (thấy trong log:
-               STO_2 đầu tiên -> id 1, RES_2 khi đã có RES_1 -> id 2).
+               id đánh THEO TỪNG LOẠI (RES_1, RES_2, DEC_1... mỗi loại 1, 2, 3...) giống game:
+               game tự cấp id công trình mới = số công trình cùng loại + 1 (log 22:57: RES_2 đầu tiên
+               -> id 1 dù đã có RES_1 id 1). Trang trí có thêm placed_at (giây) để tính hạn hiệu ứng.
+  items      : kho đồ [{id, type, sub, count}] (Item.json: loại 1/2/3 = túi vàng/dầu/dầu đen)
   obstacles  : [{id, type, x, y}]
 Sửa qua trang quản trị http://127.0.0.1:8080/admin (hoặc sửa file khi server tắt).
 """
@@ -81,13 +82,16 @@ def load(account=DEFAULT_ACCOUNT):
         if st["player"].get("tutorial_step") == 69:      # 69 = "bỏ qua" của bản cũ, thực ra vẫn đang chạy
             st["player"]["tutorial_step"] = TUTORIAL_DONE
             changed = True
-        if st.get("id_scheme") != "per_category":     # state cũ đánh id chung -> đánh lại theo nhóm
-            seen = {}
-            for b in st["buildings"]:
-                cat = b["type"][:3]
-                seen[cat] = seen.get(cat, 0) + 1
-                b["id"] = seen[cat]
-            st["id_scheme"] = "per_category"
+        if st.get("id_scheme") != "per_type":         # id theo TỪNG LOẠI (RES_1 và RES_2 đều bắt đầu từ 1)
+            seen = {}                                 # (log 22:57: game gọi mỏ dầu RES_2 đầu tiên là id 1 khi
+            for b in st["buildings"]:                 #  mỏ vàng RES_1 id 1 đã có)
+                seen[b["type"]] = seen.get(b["type"], 0) + 1
+                b["id"] = seen[b["type"]]
+                b.pop("pending_id", None)
+            st["id_scheme"] = "per_type"
+            changed = True
+        if "items" not in st:
+            st["items"] = []
             changed = True
         if config.USE_OBB:
             if not any(b["type"].startswith("BDH") for b in st["buildings"]):
@@ -115,33 +119,32 @@ def list_accounts():
 
 
 def next_id(st, btype):
-    """id cho công trình mới = số công trình cùng nhóm + 1 (giống cách game tự cấp)."""
-    cat = btype[:3]
-    return max([b["id"] for b in st["buildings"] if b["type"][:3] == cat] or [0]) + 1
+    """id cho công trình mới = id lớn nhất CÙNG LOẠI + 1 (giống cách game tự cấp)."""
+    return max([b["id"] for b in st["buildings"] if b["type"] == btype] or [0]) + 1
 
 
 def find_building(st, bid, btype=None, category=None):
-    """Tìm theo (nhóm, id). id chỉ duy nhất trong nhóm nên luôn cần loại hoặc nhóm.
+    """Tìm công trình. id chỉ duy nhất trong CÙNG LOẠI, nên có loại thì so khớp đúng (loại, id).
 
-    Công trình vừa đặt mang cờ "pending_id": id server đoán có thể khác id game tự cấp (log: trại lính đầu
-    tiên game gọi là id 2). Lần đầu game nhắc tới nó bằng (loại, id) không khớp công trình nào, server nhận
-    id của game cho công trình chờ mới nhất cùng loại.
+    Công trình vừa đặt mang cờ "pending_id": nếu game gọi (loại, id) chưa khớp công trình nào thì nhận id
+    của game cho công trình chờ mới nhất cùng loại. Chỉ có nhóm (vd thu hoạch chỉ gửi id) thì lấy công
+    trình cùng nhóm có id đó; trùng nhiều cái thì ưu tiên cái lâu chưa thu hoạch nhất.
     """
-    cat = category or (btype[:3] if btype else None)
-    b = next((b for b in st["buildings"] if b["id"] == bid and (cat is None or b["type"][:3] == cat)), None)
-    if b is not None and (not btype or b["type"] == btype or not b.get("pending_id")):
+    if btype:
+        b = next((b for b in st["buildings"] if b["id"] == bid and b["type"] == btype), None)
+        if b is None:
+            pending = [x for x in st["buildings"] if x.get("pending_id") and x["type"] == btype]
+            if not pending:
+                return None
+            b = pending[-1]
+            b["id"] = bid
         b.pop("pending_id", None)
         return b
-    pending = [x for x in st["buildings"] if x.get("pending_id") and (x["type"] == btype if btype else x["type"][:3] == cat)]
-    if pending:
-        b = pending[-1]
-        clash = next((x for x in st["buildings"] if x is not b and x["id"] == bid and x["type"][:3] == b["type"][:3]), None)
-        if clash is not None:                     # id game chọn đang bị công trình khác giữ -> đổi id công trình kia
-            clash["id"] = max(x["id"] for x in st["buildings"] if x["type"][:3] == b["type"][:3]) + 1
-        b["id"] = bid
-        b.pop("pending_id", None)
-        return b
-    return b
+    cands = [b for b in st["buildings"] if b["id"] == bid and (category is None or b["type"][:3] == category)]
+    if not cands:
+        return None
+    cands.sort(key=lambda b: (b.get("pending_id", False), b.get("collected_at") or 0))
+    return cands[0]
 
 
 def capacities(st):
