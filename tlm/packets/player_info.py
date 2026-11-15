@@ -5,6 +5,8 @@ GameDataMgr+0x298 và GameDataMgr+0xd0 (CityMgr::onGetPlayerInfo).
 ĐÃ XÁC NHẬN trên máy: cấp @0x58, vàng @0x60, G @0x64, dầu hồng @0x68, hướng dẫn @0x110 (> 69 = xong).
 Hướng dẫn ngọc bổ trợ @0x114 (GameDataMgr+0x1bc): <= 14 thì CityMgr::onGetTroopInfo gọi startTutorialCrystal.
 """
+import time
+
 from .. import state
 from ..protocol.codec import f64, pstr, u8, u16, u32
 
@@ -24,7 +26,7 @@ def build(st, log=None):
     d += u32(elixir)                        # @0x68 DẦU HỒNG (ĐÃ XÁC NHẬN)
     d += u32(dark)                          # @0x6c dầu đen (ĐOÁN)
     d += f64(0) + f64(0) + f64(0)           # @0x78 @0x80 @0x88
-    d += f64(0)                             # @0x1f0
+    d += f64(int(time.time()))              # @0x1f0 GIỜ MÁY CHỦ (giây) -> Utility::setCurTime
     d += u32(0)                             # @0xa4
     d += u32(p.get("tutorial_step", state.TUTORIAL_DONE))  # @0x110 TIẾN ĐỘ HƯỚNG DẪN (> 69 = xong)
     d += u32(0)                             # @0xa8

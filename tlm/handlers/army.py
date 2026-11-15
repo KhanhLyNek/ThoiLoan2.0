@@ -8,6 +8,8 @@ Phản hồi game cần (nhánh thành công trong ServerCommunication::onReceiv
 Số lính đã luyện được ghi vào state["troops"] (giới hạn theo sức chứa trại quân) và gửi lại khi vào game
 qua gói TroopInfo (cmd 1003).
 """
+import time
+
 from .. import state
 from ..data import load_table
 from ..protocol.codec import Reader, f64, u32
@@ -59,5 +61,5 @@ def train_troop(ctx, ctl, cmd, payload):
         except Exception as e:
             note = " (không đọc được dữ liệu: %s)" % e
     ctx.log("LUYỆN QUÂN cmd %d trại id=%d%s" % (cmd, bid, note))
-    ctx.reply(ctl, cmd, 0, u32(bid) + f64(0) + bytes(256), "GỬI cmd=%d rTrainTroop trại id=%d" % (cmd, bid))
+    ctx.reply(ctl, cmd, 0, u32(bid) + f64(int(time.time())) + bytes(256), "GỬI cmd=%d rTrainTroop trại id=%d" % (cmd, bid))
     return True

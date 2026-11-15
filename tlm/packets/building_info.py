@@ -1,7 +1,8 @@
 """BuildingInfo (cmd 1002) - theo CmdReceiveBuildingInfo::readData.
 
 Thứ tự: nhà chính, trại lính, trại quân, quân trong trại, phòng thí nghiệm, mỏ, kho,
-phòng thủ, tường, lâu đài bang, nhà thợ xây, bẫy, bia mộ, chướng ngại, ... (mỗi nhóm: u16 số lượng).
+phòng thủ, tường, lâu đài bang, nhà thợ xây, bẫy, bia mộ, chướng ngại, nhà phép, phép, TRANG TRÍ, ...
+(mỗi nhóm: u16 số lượng).
 Đối tượng chung: int id | chuỗi loại | double@0x40 (giờ xong) | double@0x58 | byte TRẠNG THÁI@0x68
                  | byte cấp@0x28 | byte x | byte y | double@0x60 | short@0xa2 | int@0xa4
 Trạng thái @0x68 (suy từ GameDataMgr::refreshBuilderList / getTotalResourceStorage / setSelectedBuilding):
@@ -9,7 +10,7 @@ Trạng thái @0x68 (suy từ GameDataMgr::refreshBuilderList / getTotalResource
   Gửi 0 (bản cũ) làm công trình không có nút nâng cấp và kho không được tính.
 """
 from .. import config, gamedata
-from ..protocol.codec import pstr, u8, u16, u32
+from ..protocol.codec import f64, pstr, u8, u16, u32
 
 STATE_NORMAL = 2
 TAIL = bytes(8) + u16(0) + u32(0)
@@ -58,4 +59,11 @@ def build(st):
     obs = st.get("obstacles", []) if config.USE_OBB else []
     data += u16(len(obs)) + b"".join(u32(o["id"]) + pstr(o["type"]) + bytes(8)
                                      + bytes([o["x"] & 0xFF, o["y"] & 0xFF]) for o in obs)
+    data += u16(0)                                          # nhà phép (SpellFactory): 0
+    data += u16(0)                                          # phép đã có: 0
+    decos = groups.get("decoration", [])                    # trang trí (DecorationObject): id, loại, double
+    data += u16(len(decos)) + b"".join(                     #  giờ bắt đầu @0x40 (giây), byte trạng thái @0x68,
+        u32(d["id"]) + pstr(d["type"]) + f64(d.get("placed_at", 0))   # byte cấp, x, y, @0x1a8, @0x1ac,
+        + bytes([STATE_NORMAL, 1, d["x"] & 0xFF, d["y"] & 0xFF, 0, 0])  # số ngọc khảm (mỗi viên 3 byte)
+        + u8(0) for d in decos)                             # còn hạn = giờ bắt đầu + time > giờ hiện tại
     return data + bytes(1024)                               # các danh sách sau: 0

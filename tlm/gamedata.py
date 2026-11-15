@@ -12,10 +12,14 @@ INIT_OBSTACLES = load_table("init_obstacles.json")
 OBSTACLE_EXP = load_table("obstacle_exp.json")       # chướng ngại -> kinh nghiệm khi dọn
 BUILD_TIME = load_table("build_time.json")           # loại -> cấp -> giây xây/nâng cấp/dọn
 RES_KEY = {"gold": "gold", "elixir": "elixir", "darkElixir": "dark_elixir"}
+DECO = load_table("decoration.json")                # DEC_x -> coin (G), costExpire, time (giây hiệu lực), buff
+ITEMS = load_table("items.json")                    # loại vật phẩm -> cấp -> value
+ITEM_RES = {"1": "gold", "2": "elixir", "3": "dark_elixir"}   # túi tài nguyên trong kho đồ
 
 # Nhóm danh sách trong BuildingInfo theo tiền tố tên (chỉ nhóm đã xác nhận định dạng qua readData).
 CATEGORY = {"TOW": "townhall", "BAR": "barrack", "AMC": "armycamp", "LAB": "lab", "RES": "resources",
-            "STO": "storage", "DEF": "defense", "CLC": "clancastle", "BDH": "builderhut", "TRA": "trap"}
+            "STO": "storage", "DEF": "defense", "CLC": "clancastle", "BDH": "builderhut", "TRA": "trap",
+            "DEC": "decoration"}
 SINGLE = {"townhall", "lab", "clancastle"}
 
 
