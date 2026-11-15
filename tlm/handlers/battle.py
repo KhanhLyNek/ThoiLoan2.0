@@ -10,13 +10,18 @@
      KHÔNG trả lời: lính đầu tiên game gửi thẳng (không vào hàng đợi), nên phản hồi 9002 làm
      BattleMgr::onGetAddTroopMsg xoá phần tử đầu của hàng đợi rỗng -> memmove âm -> sập.
      Server đếm lính đã thả rồi trừ khỏi trại khi trận kết thúc (9003).
+9012 BattleMgr::sendCmdAck (5 giây/lần): [int thời điểm][int n] + n x [chuỗi lính][int ô][int thời điểm]
+     = các lính thả SAU lính đầu tiên (hàng đợi queueAddTroop), gửi theo lô. Không trả lời.
+9014 (server -> game, lớp ErrorCode) = KẾT QUẢ TRẬN, gửi sau 9003. BattleMgr::onGetBattleResult đọc
+     [bool][byte số vật phẩm][...]; onGetBattleUpdate đặt cờ "đã có kết quả" (BattleMgr+0x18d) và gọi
+     CityMgr::returnMyHome. Thiếu gói này -> màn mây/chim bay đứng mãi, không về được nhà.
 11018: đội quân mang vào trận [short số loại] + [chuỗi][short] (chỉ ghi log).
 """
 import random
 
 from .. import botbase, state
 from ..packets import battle_info
-from ..protocol.codec import Reader
+from ..protocol.codec import Reader, u8
 from . import handler
 
 MAX_MAP = 50
@@ -80,7 +85,15 @@ def end_battle(ctx, ctl, cmd, payload):
     ctx.battle = None
     ctx.log("KẾT THÚC TRẬN: %d sao, phá %d%%, cướp vàng %d / dầu %d / dầu đen %d%s"
             % (stars, percent, gold, elixir, dark, note))
-    return False
+    ctx.reply(ctl, 9014, 0, u8(0) + u8(0) + bytes(256), "GỬI cmd=9014 kết quả trận (cho phép về nhà)")
+    return True
+
+
+def _count_drop(ctx, troop):
+    battle = getattr(ctx, "battle", None)
+    if battle is not None:
+        d = battle.setdefault("dropped", {})
+        d[troop] = d.get(troop, 0) + 1
 
 
 @handler(9002)
@@ -92,12 +105,30 @@ def add_troop(ctx, ctl, cmd, payload):
     except Exception as e:
         ctx.log("thả lính: không đọc được (%s)" % e)
         return True
-    battle = getattr(ctx, "battle", None)
-    if battle is not None:
-        d = battle.setdefault("dropped", {})
-        d[troop] = d.get(troop, 0) + 1
+    _count_drop(ctx, troop)
     ctx.log("THẢ LÍNH %s (ô %d, t=%d, #%d)" % (troop, cell, tick, seq))
     return True                       # không trả lời, xem ghi chú đầu file
+
+
+@handler(9012)
+def battle_ack(ctx, ctl, cmd, payload):
+    try:
+        r = Reader(payload)
+        r.u32()
+        n = r.u32()
+        drops = []
+        for _ in range(n):
+            t = r.str(); r.u32(); r.u32()
+            drops.append(t)
+            _count_drop(ctx, t)
+        if drops:
+            cnt = {}
+            for t in drops:
+                cnt[t] = cnt.get(t, 0) + 1
+            ctx.log("THẢ LÍNH (lô): " + ", ".join("%s x%d" % kv for kv in sorted(cnt.items())))
+    except Exception as e:
+        ctx.log("9012: không đọc được (%s)" % e)
+    return True
 
 
 @handler(11018)
