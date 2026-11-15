@@ -43,7 +43,7 @@ def find_battle(ctx, ctl, cmd, payload):
             % (what, name, th, len(base), loot[0], loot[1], loot[2]))
     troops = st.get("troops", {})
     ctx.log("    lính mang theo: %s" % (", ".join("%s x%s" % kv for kv in sorted(troops.items())) or "KHÔNG CÓ (luyện quân trước)"))
-    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops), "GỬI cmd=9001 BattleInfo (%s)" % what)
+    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels")), "GỬI cmd=9001 BattleInfo (%s)" % what)
     return True
 
 
