@@ -10,6 +10,9 @@
      APK vá (com.tlm.FreePay) đổi MỌI kiểu nạp (Google Play, ZaloPay, SMS, thẻ web, ATM) thành lệnh này, không mở
      ứng dụng ngoài (trước đây game bị đẩy ra ngoài rồi quay lại màn tải). Phản hồi error 0 + [chuỗi][chuỗi]
      -> AddGGUI::comsumePurchase (APK vá đã tắt consume) rồi server đẩy 1010.
+1047 (server -> game) VIP: [byte cấp VIP][int điểm VIP] -> GameDataMgr+0x424/+0x428 rồi VIPmanager::checkVip.
+     Cấp = số mốc Vip.json "requireVipPoint" đã đạt (20, 50, 100, 500, 1000, 5000, 10000, 20000, 50000, 100000).
+     Điểm VIP = tổng G đã nạp / VIP_RATE. Đẩy lúc vào game và sau mỗi lần nạp.
 1010 (server -> game) cập nhật G: [double số G] -> CityMgr::onGetUpdateCoin -> GameDataMgr::setMoney("coin").
 2046 rương yêu thương (ShopGUI2Mgr::onReceiveChestLove): [int số thứ tự quà, từ 1][double giờ mở lần sau].
      Danh sách quà = PackOrder.json poChestLove; trả 0 (bản cũ) -> chỉ số -1 -> vector::at ném lỗi -> game sập.
@@ -20,12 +23,41 @@ import time
 
 from .. import state
 from ..data import load_table
-from ..protocol.codec import Reader, f64, pstr, u32
+from ..protocol.codec import Reader, f64, pstr, u8, u32
 from . import handler
 from .inventory import add_item, item_name
 
 PAY_G = 10000                                   # số G cộng mỗi lần nạp
+VIP_RATE = 100                                  # 100 G nạp = 1 điểm VIP (mỗi lần nạp +100 điểm)
+try:
+    VIP_REQ = [int(v["requireVipPoint"]) for v in load_table("Vip.json")["Vip"]]
+except Exception:
+    VIP_REQ = [20, 50, 100, 500, 1000, 5000, 10000, 20000, 50000, 100000]
 CHEST = load_table("chest_love.json")
+
+
+def vip_point(st):
+    p = st["player"]
+    if "vip_point" not in p:                    # bản cũ: tính lại từ tổng G đã nạp
+        p["vip_point"] = int(p.get("charged", 0)) // VIP_RATE
+    return int(p["vip_point"])
+
+
+def vip_level(point):
+    return sum(1 for need in VIP_REQ if point >= need)
+
+
+def push_vip(ctx, ctl, st):
+    pt = vip_point(st)
+    ctx.push(ctl, 1047, u8(vip_level(pt)) + u32(pt) + bytes(32), " [VIP %d, %d điểm]" % (vip_level(pt), pt))
+
+
+def _add_paid(st, g):
+    p = st["player"]
+    vip_point(st)
+    p["coin"] = int(p.get("coin", 0)) + g
+    p["charged"] = int(p.get("charged", 0)) + g
+    p["vip_point"] = int(p["vip_point"]) + g // VIP_RATE
 
 
 def push_coin(ctx, ctl, st):
@@ -42,14 +74,14 @@ def _charge(ctx, ctl, cmd, payload, kind):
     except Exception:
         pass
     st = state.load(ctx.account)
-    st["player"]["coin"] = int(st["player"].get("coin", 0)) + PAY_G
-    st["player"]["charged"] = int(st["player"].get("charged", 0)) + PAY_G
+    _add_paid(st, PAY_G)
     state.save(st, ctx.account)
     msg = "Nạp %s thành công! +%s G" % (kind, "{:,}".format(PAY_G).replace(",", "."))
     trans = "TL%d" % int(time.time())
     ctx.reply(ctl, cmd, 0, pstr(trans) + u32(2) + pstr(msg) + pstr("") + bytes(64),
               "GỬI cmd=%d NẠP %s thành công +%d G (tổng %d)" % (cmd, kind, PAY_G, st["player"]["coin"]))
     push_coin(ctx, ctl, st)
+    push_vip(ctx, ctl, st)
     return True
 
 
@@ -73,12 +105,12 @@ def charge_iap(ctx, ctl, cmd, payload):
     except Exception:
         pass
     st = state.load(ctx.account)
-    st["player"]["coin"] = int(st["player"].get("coin", 0)) + PAY_G
-    st["player"]["charged"] = int(st["player"].get("charged", 0)) + PAY_G
+    _add_paid(st, PAY_G)
     state.save(st, ctx.account)
     ctx.reply(ctl, 12005, 0, pstr(product) + pstr(token) + bytes(64),
               "GỬI cmd=12005 NẠP (%s) thành công +%d G (tổng %d)" % (product or "?", PAY_G, st["player"]["coin"]))
     push_coin(ctx, ctl, st)
+    push_vip(ctx, ctl, st)
     return True
 
 

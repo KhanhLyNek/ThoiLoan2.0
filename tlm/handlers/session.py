@@ -41,6 +41,8 @@ def get_user_info(ctx, ctl, cmd, payload):
     ctx.reply(ctl, 1001, 0, player_info.build(st, log=ctx.log, account=ctx.account), "GỬI cmd=1001 GetPlayerInfo")
     if not ctx.silent:
         push_city(ctx, ctl)
+        from .payment import push_vip
+        push_vip(ctx, ctl, st)
     return True
 
 
