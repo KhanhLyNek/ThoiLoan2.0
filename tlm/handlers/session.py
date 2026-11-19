@@ -28,7 +28,7 @@ def push_city(ctx, ctl, with_player=False):
         state.save(st, ctx.account)
     if with_player:
         ctx.push(ctl, 1001, player_info.build(st, log=ctx.log, account=ctx.account), " [thông tin người chơi]")
-    ctx.push(ctl, 1002, building_info.build(st),
+    ctx.push(ctl, 1002, building_info.build(st, account=ctx.account),
              " [%d công trình + %d chướng ngại]" % (len(st["buildings"]), len(st.get("obstacles", []))))
     ctx.push(ctl, 1003, troop_info.build(st),
              " [quân: %s]" % (", ".join("%s x%s" % kv for kv in sorted(st.get("troops", {}).items())) or "trống"))

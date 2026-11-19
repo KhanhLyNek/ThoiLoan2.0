@@ -9,7 +9,7 @@ Trạng thái @0x68 (suy từ GameDataMgr::refreshBuilderList / getTotalResource
   1 = đang xây, 2 = BÌNH THƯỜNG (có nút nâng cấp, kho được tính), 3 = đang nâng cấp.
   Gửi 0 (bản cũ) làm công trình không có nút nâng cấp và kho không được tính.
 """
-from .. import config, gamedata
+from .. import clans, config, gamedata, state
 from ..protocol.codec import f64, pstr, u8, u16, u32
 
 STATE_NORMAL = 2
@@ -27,7 +27,8 @@ def _hero_hp(b):
     return int(hp.get(str(b.get("hero_level", 1)), hp.get("1", 0))) & 0x7FFF
 
 
-def build(st):
+def build(st, account=None):
+    account = account or st.get("_account") or state.DEFAULT_ACCOUNT
     groups = {}
     for b in st["buildings"]:
         groups.setdefault(gamedata.CATEGORY.get(b["type"][:3]), []).append(b)
@@ -56,6 +57,12 @@ def build(st):
                  + u16(0))                                  # số quân bang gửi: 0
     else:
         data += u16(0)
+    # ĐANG Ở BANG (GameDataMgr+0x318 = id bang từ GetPlayerInfo > 0): readData đọc thêm
+    # [byte biểu tượng bang -> +0x328][chuỗi tên bang -> +0x320] ngay sau lâu đài bang.
+    # Thiếu 2 trường này -> mọi danh sách sau bị lệch -> chướng ngại sai tên ảnh -> game sập (Avatar::changeFrame).
+    clan = clans.clan_of(account)
+    if clan:
+        data += u8(clan["icon"]) + pstr(clan["name"])
     huts = groups.get("builderhut", [])                     # nhà thợ xây: id, tên, x, y, int, chuỗi, double
     data += u16(len(huts)) + b"".join(u32(h["id"]) + pstr(h["type"]) + bytes([h["x"] & 0xFF, h["y"] & 0xFF])
                                       + u32(0) + pstr("") + bytes(8) for h in huts)
