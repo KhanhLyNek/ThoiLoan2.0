@@ -7,16 +7,17 @@ Hướng dẫn ngọc bổ trợ @0x114 (GameDataMgr+0x1bc): <= 14 thì CityMgr:
 """
 import time
 
-from .. import state
+from .. import clans, state
 from ..protocol.codec import f64, pstr, u8, u16, u32
 
 
-def build(st, log=None):
+def build(st, log=None, account=None):
     p = st["player"]
     gold, elixir, dark, coin, (cg, ce, cd) = state.effective_resources(st)
     if log:
         log("    người chơi: vàng %d/%d, dầu %d/%d, dầu đen %d/%d, G %d" % (gold, cg, elixir, ce, dark, cd, coin))
-    d = u32(1)                              # userId
+    account = account or st.get("_account") or state.DEFAULT_ACCOUNT
+    d = u32(clans.uid_of(account))          # userId (GameDataMgr+0xd0; tài khoản đầu tiên = 1)
     d += pstr(str(p.get("name", "Khach")))  # tên người chơi
     d += u32(p.get("exp", 0))               # @0x54 kinh nghiệm
     d += u32(p.get("level", 1))             # @0x58 cấp người chơi (ĐÃ XÁC NHẬN)
@@ -29,7 +30,7 @@ def build(st, log=None):
     d += f64(int(time.time()))              # @0x1f0 GIỜ MÁY CHỦ (giây) -> Utility::setCurTime
     d += u32(0)                             # @0xa4
     d += u32(p.get("tutorial_step", state.TUTORIAL_DONE))  # @0x110 TIẾN ĐỘ HƯỚNG DẪN (> 69 = xong)
-    d += u32(0)                             # @0xa8
+    d += u32(clans.clan_id_of(account))     # @0xa8 ID BANG HỘI (GameDataMgr+0x318) -> vào game tự gửi 3037
     d += u8(0)                              # cờ @0x98 = false (true sẽ đọc thêm 3 double)
     d += u8(0)                              # cờ @0x200
     d += f64(0) + u32(0) + f64(0)           # @0x130 @0x138 @0x140

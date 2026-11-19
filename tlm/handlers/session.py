@@ -27,7 +27,7 @@ def push_city(ctx, ctl, with_player=False):
     if fit_to_camps(st):
         state.save(st, ctx.account)
     if with_player:
-        ctx.push(ctl, 1001, player_info.build(st, log=ctx.log), " [thông tin người chơi]")
+        ctx.push(ctl, 1001, player_info.build(st, log=ctx.log, account=ctx.account), " [thông tin người chơi]")
     ctx.push(ctl, 1002, building_info.build(st),
              " [%d công trình + %d chướng ngại]" % (len(st["buildings"]), len(st.get("obstacles", []))))
     ctx.push(ctl, 1003, troop_info.build(st),
@@ -38,7 +38,7 @@ def push_city(ctx, ctl, with_player=False):
 def get_user_info(ctx, ctl, cmd, payload):
     """getUserInfo: trả GetPlayerInfo rồi đẩy BuildingInfo + TroopInfo."""
     st = state.load(ctx.account)
-    ctx.reply(ctl, 1001, 0, player_info.build(st, log=ctx.log), "GỬI cmd=1001 GetPlayerInfo")
+    ctx.reply(ctl, 1001, 0, player_info.build(st, log=ctx.log, account=ctx.account), "GỬI cmd=1001 GetPlayerInfo")
     if not ctx.silent:
         push_city(ctx, ctl)
     return True
