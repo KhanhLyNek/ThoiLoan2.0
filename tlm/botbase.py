@@ -13,6 +13,7 @@ GEN = load_table("battle_gen.json")
 MAP_W = 44                                     # BaseMap::cellToIso: ô = y * 44 + x (CityMap rộng 0x2c)
 LOOT_HOLDERS = ("TOW", "STO", "RES")
 GOBLIN_LEVEL1 = ("TOW_1", "BAR_1")            # chỉ có ảnh *_GOBLIN_1 trong OBB
+GOBLIN_GRASS = (3, 4)                          # cỡ có nền cỏ GRASS_<cỡ>_Goblin.png trong map_obj_bg.plist
 BOT_NAMES = ["Hắc Long", "Bạch Hổ", "Thanh Phong", "Lão Tướng", "Kiếm Khách", "Sơn Tặc", "Hải Tặc",
              "Thủ Lĩnh Đỏ", "Chiến Binh", "Lãnh Chúa", "Thợ Săn", "Du Mục", "Phù Thuỷ", "Hiệp Sĩ"]
 
@@ -85,7 +86,10 @@ def single_map(level):
     # "<loại>_GOBLIN_1". Nhà chính vẽ từ file ảnh rời (buildings/TOW_1_GOBLIN_1) nên chạy được. Trại lính lại vẽ từ
     # atlas AMC.plist, mà atlas này KHÔNG có khung BAR_1_GOBLIN_1 -> CCSprite::createWithSpriteFrameName trả rỗng
     # -> Avatar::changeFrame sập (log 23:20). Vì vậy phó bản bỏ trại lính, nhà chính để cấp 1.
-    base = [b for b in base if b["type"] != "BAR_1"]
+    # Nền cỏ Goblin dưới mỗi công trình là "GRASS_<kích thước>_Goblin.png" (addToBattle+0x8c4), mà map_obj_bg.plist
+    # chỉ có cỡ 3 và 4 -> công trình cỡ khác (trại quân 5, nhà thợ xây 2, một số phòng thủ 2) làm
+    # CScaleSprite::createWithSpriteFrameName trả rỗng -> sập ở addToBattle+236 (log 00:50). Chỉ giữ cỡ 3 / 4.
+    base = [b for b in base if b["type"] != "BAR_1" and int(GEN["size"].get(b["type"], 3)) in GOBLIN_GRASS]
     for i, b in enumerate(base, 1):
         b["id"] = i
         if b["type"] in GOBLIN_LEVEL1:
