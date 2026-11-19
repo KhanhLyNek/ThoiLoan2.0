@@ -1,7 +1,7 @@
 """BuildingInfo (cmd 1002) - theo CmdReceiveBuildingInfo::readData.
 
 Thứ tự: nhà chính, trại lính, trại quân, quân trong trại, phòng thí nghiệm, mỏ, kho,
-phòng thủ, tường, lâu đài bang, nhà thợ xây, bẫy, bia mộ, chướng ngại, nhà phép, phép, TRANG TRÍ, ...
+phòng thủ, tường, lâu đài bang, nhà thợ xây, bẫy, bia mộ, chướng ngại, nhà phép, phép, TRANG TRÍ, NHÀ ANH HÙNG (KQB), ...
 (mỗi nhóm: u16 số lượng).
 Đối tượng chung: int id | chuỗi loại | double@0x40 (giờ xong) | double@0x58 | byte TRẠNG THÁI@0x68
                  | byte cấp@0x28 | byte x | byte y | double@0x60 | short@0xa2 | int@0xa4
@@ -20,6 +20,11 @@ def _head(b):
     lvl = gamedata.display_level(b["type"], b["level"])
     return (u32(b["id"]) + pstr(b["type"]) + bytes(16)
             + bytes([STATE_NORMAL, lvl & 0xFF, b["x"] & 0xFF, b["y"] & 0xFF]))
+
+
+def _hero_hp(b):
+    hp = gamedata.HERO_HP.get(b["type"], {})
+    return int(hp.get(str(b.get("hero_level", 1)), hp.get("1", 0))) & 0x7FFF
 
 
 def build(st):
@@ -66,4 +71,8 @@ def build(st):
         u32(d["id"]) + pstr(d["type"]) + f64(d.get("placed_at", 0))   # byte cấp, x, y, @0x1a8, @0x1ac,
         + bytes([STATE_NORMAL, 1, d["x"] & 0xFF, d["y"] & 0xFF, 0, 0])  # số ngọc khảm (mỗi viên 3 byte)
         + u8(0) for d in decos)                             # còn hạn = giờ bắt đầu + time > giờ hiện tại
+    kqbs = groups.get("kqbarrack", [])                      # nhà anh hùng (KQBarrack): đối tượng chung + double@0x60
+    data += u16(len(kqbs)) + b"".join(                      #  + short máu anh hùng @0x1e8 + double@0x1f0 (giờ hồi máu)
+        _head(k) + bytes(8) + u16(_hero_hp(k)) + bytes(8)    #  + bool@0x1f8 + short@0xa2 + int@0xa4. Có 4 danh sách
+        + u8(0) + u16(0) + u32(0) for k in kqbs)            #  KQBarrack (xen danh sách Rose...), cùng đổ vào 1 vector
     return data + bytes(1024)                               # các danh sách sau: 0

@@ -37,6 +37,8 @@ def _place(payload, account, free=False):
         return 1, "TỪ CHỐI %s: loại này chưa hỗ trợ (hỗ trợ: %s)" % (btype, ", ".join(sorted(gamedata.CATEGORY)))
     if cat in gamedata.SINGLE and any(gamedata.CATEGORY.get(b["type"][:3]) == cat for b in st["buildings"]):
         return 1, "TỪ CHỐI %s: chỉ được có một công trình loại này" % btype
+    if cat in gamedata.SINGLE_TYPE and any(b["type"] == btype for b in st["buildings"]):
+        return 1, "TỪ CHỐI %s: đã có nhà này rồi" % btype
     new_id = state.next_id(st, btype)
     if cat == "decoration":
         info = gamedata.DECO.get(btype)

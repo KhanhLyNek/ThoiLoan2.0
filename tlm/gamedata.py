@@ -14,13 +14,18 @@ BUILD_TIME = load_table("build_time.json")           # loại -> cấp -> giây 
 RES_KEY = {"gold": "gold", "elixir": "elixir", "darkElixir": "dark_elixir"}
 DECO = load_table("decoration.json")                # DEC_x -> coin (G), costExpire, time (giây hiệu lực), buff
 ITEMS = load_table("items.json")                    # loại vật phẩm -> cấp -> value
+_KQB = load_table("kqb.json")
+HERO_HP = _KQB["hero_hp"]                            # KQB_x -> cấp -> máu anh hùng
+for _t, _lv in _KQB["dark"].items():                # giá nhà anh hùng (dầu đen) bổ sung vào bảng giá
+    COST.setdefault(_t, {k: [0, 0, v, 0] for k, v in _lv.items()})
 ITEM_RES = {"1": "gold", "2": "elixir", "3": "dark_elixir"}   # túi tài nguyên trong kho đồ
 
 # Nhóm danh sách trong BuildingInfo theo tiền tố tên (chỉ nhóm đã xác nhận định dạng qua readData).
 CATEGORY = {"TOW": "townhall", "BAR": "barrack", "AMC": "armycamp", "LAB": "lab", "RES": "resources",
             "STO": "storage", "DEF": "defense", "CLC": "clancastle", "BDH": "builderhut", "TRA": "trap",
-            "DEC": "decoration"}
+            "DEC": "decoration", "KQB": "kqbarrack"}
 SINGLE = {"townhall", "lab", "clancastle"}
+SINGLE_TYPE = {"kqbarrack"}                        # mỗi LOẠI chỉ 1 (KQB_1..KQB_5 mỗi cái 1 nhà)
 
 
 def build_time(btype, level):
