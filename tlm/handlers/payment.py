@@ -6,10 +6,15 @@
      [chuỗi]. Trạng thái 1 = thành công im lặng (riêng SMS: game còn đọc thêm số + nội dung rồi TỰ GỬI TIN NHẮN
      THẬT bằng PlatformUtil::sendSms) -> server trả trạng thái 2 để game chỉ hiện hộp thông báo, không gửi SMS.
      Mọi lần nạp đều thành công: cộng PAY_G G rồi đẩy cmd 1010.
+12005 CityMgr::validateGoogleIap (mua Google Play): [chuỗi JSON đơn hàng][chuỗi chữ ký][chuỗi gói].
+     APK vá (com.tlm.FreePay) đổi MỌI kiểu nạp (Google Play, ZaloPay, SMS, thẻ web, ATM) thành lệnh này, không mở
+     ứng dụng ngoài (trước đây game bị đẩy ra ngoài rồi quay lại màn tải). Phản hồi error 0 + [chuỗi][chuỗi]
+     -> AddGGUI::comsumePurchase (APK vá đã tắt consume) rồi server đẩy 1010.
 1010 (server -> game) cập nhật G: [double số G] -> CityMgr::onGetUpdateCoin -> GameDataMgr::setMoney("coin").
 2046 rương yêu thương (ShopGUI2Mgr::onReceiveChestLove): [int số thứ tự quà, từ 1][double giờ mở lần sau].
      Danh sách quà = PackOrder.json poChestLove; trả 0 (bản cũ) -> chỉ số -1 -> vector::at ném lỗi -> game sập.
 """
+import json
 import random
 import time
 
@@ -56,6 +61,25 @@ def charge_card(ctx, ctl, cmd, payload):
 @handler(12007)
 def charge_sms(ctx, ctl, cmd, payload):
     return _charge(ctx, ctl, cmd, payload, "SMS")
+
+
+@handler(12005)
+def charge_iap(ctx, ctl, cmd, payload):
+    product = token = ""
+    try:
+        r = Reader(payload)
+        data = json.loads(r.str() or "{}")
+        product, token = str(data.get("productId", "")), str(data.get("purchaseToken", ""))
+    except Exception:
+        pass
+    st = state.load(ctx.account)
+    st["player"]["coin"] = int(st["player"].get("coin", 0)) + PAY_G
+    st["player"]["charged"] = int(st["player"].get("charged", 0)) + PAY_G
+    state.save(st, ctx.account)
+    ctx.reply(ctl, 12005, 0, pstr(product) + pstr(token) + bytes(64),
+              "GỬI cmd=12005 NẠP (%s) thành công +%d G (tổng %d)" % (product or "?", PAY_G, st["player"]["coin"]))
+    push_coin(ctx, ctl, st)
+    return True
 
 
 @handler(2046)
