@@ -1,4 +1,5 @@
-"""Tầng HTTP: /info (cấu hình server), /login (đăng nhập theo nút + máy), /mail (hộp thư), /admin (quản trị)."""
+"""Tầng HTTP: /info (cấu hình server), /login (đăng nhập theo nút + máy), /mail (hộp thư), /admin (quản trị),
+/obb (file OBB cho APK vá tự tải)."""
 import json
 import re
 import urllib.parse
@@ -7,6 +8,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from . import admin, config
 from .data import load_table
 from .logger import log
+
+OBB_NAME = "main.1380.gsn.zps.thoiloan.obb"
 
 
 def default_info():
@@ -25,12 +28,49 @@ class HttpHandler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args):
         pass
 
+    def _send_obb(self, method):
+        """/obb: APK vá (màn hình ObbGate) tải OBB từ đây trước, không có thì tự tải Google Drive.
+        Đặt file main.1380.gsn.zps.thoiloan.obb vào thư mục dữ liệu (/sdcard/ThoiLoan2.0) để tải nhanh qua máy."""
+        import os
+        path = config.data_path(OBB_NAME)
+        if not os.path.isfile(path):
+            log("    -> /obb: chưa có %s trong thư mục dữ liệu, game sẽ tải từ Google Drive" % OBB_NAME)
+            self.send_response(404)
+            self.send_header("Content-Length", "0")
+            self.end_headers()
+            return
+        size = os.path.getsize(path)
+        start = 0
+        m = re.match(r"bytes=(\d+)-", self.headers.get("Range") or "")
+        if m and int(m.group(1)) < size:
+            start = int(m.group(1))
+            self.send_response(206)
+            self.send_header("Content-Range", "bytes %d-%d/%d" % (start, size - 1, size))
+        else:
+            self.send_response(200)
+        self.send_header("Content-Type", "application/octet-stream")
+        self.send_header("Content-Length", str(size - start))
+        self.end_headers()
+        log("    -> /obb: gửi %s từ byte %d (%d byte)" % (OBB_NAME, start, size))
+        if method == "HEAD":
+            return
+        with open(path, "rb") as f:
+            f.seek(start)
+            while True:
+                chunk = f.read(1 << 20)
+                if not chunk:
+                    break
+                self.wfile.write(chunk)
+
     def _handle(self, method):
         length = int(self.headers.get("Content-Length") or 0)
         body = self.rfile.read(length) if length else b""
         log("HTTP %s %s từ %s" % (method, self.path, self.client_address[0]))
         if body:
             log("    body (%d byte): %s" % (len(body), body.decode("utf-8", "replace")[:400]))
+        if self.path.startswith("/obb"):
+            self._send_obb(method)
+            return
         if self.path.startswith("/login"):
             # TokenMgr::parseDataLogin chỉ cần {"error": 0, "sessionKey": "..."}
             form = urllib.parse.parse_qs(body.decode("utf-8", "replace"))
