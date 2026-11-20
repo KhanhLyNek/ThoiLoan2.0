@@ -21,7 +21,7 @@ def build(st, log=None, account=None):
     d += pstr(str(p.get("name", "Khach")))  # tên người chơi
     d += u32(p.get("exp", 0))               # @0x54 kinh nghiệm
     d += u32(p.get("level", 1))             # @0x58 cấp người chơi (ĐÃ XÁC NHẬN)
-    d += u32(0)                             # @0x5c chưa rõ
+    d += u32(p.get("trophy", 0))            # @0x5c CÚP (UserInfoStruct @0x34)
     d += u32(gold)                          # @0x60 VÀNG (ĐÃ XÁC NHẬN)
     d += f64(coin)                          # @0x64 G (ĐÃ XÁC NHẬN)
     d += u32(elixir)                        # @0x68 DẦU HỒNG (ĐÃ XÁC NHẬN)

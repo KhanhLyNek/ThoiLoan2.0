@@ -99,7 +99,8 @@ def find_battle(ctx, ctl, cmd, payload):
             % (what, name, th, len(base), loot[0], loot[1], loot[2]))
     troops = st.get("troops", {})
     ctx.log("    lính mang theo: %s" % (", ".join("%s x%s" % kv for kv in sorted(troops.items())) or "KHÔNG CÓ (luyện quân trước)"))
-    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels")), "GỬI cmd=9001 BattleInfo (%s)" % what)
+    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"),
+                                                st.get("clan_troops")), "GỬI cmd=9001 BattleInfo (%s)" % what)
     return True
 
 
@@ -124,6 +125,9 @@ def end_battle(ctx, ctl, cmd, payload):
             else:
                 troops.pop(t, None)
         note += ", đã dùng " + ", ".join("%s x%d" % kv for kv in sorted(dropped.items()))
+        if st.get("clan_troops"):
+            st["clan_troops"] = {}                      # quân bang dùng 1 lần
+            note += ", hết quân bang"
     if battle.get("kind") == "single" and stars > 0:
         lvl = battle["level"]
         rec = st.setdefault("single_stars", {})
@@ -132,6 +136,10 @@ def end_battle(ctx, ctl, cmd, payload):
         if int(p.get("single_map", 1)) <= lvl < MAX_MAP:
             p["single_map"] = lvl + 1
             note += ", mở màn %d" % (lvl + 1)
+    if battle.get("kind") in ("real", "pvp"):
+        from .ranking import change_trophy
+        gain = (10 if battle["kind"] == "real" else 5) * stars if stars > 0 else -5
+        note += ", cúp %+d (= %d)" % (gain, change_trophy(st, gain))
     state.save(st, ctx.account)
     if battle.get("kind") == "real":
         note += _hit_victim(ctx, battle["victim"], gold, elixir, dark, percent, stars)
@@ -153,6 +161,8 @@ def _hit_victim(ctx, victim, gold, elixir, dark, percent, stars):
     hours = next((h for pct, h in SHIELD_AFTER if percent >= pct or stars >= 3 and pct == 90), 0)
     if hours:
         p["shield_end"] = int(time.time()) + hours * 3600
+    if stars > 0:
+        p["trophy"] = max(0, int(p.get("trophy", 0)) - 8 * stars)
     me = state.load(ctx.account)["player"].get("name", ctx.account)
     log = vst.setdefault("defense_log", [])
     log.append({"t": int(time.time()), "by": ctx.account, "name": me, "stars": stars, "percent": percent,

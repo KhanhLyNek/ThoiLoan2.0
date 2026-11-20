@@ -262,5 +262,42 @@ def get_clan_msg(ctx, ctl, cmd, payload):
 
 @handler(3002)
 def request_troop(ctx, ctl, cmd, payload):
-    ctx.log("xin quân bang hội (chưa có ai cho quân - chỉ trả lời thành công)")
+    """sendRequestTroop([chuỗi lời nhắn]): các thành viên MÁY trong bang cho quân ngay, lấp đầy lâu đài bang
+    (sức chứa ClanCastle.json theo cấp CLC). Quân bang gửi lại trong BuildingInfo (lâu đài) và BattleInfo."""
+    import random
+    from ..data import load_table
+    c = clans.clan_of(ctx.account)
+    st = state.load(ctx.account)
+    if c is None:
+        ctx.log("xin quân: chưa có bang")
+        return False
+    gen = load_table("battle_gen.json")
+    clc = next((b for b in st["buildings"] if b["type"] == "CLC_1"), None)
+    cap = int(gen.get("clc_capacity", {}).get(str(clc["level"] if clc else 1), 10))
+    have = st.setdefault("clan_troops", {})
+    used = sum(int(gen["housing"].get(t, 1)) * int(n) for t, n in have.items())
+    bots = [m for m in c["members"] if not m.get("account")]
+    pool = [t for t in ("ARM_1", "ARM_2", "ARM_3", "ARM_4") if int(gen["housing"].get(t, 1)) > 0]
+    given = {}
+    if bots:
+        while used < cap:
+            t = random.choice(pool)
+            space = int(gen["housing"].get(t, 1))
+            if used + space > cap:
+                t, space = "ARM_1", int(gen["housing"].get("ARM_1", 1))
+                if used + space > cap:
+                    break
+            have[t] = int(have.get(t, 0)) + 1
+            given[t] = given.get(t, 0) + 1
+            used += space
+        for m in bots:
+            m["donated"] = int(m.get("donated", 0)) + sum(given.values()) // len(bots)
+        me = clans.member(c, account=ctx.account)
+        if me:
+            me["received"] = int(me.get("received", 0)) + sum(given.values())
+        clans.save()
+    state.save(st, ctx.account)
+    ctx.log("XIN QUÂN BANG: được %s (lâu đài %d/%d chỗ)%s" % (
+        ", ".join("%s x%d" % kv for kv in sorted(given.items())) or "không có", used, cap,
+        "" if bots else " - bang không có thành viên máy, chờ bạn bè cho quân"))
     return False

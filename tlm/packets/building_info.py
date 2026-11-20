@@ -27,6 +27,12 @@ def _hero_hp(b):
     return int(hp.get(str(b.get("hero_level", 1)), hp.get("1", 0))) & 0x7FFF
 
 
+def _clan_troops(st, count_fn):
+    ct = [(t, int(n)) for t, n in sorted(st.get("clan_troops", {}).items()) if int(n) > 0]
+    lv = st.get("troop_levels", {})
+    return count_fn(len(ct)) + b"".join(pstr(t) + u8(max(1, int(lv.get(t, 1)))) + u16(n) for t, n in ct)
+
+
 def build(st, account=None):
     account = account or st.get("_account") or state.DEFAULT_ACCOUNT
     groups = {}
@@ -56,8 +62,8 @@ def build(st, account=None):
     if clc:                                                 # (game mặc định ai cũng có; thiếu -> mở luyện quân
         data += (u16(1) + _head(clc[0]) + TAIL              #  sập ở ClanCastleObject::getTotalTroopClan)
                  + bytes(8)                                 # double@0x248
-                 + u8(0)                                    # byte: chưa vào bang (>0 thì đọc thêm byte + chuỗi)
-                 + u16(0))                                  # số quân bang gửi: 0
+                 + u8(0)                                    # byte
+                 + _clan_troops(st, u16))                   # QUÂN BANG: [short n] n x [chuỗi][byte cấp][short số]
     else:
         data += u16(0)
     # ĐANG Ở BANG (GameDataMgr+0x318 = id bang từ GetPlayerInfo > 0): readData đọc thêm

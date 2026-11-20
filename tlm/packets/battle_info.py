@@ -10,15 +10,16 @@ Tiếp theo: int số loại LÍNH CỦA NGƯỜI ĐÁNH, mỗi loại [chuỗi 
          BattleMgr::addTroopBuy: cùng tên VÀ cùng @0xc thì cộng dồn @0x8 -> @0xc là cấp, @0x8 là số lượng.
          (v5.2 trở về trước gửi ngược -> 20 lính cấp 1 hiện thành 1 lính "cấp 20" không có chỉ số, chết ngay.)
          Gửi rỗng -> vào trận không có lính để thả.
-Sau đó là nhiều danh sách phụ (phép, quân bang, bẫy, vật phẩm, ...) và 7 double: gửi 0 = rỗng (đã kiểm tra
+Tiếp theo: QUÂN BANG (@0x40) [int n] n x [chuỗi][byte cấp][short số].
+Sau đó là nhiều danh sách phụ (quân hỗ trợ @0x48, phép @0x38, bẫy, vật phẩm, ...) và 7 double: gửi 0 = rỗng (đã kiểm tra
 mọi nhánh số lượng 0 đều bỏ qua).
 """
 from .. import gamedata
 from ..botbase import MAP_W
-from ..protocol.codec import pstr, u8, u32
+from ..protocol.codec import pstr, u8, u16, u32
 
 
-def build(base, enemy_id, name, th_level, troops=None, troop_levels=None):
+def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_troops=None):
     d = u32(enemy_id) + pstr(name) + u32(th_level) + u32(0) + u8(0) + pstr("") + u32(0) + pstr("") + u32(0)
     d += u32(len(base))
     for b in base:
@@ -28,4 +29,7 @@ def build(base, enemy_id, name, th_level, troops=None, troop_levels=None):
     army = [(t, int(n)) for t, n in sorted((troops or {}).items()) if int(n) > 0]
     levels = troop_levels or {}
     d += u32(len(army)) + b"".join(pstr(t) + u32(max(1, int(levels.get(t, 1)))) + u32(n) for t, n in army)
+    # danh sách @0x40 (BattleMgr+0xd8, getLevelTroop loại 1) = QUÂN BANG: [int n] n x [chuỗi][byte cấp][short số]
+    ct = [(t, int(n)) for t, n in sorted((clan_troops or {}).items()) if int(n) > 0]
+    d += u32(len(ct)) + b"".join(pstr(t) + u8(max(1, int(levels.get(t, 1)))) + u16(n) for t, n in ct)
     return d + bytes(2048)
