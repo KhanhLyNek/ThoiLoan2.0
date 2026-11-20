@@ -26,12 +26,13 @@ def build(st, log=None, account=None):
     d += f64(coin)                          # @0x64 G (ĐÃ XÁC NHẬN)
     d += u32(elixir)                        # @0x68 DẦU HỒNG (ĐÃ XÁC NHẬN)
     d += u32(dark)                          # @0x6c dầu đen (ĐOÁN)
-    d += f64(0) + f64(0) + f64(0)           # @0x78 @0x80 @0x88
+    d += f64(0) + f64(int(p.get("shield_end", 0))) + f64(0)  # @0x78, @0x80 GIỜ HẾT KHIÊN (GameDataMgr+0x128), @0x88
     d += f64(int(time.time()))              # @0x1f0 GIỜ MÁY CHỦ (giây) -> Utility::setCurTime
     d += u32(0)                             # @0xa4
     d += u32(p.get("tutorial_step", state.TUTORIAL_DONE))  # @0x110 TIẾN ĐỘ HƯỚNG DẪN (> 69 = xong)
     d += u32(clans.clan_id_of(account))     # @0xa8 ID BANG HỘI (GameDataMgr+0x318) -> vào game tự gửi 3037
-    d += u8(0)                              # cờ @0x98 = false (true sẽ đọc thêm 3 double)
+    cds = list(p.get("shield_cd", [0, 0, 0]))[:3]
+    d += u8(1) + b"".join(f64(int(c)) for c in cds)  # cờ + 3 double @0x98/@0x9c/@0xa0: giờ được mua lại khiên 1/2/3
     d += u8(0)                              # cờ @0x200
     d += f64(0) + u32(0) + f64(0)           # @0x130 @0x138 @0x140
     d += pstr("")                           # chuỗi thứ hai

@@ -48,7 +48,10 @@ def build(st, account=None):
     else:
         data += u16(0)
     data += lst("resources") + lst("storage") + lst("defense")
-    data += u16(0)                                          # tường: chưa hỗ trợ
+    walls = groups.get("wall", [])                          # tường: [int id][chuỗi loại][byte cấp][byte x][byte y]
+    data += u16(len(walls)) + b"".join(                     #  (trạng thái @0x68 game tự đặt)
+        u32(w["id"]) + pstr(w["type"]) + bytes([gamedata.display_level(w["type"], w["level"]) & 0xFF,
+                                                w["x"] & 0xFF, w["y"] & 0xFF]) for w in walls)
     clc = groups.get("clancastle")                          # lâu đài bang: cờ 1 + đối tượng + phần thêm
     if clc:                                                 # (game mặc định ai cũng có; thiếu -> mở luyện quân
         data += (u16(1) + _head(clc[0]) + TAIL              #  sập ở ClanCastleObject::getTotalTroopClan)

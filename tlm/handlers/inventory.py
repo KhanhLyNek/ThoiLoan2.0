@@ -82,6 +82,58 @@ def use_item_res(ctx, ctl, cmd, payload):
     return False
 
 
+@handler(10003)
+def use_item_item(ctx, ctl, cmd, payload):
+    """sendUseItemItem: [int id vật phẩm][short số lượng][int id công trình][chuỗi loại công trình].
+    Game tự áp dụng (onReceived không có nhánh 10003). Server trừ vật phẩm; loại 4 (giảm thời gian,
+    value = giây) thì rút ngắn thời gian xây/nâng cấp của công trình đích."""
+    try:
+        r = Reader(payload)
+        iid = r.u32(); n = max(1, r.u16())
+        tid = r.u32() if r.remaining() >= 4 else 0
+        ttype = r.str() if r.remaining() >= 2 else ""
+    except Exception as e:
+        ctx.log("dùng vật phẩm: không đọc được (%s)" % e)
+        return True
+    st = state.load(ctx.account)
+    it = next((i for i in st.get("items", []) if i["id"] == iid), None)
+    if it is None or int(it["count"]) <= 0:
+        ctx.log("dùng vật phẩm id=%d: không có trong kho" % iid)
+        return True
+    n = min(n, int(it["count"]))
+    value = int(gamedata.ITEMS.get(str(it["type"]), {}).get(str(it["sub"]), {}).get("value", 0))
+    note = ""
+    key = gamedata.ITEM_RES.get(str(it["type"]))
+    if key:
+        state.add_resource(st, key, value * n)
+        note = " -> +%d %s" % (value * n, key)
+    elif int(it["type"]) == 4 and tid:
+        b = state.find_building(st, tid, btype=ttype or None)
+        if b is not None and b.get("busy_until"):
+            b["busy_until"] = max(time.time(), float(b["busy_until"]) - value * n)
+            note = " -> %s id=%d bớt %d giây" % (b["type"], tid, value * n)
+    it["count"] = int(it["count"]) - n
+    state.save(st, ctx.account)
+    ctx.log("DÙNG %d x %s (còn %d)%s" % (n, item_name(it["type"], it["sub"]), it["count"], note))
+    return True
+
+
+@handler(2043)
+def reset_deco_by_item(ctx, ctl, cmd, payload):
+    """sendResetDecoByItem: [int id trang trí] - gia hạn trang trí bằng vật phẩm (không mất G)."""
+    try:
+        bid = Reader(payload).u32()
+    except Exception:
+        return False
+    st = state.load(ctx.account)
+    b = state.find_building(st, bid, category="DEC")
+    if b is not None:
+        b["placed_at"] = int(time.time())
+        state.save(st, ctx.account)
+    ctx.log("GIA HẠN TRANG TRÍ bằng vật phẩm id=%d" % bid)
+    return False
+
+
 @handler(2014)
 def reset_deco(ctx, ctl, cmd, payload):
     try:

@@ -16,6 +16,7 @@ from ..protocol.codec import Reader, f64, u32
 from . import handler
 
 _GEN = load_table("battle_gen.json")
+_TRAIN = load_table("train.json")          # thời gian luyện (giây) + giá dầu/dầu đen theo cấp
 
 
 def camp_capacity(st):
@@ -56,8 +57,16 @@ def train_troop(ctx, ctl, cmd, payload):
             space = int(_GEN["housing"].get(troop, 1))
             count = max(0, min(count, room // max(1, space)))
             troops[troop] = int(troops.get(troop, 0)) + count
+            info = _TRAIN.get(troop, {})
+            lvl = str(st.get("troop_levels", {}).get(troop, 1))
+            elixir = int(info.get("elixir", {}).get(lvl, 0)) * count
+            dark = int(info.get("dark", {}).get(lvl, 0)) * count
+            state.spend(st, elixir=elixir, dark=dark)       # game tự trừ khi bấm luyện
+            ends = st.setdefault("train_end", {})
+            ends[str(bid)] = max(float(ends.get(str(bid), 0)), time.time()) + int(info.get("time", 20)) * count
             state.save(st, ctx.account)
-            note = ": %s +%d (tổng %d, trại %d/%d chỗ)" % (troop, count, troops[troop], used_space(troops), camp_capacity(st))
+            note = ": %s +%d (tổng %d, trại %d/%d chỗ, -%d dầu -%d dầu đen)" % (
+                troop, count, troops[troop], used_space(troops), camp_capacity(st), elixir, dark)
         except Exception as e:
             note = " (không đọc được dữ liệu: %s)" % e
     ctx.log("LUYỆN QUÂN cmd %d trại id=%d%s" % (cmd, bid, note))

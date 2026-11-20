@@ -23,7 +23,7 @@ ITEM_RES = {"1": "gold", "2": "elixir", "3": "dark_elixir"}   # túi tài nguyê
 # Nhóm danh sách trong BuildingInfo theo tiền tố tên (chỉ nhóm đã xác nhận định dạng qua readData).
 CATEGORY = {"TOW": "townhall", "BAR": "barrack", "AMC": "armycamp", "LAB": "lab", "RES": "resources",
             "STO": "storage", "DEF": "defense", "CLC": "clancastle", "BDH": "builderhut", "TRA": "trap",
-            "DEC": "decoration", "KQB": "kqbarrack"}
+            "DEC": "decoration", "KQB": "kqbarrack", "WAL": "wall"}
 SINGLE = {"townhall", "lab", "clancastle"}
 SINGLE_TYPE = {"kqbarrack"}                        # mỗi LOẠI chỉ 1 (KQB_1..KQB_5 mỗi cái 1 nhà)
 

@@ -183,6 +183,16 @@ def pay(st, btype, level):
     return c
 
 
+def spend(st, gold=0, elixir=0, dark=0, coin=0):
+    """Trừ tài nguyên trên số thực có (không âm). Trả về True nếu đủ."""
+    g, e, d, c, _ = effective_resources(st)
+    p = st["player"]
+    ok = g >= gold and e >= elixir and d >= dark and c >= coin
+    p["gold"], p["elixir"], p["dark_elixir"], p["coin"] = (
+        max(0, g - gold), max(0, e - elixir), max(0, d - dark), max(0, c - coin))
+    return ok
+
+
 def add_resource(st, key, amount):
     gold, elixir, dark, coin, (cg, ce, cd) = effective_resources(st)
     cur = {"gold": gold, "elixir": elixir, "dark_elixir": dark}[key]
