@@ -68,6 +68,8 @@ def _obstacle_done(ctx, ctl, bid, btype):
     p = st["player"]
     p["coin"] = int(p.get("coin", 0)) + g
     p["exp"] = int(p.get("exp", 0)) + exp
+    from .profile import add_progress
+    add_progress(st, 4, 1)                      # thành tựu dọn chướng ngại
     state.save(st, ctx.account)
     ctx.push(ctl, 2011, u32(bid) + u8(g) + u32(0) + bytes(256),
              " RemoveComplete id=%d: +%d G, +%d kinh nghiệm" % (bid, g, exp))

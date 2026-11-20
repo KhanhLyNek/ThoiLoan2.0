@@ -136,6 +136,12 @@ def end_battle(ctx, ctl, cmd, payload):
         if int(p.get("single_map", 1)) <= lvl < MAX_MAP:
             p["single_map"] = lvl + 1
             note += ", mở màn %d" % (lvl + 1)
+    from .profile import add_progress
+    add_progress(st, 2, stars)
+    add_progress(st, 6, gold)
+    add_progress(st, 7, elixir)
+    if stars > 0:
+        add_progress(st, 13, 1)
     if battle.get("kind") in ("real", "pvp"):
         from .ranking import change_trophy
         gain = (10 if battle["kind"] == "real" else 5) * stars if stars > 0 else -5
@@ -163,6 +169,9 @@ def _hit_victim(ctx, victim, gold, elixir, dark, percent, stars):
         p["shield_end"] = int(time.time()) + hours * 3600
     if stars > 0:
         p["trophy"] = max(0, int(p.get("trophy", 0)) - 8 * stars)
+    else:
+        from .profile import add_progress
+        add_progress(vst, 14, 1)                 # phòng thủ thành công
     me = state.load(ctx.account)["player"].get("name", ctx.account)
     log = vst.setdefault("defense_log", [])
     log.append({"t": int(time.time()), "by": ctx.account, "name": me, "stars": stars, "percent": percent,
