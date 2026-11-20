@@ -69,6 +69,19 @@ Lần chạy đầu với MySQL, các tài khoản JSON có sẵn được tự 
 thể dùng `{"type": "sqlite"}` (có sẵn trong Python). Nếu không mở được MySQL, server báo lỗi và dừng
 (không tự chơi trên bản JSON cũ để tránh lệch dữ liệu).
 
+## Chơi cùng bạn bè (v6.4)
+
+Mỗi người dùng **một tài khoản riêng** trên cùng server: chung bang hội, chat bang hiện ngay cho người đang
+online, và khi bấm **Tấn công** có 70% gặp làng **người chơi thật** (nhà chính lệch tối đa 2 cấp, không có khiên).
+Người bị đánh mất phần tài nguyên bị cướp (tối đa 20% vàng/dầu, 10% dầu đen) và được khiên 12/14/16 giờ
+(phá >= 30% / 60% / 90%). Đi đánh thì mất khiên của mình.
+
+Kết nối từ ngoài mạng nhà (đơn giản nhất: **Tailscale**, miễn phí):
+1. Cài Tailscale trên máy chạy server và trên điện thoại của bạn bè, đăng nhập cùng một mạng (hoặc chia sẻ máy).
+2. Xem IP Tailscale của máy chạy server (dạng `100.x.y.z`).
+3. Chạy server với IP đó: `TLM_IP=100.x.y.z python server.py`.
+4. APK của bạn bè phải trỏ trang `/info` tới `100.x.y.z:8080` thay vì `127.0.0.1` (cần bản APK vá theo IP này).
+
 ## Dữ liệu người chơi (`/sdcard/ThoiLoan2.0/`)
 
 | File | Ý nghĩa |

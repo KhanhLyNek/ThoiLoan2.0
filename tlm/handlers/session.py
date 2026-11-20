@@ -14,6 +14,8 @@ def login(ctx, ctl, cmd, payload):
         key = ""
     if key:
         ctx.account = key
+    from .context import register
+    register(ctx)
     ctx.log("tài khoản: %s" % ctx.account)
     return False                      # server tự trả lời "thành công"
 

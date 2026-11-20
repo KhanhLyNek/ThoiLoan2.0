@@ -26,6 +26,7 @@ import time
 from .. import clans, state
 from ..protocol.codec import Reader, f64, pstr, u8, u32
 from . import handler
+from .context import push_to
 
 CREATE_GOLD = 40000            # CreateClanGUI::createClan -> CityMgr::useRes(40000 vàng)
 
@@ -65,6 +66,18 @@ def _read_info(payload):
 
 def push_reload(ctx, ctl, cid):
     ctx.push(ctl, 3033, u32(cid) + bytes(16), " [tải lại bang %d]" % cid)
+    broadcast(ctx, cid, ctl, 3033, u32(cid) + bytes(16), " [bang %d thay đổi]" % cid)
+
+
+def broadcast(ctx, c, ctl, cmd, data, note="", include=()):
+    """Đẩy cho các thành viên THẬT khác của bang đang online (và các tài khoản trong include)."""
+    if not isinstance(c, dict):
+        c = clans.get(c)
+    accs = {m["account"] for m in (c or {}).get("members", []) if m.get("account")} | set(include)
+    accs.discard(ctx.account)
+    n = sum(push_to(a, ctl, cmd, data, note) for a in accs)
+    if n:
+        ctx.log("    -> báo cho %d kết nối khác trong bang" % n)
 
 
 @handler(3003)
@@ -150,13 +163,17 @@ def join_clan(ctx, ctl, cmd, payload):
         ctx.reply(ctl, cmd, 1, bytes(16), "GỬI cmd=3005 không vào được bang id=%d" % cid)
         return True
     ctx.reply(ctl, cmd, 0, bytes(16), "GỬI cmd=3005 VÀO BANG \"%s\" id=%d" % (c["name"], cid))
-    push_reload(ctx, ctl, cid)
+    ctx.push(ctl, 3033, u32(cid) + bytes(16), " [tải lại bang %d]" % cid)
+    broadcast(ctx, c, ctl, 3018, u32(uid) + bytes(16), " [%s vào bang]" % pname)
     return True
 
 
 @handler(3006)
 def leave_clan(ctx, ctl, cmd, payload):
+    uid = clans.uid_of(ctx.account)
     c = clans.leave(ctx.account)
+    if c:
+        broadcast(ctx, c, ctl, 3020, u32(uid) + bytes(16), " [thành viên rời bang]")
     ctx.reply(ctl, cmd, 0, bytes(16), "GỬI cmd=3006 RỜI BANG %s" % (("\"%s\"" % c["name"]) if c else "(không có)"))
     return True
 
@@ -183,6 +200,8 @@ def kick_member(ctx, ctl, cmd, payload):
     clans.save()
     ctx.reply(ctl, cmd, 0, bytes(16), "GỬI cmd=3008 ĐUỔI %s khỏi bang" % m["name"])
     ctx.push(ctl, 3020, u32(target) + bytes(16), " [%s rời bang]" % m["name"])
+    broadcast(ctx, c, ctl, 3020, u32(target) + bytes(16), " [%s bị đuổi]" % m["name"],
+              include=[m["account"]] if m.get("account") else [])
     return True
 
 
@@ -226,6 +245,7 @@ def clan_chat(ctx, ctl, cmd, payload):
     del c["chat"][:-clans.CHAT_KEEP]
     clans.save()
     ctx.push(ctl, 4002, _chat_frame(uid, msg), " [chat: %s]" % msg)
+    broadcast(ctx, c, ctl, 4002, _chat_frame(uid, msg), " [chat bang]")
     return True
 
 

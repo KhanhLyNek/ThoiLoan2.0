@@ -85,6 +85,8 @@ class TcpHandler(socketserver.BaseRequestHandler):
                     if fr is None:
                         break
                     self.on_frame(ctx, *fr)
+        from .handlers.context import unregister
+        unregister(ctx)
 
     def on_frame(self, ctx, hdr, body):
         tag = ctx.tag

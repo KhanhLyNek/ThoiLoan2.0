@@ -1,13 +1,51 @@
-"""Ngữ cảnh một kết nối: gửi khung, ghi log."""
+"""Ngữ cảnh một kết nối: gửi khung, ghi log. LIVE = các kết nối game đang mở theo tài khoản
+(để đẩy tin cho người chơi khác: chat bang, có người vào/rời bang...)."""
+import threading
+
 from .. import config
 from ..logger import log
 from ..protocol.commands import RECV_CLASS
 from ..protocol.frame import build_frame
 
 
+_live_lock = threading.Lock()
+LIVE = {}                            # tài khoản -> set(Context)
+
+
+def register(ctx):
+    if "GAME" not in ctx.tag:
+        return
+    with _live_lock:
+        for s in LIVE.values():
+            s.discard(ctx)
+        LIVE.setdefault(ctx.account, set()).add(ctx)
+
+
+def unregister(ctx):
+    with _live_lock:
+        for s in LIVE.values():
+            s.discard(ctx)
+
+
+def online(account):
+    with _live_lock:
+        return list(LIVE.get(account, ()))
+
+
+def push_to(account, ctl, cmd, data, note="", skip=None):
+    """Đẩy gói tới mọi kết nối game đang mở của tài khoản (trừ skip). Trả về số kết nối đã gửi."""
+    n = 0
+    for c in online(account):
+        if c is not skip:
+            c.push(ctl, cmd, data, note)
+            n += 1
+    return n
+
+
 class Context:
     def __init__(self, sock, tag):
         self.sock, self.tag = sock, tag
+        self._send_lock = threading.Lock()
         self.silent = False          # True khi replies.json đã trả lời thay (handler chỉ chạy logic)
         self.account = "default"     # tài khoản (sessionKey), gán khi game gửi Login (cmd 1)
         self.battle = None           # trận đang đánh (phó bản / chinh phạt), gán ở cmd 9001
@@ -19,7 +57,8 @@ class Context:
         if self.silent:
             return
         try:
-            self.sock.sendall(frame)
+            with self._send_lock:
+                self.sock.sendall(frame)
             self.log("-> %s (%d byte)" % (desc, len(frame)))
         except OSError as e:
             self.log("gửi thất bại: %s" % e)

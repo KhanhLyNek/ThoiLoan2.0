@@ -18,13 +18,51 @@
 11018: đội quân mang vào trận [short số loại] + [chuỗi][short] (chỉ ghi log).
 """
 import random
+import time
 
-from .. import botbase, state
+from .. import botbase, clans, state
 from ..packets import battle_info
 from ..protocol.codec import Reader, u8
 from . import handler
 
 MAX_MAP = 50
+REAL_CHANCE = 0.7          # tỉ lệ gặp làng NGƯỜI CHƠI THẬT (nếu có ai hợp lệ) thay vì làng máy
+LOOT_RATE = (0.2, 0.2, 0.1)  # phần trăm vàng / dầu / dầu đen có thể cướp
+SHIELD_AFTER = ((90, 16), (60, 14), (30, 12))   # % phá -> số giờ khiên cho người bị đánh
+
+
+def _real_opponents(account, player_th):
+    """Tài khoản khác: nhà chính lệch <= 2 cấp, không có khiên."""
+    now = time.time()
+    out = []
+    for acc in state.list_accounts():
+        if acc == account:
+            continue
+        try:
+            st = state.load(acc)
+        except Exception:
+            continue
+        th = next((b["level"] for b in st["buildings"] if b["type"] == "TOW_1"), 1)
+        if abs(th - player_th) <= 2 and float(st["player"].get("shield_end", 0)) <= now:
+            out.append((acc, st, th))
+    return out
+
+
+def real_base(st):
+    """Làng người chơi thật -> danh sách công trình cho BattleInfo (đánh số lại id 1..n, chia chiến lợi phẩm)."""
+    allowed = botbase.GEN["size"]
+    out = [dict(id=0, type=b["type"], x=b["x"], y=b["y"], level=b["level"]) for b in st["buildings"]
+           if b["type"] in allowed]
+    gold, elixir, dark, _, _ = state.effective_resources(st)
+    for key, total, kinds in (("gold", int(gold * LOOT_RATE[0]), ("TOW_1", "STO_1", "RES_1")),
+                              ("elixir", int(elixir * LOOT_RATE[1]), ("TOW_1", "STO_2", "RES_2")),
+                              ("dark", int(dark * LOOT_RATE[2]), ("TOW_1", "STO_3", "RES_3"))):
+        holders = [b for b in out if b["type"] in kinds] or out[:1]
+        for i, b in enumerate(holders):
+            b[key] = b.get(key, 0) + total // len(holders) + (1 if i < total % len(holders) else 0)
+    for i, b in enumerate(out, 1):
+        b["id"] = i
+    return out
 
 
 @handler(9001)
@@ -39,10 +77,23 @@ def find_battle(ctx, ctl, cmd, payload):
         what = "PHÓ BẢN màn %d" % level
     else:
         player_th = next((b["level"] for b in st["buildings"] if b["type"] == "TOW_1"), 1)
-        base, name, th, seed = botbase.random_enemy(player_th)
-        ctx.battle = {"kind": "pvp", "seed": seed, "dropped": {}}
-        enemy_id = 900000 + seed % 100000
-        what = "CHINH PHẠT"
+        real = _real_opponents(ctx.account, player_th)
+        if real and random.random() < REAL_CHANCE:
+            acc, vst, th = random.choice(real)
+            base = real_base(vst)
+            name = str(vst["player"].get("name", acc))
+            ctx.battle = {"kind": "real", "victim": acc, "dropped": {}}
+            enemy_id = clans.uid_of(acc)
+            what = "CHINH PHẠT NGƯỜI CHƠI THẬT (%s)" % acc
+        else:
+            base, name, th, seed = botbase.random_enemy(player_th)
+            ctx.battle = {"kind": "pvp", "seed": seed, "dropped": {}}
+            enemy_id = 900000 + seed % 100000
+            what = "CHINH PHẠT"
+        if float(st["player"].get("shield_end", 0)) > time.time():   # đi đánh -> mất khiên
+            st["player"]["shield_end"] = 0
+            state.save(st, ctx.account)
+            ctx.log("    đi đánh nên MẤT KHIÊN")
     loot = [sum(b.get(k, 0) for b in base) for k in ("gold", "elixir", "dark")]
     ctx.log("%s: đối thủ '%s', nhà chính cấp %d, %d công trình, chiến lợi phẩm vàng %d / dầu %d / dầu đen %d"
             % (what, name, th, len(base), loot[0], loot[1], loot[2]))
@@ -82,11 +133,34 @@ def end_battle(ctx, ctl, cmd, payload):
             p["single_map"] = lvl + 1
             note += ", mở màn %d" % (lvl + 1)
     state.save(st, ctx.account)
+    if battle.get("kind") == "real":
+        note += _hit_victim(ctx, battle["victim"], gold, elixir, dark, percent, stars)
     ctx.battle = None
     ctx.log("KẾT THÚC TRẬN: %d sao, phá %d%%, cướp vàng %d / dầu %d / dầu đen %d%s"
             % (stars, percent, gold, elixir, dark, note))
     ctx.reply(ctl, 9014, 0, u8(0) + u8(0) + bytes(256), "GỬI cmd=9014 kết quả trận (cho phép về nhà)")
     return True
+
+
+def _hit_victim(ctx, victim, gold, elixir, dark, percent, stars):
+    """Trừ tài nguyên người bị đánh (không quá phần cướp được), cho khiên theo % phá, ghi nhật ký phòng thủ."""
+    vst = state.load(victim)
+    p = vst["player"]
+    g, e, d, _, _ = state.effective_resources(vst)
+    lost = (min(max(gold, 0), int(g * LOOT_RATE[0]) + 1), min(max(elixir, 0), int(e * LOOT_RATE[1]) + 1),
+            min(max(dark, 0), int(d * LOOT_RATE[2]) + 1))
+    state.spend(vst, gold=lost[0], elixir=lost[1], dark=lost[2])
+    hours = next((h for pct, h in SHIELD_AFTER if percent >= pct or stars >= 3 and pct == 90), 0)
+    if hours:
+        p["shield_end"] = int(time.time()) + hours * 3600
+    me = state.load(ctx.account)["player"].get("name", ctx.account)
+    log = vst.setdefault("defense_log", [])
+    log.append({"t": int(time.time()), "by": ctx.account, "name": me, "stars": stars, "percent": percent,
+                "lost": list(lost)})
+    del log[:-30]
+    state.save(vst, victim)
+    return ", %s mất vàng %d / dầu %d / dầu đen %d%s" % (victim, lost[0], lost[1], lost[2],
+                                                          (", được khiên %d giờ" % hours) if hours else "")
 
 
 def _count_drop(ctx, troop):
