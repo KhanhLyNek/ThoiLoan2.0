@@ -25,8 +25,9 @@ def push_city(ctx, ctl, with_player=False):
     if not config.PUSH_ENABLED:
         return
     st = state.load(ctx.account)
-    from .army import fit_to_camps
-    if fit_to_camps(st):
+    from .army import fit_to_camps, settle_training
+    moved = settle_training(st)
+    if fit_to_camps(st) or moved:
         state.save(st, ctx.account)
     if with_player:
         ctx.push(ctl, 1001, player_info.build(st, log=ctx.log, account=ctx.account), " [thông tin người chơi]")
@@ -34,6 +35,11 @@ def push_city(ctx, ctl, with_player=False):
              " [%d công trình + %d chướng ngại]" % (len(st["buildings"]), len(st.get("obstacles", []))))
     ctx.push(ctl, 1003, troop_info.build(st),
              " [quân: %s]" % (", ".join("%s x%s" % kv for kv in sorted(st.get("troops", {}).items())) or "trống"))
+    from .research import push_levels, settle_research
+    if settle_research(ctx, st):
+        state.save(st, ctx.account)
+    if any(b["type"] == "LAB_1" for b in st["buildings"]):
+        push_levels(ctx, ctl, st)
 
 
 @handler(1001)

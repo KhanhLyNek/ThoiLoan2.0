@@ -15,7 +15,7 @@
 9014 (server -> game, lớp ErrorCode) = KẾT QUẢ TRẬN, gửi sau 9003. BattleMgr::onGetBattleResult đọc
      [bool][byte số vật phẩm][...]; onGetBattleUpdate đặt cờ "đã có kết quả" (BattleMgr+0x18d) và gọi
      CityMgr::returnMyHome. Thiếu gói này -> màn mây/chim bay đứng mãi, không về được nhà.
-11018: đội quân mang vào trận [short số loại] + [chuỗi][short] (chỉ ghi log).
+11018: đội quân mang vào trận [short số loại] + [chuỗi][short] -> ghi đè state["troops"] (game là nguồn đúng).
 """
 import random
 import time
@@ -229,8 +229,12 @@ def army_to_battle(ctx, ctl, cmd, payload):
     try:
         r = Reader(payload)
         n = r.u16()
-        army = ["%s x%d" % (r.str(), r.u16()) for _ in range(n)]
-        ctx.log("QUÂN VÀO TRẬN: %s" % ", ".join(army))
+        army = [(r.str(), r.u16()) for _ in range(n)]
+        # quân game thật sự có trong trại -> đồng bộ (game là nguồn đúng; server có thể lệch vì hàng đợi luyện)
+        st = state.load(ctx.account)
+        st["troops"] = {t: c for t, c in army if c > 0}
+        state.save(st, ctx.account)
+        ctx.log("QUÂN VÀO TRẬN (đồng bộ trại quân theo game): %s" % ", ".join("%s x%d" % a for a in army))
     except Exception as e:
         ctx.log("quân vào trận: không đọc được (%s)" % e)
     return True                       # game không chờ phản hồi lệnh này

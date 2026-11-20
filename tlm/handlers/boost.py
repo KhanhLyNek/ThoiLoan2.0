@@ -61,6 +61,12 @@ def quick_train(ctx, ctl, cmd, payload):
     g = time_cost(left) if left else 0
     state.spend(st, coin=g)
     st.setdefault("train_end", {})[str(bid)] = 0
+    q = st.get("train_queue", {}).get(str(bid), [])
+    troops = st.setdefault("troops", {})
+    for troop, n in q:
+        troops[troop] = int(troops.get(troop, 0)) + int(n)
+    if str(bid) in st.get("train_queue", {}):
+        st["train_queue"][str(bid)] = []
     state.save(st, ctx.account)
     ctx.log("LUYỆN NHANH trại id=%d: còn %d giây -> -%d G" % (bid, left, g))
     return False
