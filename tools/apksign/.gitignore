@@ -1,0 +1,4 @@
+apksig.jar
+testkey.pk8
+testkey.x509.pem
+*.class

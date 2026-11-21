@@ -69,6 +69,22 @@ Lần chạy đầu với MySQL, các tài khoản JSON có sẵn được tự 
 thể dùng `{"type": "sqlite"}` (có sẵn trong Python). Nếu không mở được MySQL, server báo lỗi và dừng
 (không tự chơi trên bản JSON cũ để tránh lệch dữ liệu).
 
+## Theme mùa đông - Giáng sinh (v7.2)
+
+Game gốc có sẵn hệ thống giao diện theo mùa (bản 2018) kèm hiệu ứng **tuyết rơi**; server dựng lại theme mùa đông:
+cảnh quanh làng phủ tuyết, suối đóng băng, nền ô tuyết, cây thông Noel có đèn và ngôi sao, tuyết rơi trên làng.
+
+1. Cài **APK mới** (vá địa chỉ tải theme về server, cùng chữ ký nên cài đè được, không mất dữ liệu).
+2. Chạy server như thường (`tl`).
+3. Trong game: **Cài đặt > Giao diện** > đồng ý. Game tự tải theme (~2,3 MB) rồi báo khởi động lại.
+4. Mở lại game: làng mùa đông + tuyết rơi. Muốn về giao diện thường: bấm lại nút Giao diện.
+
+- Tắt hẳn theme phía server: `python server.py --no-theme` (game bỏ qua theme dù đã tải).
+- Thay theme khác: đặt file `theme.obb` vào thư mục dữ liệu (ưu tiên hơn bản kèm server).
+- Tự dựng lại / chỉnh theme: `python tools/theme/build_winter.py <OBB gốc> <APK> [ra.obb]`.
+- Vá APK cho bạn bè (IP Tailscale): `python tools/patch_apk.py ThoiLoan.apk ThoiLoan_ban.apk --ip 100.x.y.z`
+  (cần Java; lần đầu tự tải apksig + khoá testkey). Vá cả địa chỉ /info lẫn địa chỉ theme.
+
 ## Nhật ký trận, xem lại, trả thù (v7.0)
 
 - Mỗi trận chinh phạt được ghi lại: làng đối thủ lúc đánh, từng lính thả (loại, ô, thời điểm), sao, % phá, chiến lợi phẩm.
