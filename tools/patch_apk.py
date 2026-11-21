@@ -9,6 +9,7 @@ Vá trong lib/arm64-v8a/*.so (chuỗi ghi đè tại chỗ, phần thừa đệm
 Cách dùng (cần Java: Termux `pkg install openjdk-17`; máy tính: JDK bất kỳ):
   python tools/patch_apk.py ThoiLoan.apk ThoiLoan_vá.apk                 # IP 127.0.0.1 (server trên chính máy)
   python tools/patch_apk.py ThoiLoan.apk ThoiLoan_ban.apk --ip 100.64.1.2  # cho bạn bè qua Tailscale
+  --replace classes2.dex=tools/obbgate/build/classes2.dex   thay file trong APK (trình tải OBB, xem tools/obbgate)
 Lần đầu tự tải apksig.jar (Google Maven) và testkey (mã nguồn AOSP) vào tools/apksign/.
 """
 import argparse
@@ -80,7 +81,9 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("src"); ap.add_argument("dst")
     ap.add_argument("--ip", default="127.0.0.1"); ap.add_argument("--port", type=int, default=8080)
+    ap.add_argument("--replace", action="append", default=[], help="TÊN_TRONG_APK=file_thay")
     a = ap.parse_args()
+    repl = dict(r.split("=", 1) for r in a.replace)
     ensure_tools()
     tmp = tempfile.NamedTemporaryFile(suffix=".apk", delete=False).name
     with zipfile.ZipFile(a.src) as zi, zipfile.ZipFile(tmp, "w") as zo:
@@ -89,10 +92,15 @@ def main():
             if re.match(r"META-INF/[^/]+\.(SF|RSA|DSA|EC)$|META-INF/MANIFEST\.MF$", n):
                 continue                                         # chữ ký cũ
             data = zi.read(n)
+            if n in repl:
+                data = open(repl.pop(n), "rb").read()
+                print("Thay %s (%d byte)" % (n, len(data)))
             if n.startswith("lib/arm64-v8a/") and n.endswith(".so"):
                 data, done = patch_so(data, a.ip, a.port)
                 print("Vá %s: %s" % (n, ", ".join("%s x%d" % d for d in done)))
             zo.writestr(info, data, compress_type=info.compress_type)
+    if repl:
+        raise SystemExit("Không có trong APK: " + ", ".join(repl))
     pk = os.path.join(SIGN_DIR, "testkey.pk8"); cert = os.path.join(SIGN_DIR, "testkey.x509.pem")
     cp = os.pathsep.join([os.path.join(SIGN_DIR, "apksig.jar"), SIGN_DIR])
     subprocess.check_call(["java", "-cp", cp, "Sign", pk, cert, tmp, a.dst, "14"])

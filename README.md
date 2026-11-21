@@ -85,6 +85,14 @@ cảnh quanh làng phủ tuyết, suối đóng băng, nền ô tuyết, cây th
 - Vá APK cho bạn bè (IP Tailscale): `python tools/patch_apk.py ThoiLoan.apk ThoiLoan_ban.apk --ip 100.x.y.z`
   (cần Java; lần đầu tự tải apksig + khoá testkey). Vá cả địa chỉ /info lẫn địa chỉ theme.
 
+### Tự tải dữ liệu game (OBB) khi cài mới / gỡ ra cài lại
+
+Gỡ app thì Android xoá luôn OBB (~43 MB). APK vá có trình tải riêng (tools/obbgate, thay trình tải Google Play đã chết):
+thiếu OBB -> tải từ server (`/obb`, nhanh nếu đặt file `main.1380.gsn.zps.thoiloan.obb` vào thư mục dữ liệu),
+không có thì tải từ Google Drive; hiện tiến độ trên màn hình chờ, đứt mạng thì tự thử lại và tải tiếp.
+Dựng lại: `python tools/obbgate/build.py ThoiLoan.apk` rồi
+`python tools/patch_apk.py ThoiLoan.apk ra.apk --replace classes2.dex=tools/obbgate/build/classes2.dex`.
+
 ## Nhật ký trận, xem lại, trả thù (v7.0)
 
 - Mỗi trận chinh phạt được ghi lại: làng đối thủ lúc đánh, từng lính thả (loại, ô, thời điểm), sao, % phá, chiến lợi phẩm.
