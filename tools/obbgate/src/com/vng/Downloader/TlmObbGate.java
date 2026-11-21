@@ -67,7 +67,13 @@ public class TlmObbGate implements Runnable {
                             if (!tmp.renameTo(dst)) throw new Exception("không đổi tên được file tải về");
                             ui("Tải xong, đang kiểm tra dữ liệu...", 100);
                             final SampleDownloaderActivity a = act;
-                            ctx.runOnUiThread(new Runnable() { public void run() { a.validateXAPKZipFiles(); } });
+                            final String path = dst.getPath();
+                            ctx.runOnUiThread(new Runnable() { public void run() {
+                                // ThoiLoan.checkResource() đã gọi addResouceZFile() lúc file CHƯA có -> gắn hụt.
+                                // Gắn lại OBB vừa tải trước khi cho vào game (thiếu thì văng ở LoadingGui: cloud_1.png).
+                                try { com.vng.thoiloan.ThoiLoan.addResourceFile(path); } catch (Throwable e) { /* bỏ qua */ }
+                                a.validateXAPKZipFiles();
+                            } });
                             return;
                         }
                         tmp.delete();               // sai kích thước -> tải lại từ đầu
