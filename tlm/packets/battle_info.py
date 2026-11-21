@@ -11,7 +11,9 @@ Tiếp theo: int số loại LÍNH CỦA NGƯỜI ĐÁNH, mỗi loại [chuỗi 
          (v5.2 trở về trước gửi ngược -> 20 lính cấp 1 hiện thành 1 lính "cấp 20" không có chỉ số, chết ngay.)
          Gửi rỗng -> vào trận không có lính để thả.
 Tiếp theo: QUÂN BANG (@0x40) [int n] n x [chuỗi][byte cấp][short số].
-Phó bản (int đầu = 1000 + màn > 1): danh sách lính @0x30 = lính ĐƯỢC CHỌN, @0x14c = sức chứa.
+Phó bản (int đầu = 1000 + màn > 1): danh sách lính @0x30 = BẢNG CHỌN của SingleBattleSelectGUI (this+0x208):
+         mỗi loại lính đã mở, SỐ LƯỢNG = số đang chọn sẵn (addTroop cộng vào đây, > 0 thì hiện ở hàng trên) -> gửi 0.
+         @0x14c = sức chứa (addTroop chặn khi chỗ ở lính > sức chứa - đã chọn).
 Sau đó là nhiều danh sách phụ (quân hỗ trợ @0x48, phép @0x38, bẫy, vật phẩm, ...) và 7 double: gửi 0 = rỗng (đã kiểm tra
 mọi nhánh số lượng 0 đều bỏ qua).
 """
@@ -20,14 +22,15 @@ from ..botbase import MAP_W
 from ..protocol.codec import pstr, u8, u16, u32
 
 
-def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_troops=None, single_capacity=0):
+def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_troops=None, single_capacity=0,
+          keep_zero=False):
     d = u32(enemy_id) + pstr(name) + u32(th_level) + u32(0) + u8(0) + pstr("") + u32(0) + pstr("") + u32(0)
     d += u32(len(base))
     for b in base:
         lvl = gamedata.display_level(b["type"], b["level"])
         d += (u32(b["id"]) + pstr(b["type"]) + u32(b["y"] * MAP_W + b["x"]) + u32(lvl)
               + u32(b.get("gold", 0)) + u32(b.get("elixir", 0)) + u32(b.get("dark", 0)) + u32(0))
-    army = [(t, int(n)) for t, n in sorted((troops or {}).items()) if int(n) > 0]
+    army = [(t, int(n)) for t, n in sorted((troops or {}).items()) if int(n) > 0 or keep_zero]
     levels = troop_levels or {}
     d += u32(len(army)) + b"".join(pstr(t) + u32(max(1, int(levels.get(t, 1)))) + u32(n) for t, n in army)
     # danh sách @0x40 (BattleMgr+0xd8, getLevelTroop loại 1) = QUÂN BANG: [int n] n x [chuỗi][byte cấp][short số]

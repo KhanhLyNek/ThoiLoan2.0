@@ -69,19 +69,19 @@ def real_base(st):
 
 
 def single_choices(st):
-    """Phó bản không dùng quân nhà: được chọn mọi loại lính đã mở theo cấp trại lính (Barrack.json unlockedUnit),
-    số lượng đủ lấp đầy sức chứa trại quân."""
-    from .army import camp_capacity
+    """Phó bản không dùng quân nhà: bảng chọn = mọi loại lính đã mở theo cấp trại lính (Barrack.json unlockedUnit).
+    SỐ LƯỢNG = SỐ ĐANG CHỌN SẴN (SingleBattleSelectGUI::addTroop cộng thẳng vào trường này, loại nào > 0 hiện ở hàng
+    trên) -> gửi 0 để hàng trên trống, người chơi tự chọn trong giới hạn sức chứa trại quân ở nhà (@0x14c).
+    Lính chọn ở phó bản không lấy từ trại và không mang về nhà."""
     unlock = botbase.GEN.get("barrack_unlock", {})
-    cap = max(1, camp_capacity(st))
     out = {}
     for kind in ("BAR_1", "BAR_2"):
         top = max([b["level"] for b in st["buildings"] if b["type"] == kind] or [0])
         for lvl in range(1, top + 1):
             t = unlock.get(kind, {}).get(str(lvl))
             if t:
-                out[t] = max(1, cap // max(1, int(botbase.GEN["housing"].get(t, 1))))
-    return out or {"ARM_1": cap}
+                out[t] = 0
+    return out or {"ARM_1": 0}
 
 
 @handler(9001)
@@ -124,7 +124,7 @@ def start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id, what):
     from .army import camp_capacity
     if ctx.battle["kind"] == "single":
         troops, cap = single_choices(st), camp_capacity(st)
-        ctx.log("    phó bản: chọn lính tự do (%s), sức chứa %d chỗ" % (", ".join(sorted(troops)), cap))
+        ctx.log("    phó bản: bảng chọn %s (hàng trên trống, tự chọn), sức chứa %d chỗ" % (", ".join(sorted(troops)), cap))
         clan = None
     else:
         troops, cap, clan = st.get("troops", {}), 0, st.get("clan_troops")
@@ -134,7 +134,7 @@ def start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id, what):
                              "t": int(time.time())}
         ctx.battle["actions"] = {}
     ctx.reply(ctl, reply_cmd, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"), clan,
-                                                     single_capacity=cap), "GỬI cmd=%d BattleInfo (%s)" % (reply_cmd, what))
+                                                     single_capacity=cap, keep_zero=ctx.battle["kind"] == "single"), "GỬI cmd=%d BattleInfo (%s)" % (reply_cmd, what))
     return True
 
 
