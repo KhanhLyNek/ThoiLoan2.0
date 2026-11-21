@@ -81,6 +81,14 @@ def uid_of(account):
         return d["uids"][account]
 
 
+def account_of_uid(uid):
+    """Ngược lại của uid_of: userId -> tài khoản (None nếu không có / là người máy)."""
+    for acc, u in db()["uids"].items():
+        if int(u) == int(uid):
+            return acc
+    return None
+
+
 def get(cid):
     return db()["clans"].get(str(int(cid)))
 

@@ -17,11 +17,13 @@
      [bool][byte số vật phẩm][...]; onGetBattleUpdate đặt cờ "đã có kết quả" (BattleMgr+0x18d) và gọi
      CityMgr::returnMyHome. Thiếu gói này -> màn mây/chim bay đứng mãi, không về được nhà.
 11018: đội quân mang vào trận [short số loại] + [chuỗi][short] -> ghi đè state["troops"] (game là nguồn đúng).
+9003 phần đuôi (sau chuỗi kiểm tra): [int tổng số lần thả][int n] n x [chuỗi lính][int ô][int nhịp] = hàng đợi thả lính.
+GHI TRẬN (xem lại / nhật ký): mọi lần thả (9002 + 9012 + đuôi 9003) gom theo (lính, ô, nhịp) -> replays.py.
 """
 import random
 import time
 
-from .. import botbase, clans, state
+from .. import botbase, clans, replays, state
 from ..packets import battle_info
 from ..protocol.codec import Reader, u8
 from . import handler
@@ -111,6 +113,11 @@ def find_battle(ctx, ctl, cmd, payload):
             st["player"]["shield_end"] = 0
             state.save(st, ctx.account)
             ctx.log("    đi đánh nên MẤT KHIÊN")
+    return start_battle(ctx, ctl, 9001, st, base, name, th, enemy_id, what)
+
+
+def start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id, what):
+    """Gửi BattleInfo (9001 tìm trận / 9013 trả thù) và chuẩn bị ghi trận."""
     loot = [sum(b.get(k, 0) for b in base) for k in ("gold", "elixir", "dark")]
     ctx.log("%s: đối thủ '%s', nhà chính cấp %d, %d công trình, chiến lợi phẩm vàng %d / dầu %d / dầu đen %d"
             % (what, name, th, len(base), loot[0], loot[1], loot[2]))
@@ -122,9 +129,31 @@ def find_battle(ctx, ctl, cmd, payload):
     else:
         troops, cap, clan = st.get("troops", {}), 0, st.get("clan_troops")
         ctx.log("    lính mang theo: %s" % (", ".join("%s x%s" % kv for kv in sorted(troops.items())) or "KHÔNG CÓ (luyện quân trước)"))
-    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"), clan,
-                                                single_capacity=cap), "GỬI cmd=9001 BattleInfo (%s)" % what)
+        ctx.battle["rec"] = {"base": [dict(b) for b in base], "def_name": name, "th": th, "enemy_id": enemy_id,
+                             "levels": dict(st.get("troop_levels") or {}), "clan": dict(clan or {}),
+                             "t": int(time.time())}
+        ctx.battle["actions"] = {}
+    ctx.reply(ctl, reply_cmd, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"), clan,
+                                                     single_capacity=cap), "GỬI cmd=%d BattleInfo (%s)" % (reply_cmd, what))
     return True
+
+
+def _act(ctx, troop, cell, tick):
+    """Ghi 1 lần thả lính (trùng lính+ô+nhịp = cùng một lần, vì 9012/9003 gửi lại cả danh sách)."""
+    battle = getattr(ctx, "battle", None)
+    if battle is not None and "actions" in battle:
+        battle["actions"]["%s|%d|%d" % (troop, cell, tick)] = (troop, int(cell), int(tick))
+
+
+def _drop_tail(payload):
+    """Đuôi 9003: [7 int][chuỗi][int tổng][int n] n x [chuỗi][int ô][int nhịp]."""
+    r = Reader(payload)
+    for _ in range(7):
+        r.u32()
+    r.str()
+    r.u32()
+    n = r.u32()
+    return [(r.str(), r.u32(), r.u32()) for _ in range(min(n, 5000))]
 
 
 @handler(9003)
@@ -138,7 +167,25 @@ def end_battle(ctx, ctl, cmd, payload):
             state.add_resource(st, key, amount)
     note = ""
     battle = getattr(ctx, "battle", None) or {}
-    dropped = battle.get("dropped") or {}
+    full = False
+    try:
+        for troop, cell, tick in _drop_tail(payload):
+            _act(ctx, troop, cell, tick)
+        full = True
+    except Exception:
+        pass                                            # gói ngắn (thoát giữa trận) / bản game khác
+    acts = list((battle.get("actions") or {}).values())
+    by_acts = {}
+    for t, _, _ in acts:
+        if t not in ("Clan", "SupportTroop"):
+            by_acts[t] = by_acts.get(t, 0) + 1
+    dropped = dict(battle.get("dropped") or {})
+    if full and "actions" in battle:
+        dropped = by_acts                                 # 9002 + đuôi 9003 = danh sách thả đầy đủ, chính xác nhất
+    else:
+        for t, n in by_acts.items():
+            dropped[t] = max(n, dropped.get(t, 0))
+    used_now = dict(dropped)
     if battle.get("kind") == "single":
         if dropped:
             note += ", phó bản dùng %s (không trừ quân nhà)" % ", ".join("%s x%d" % kv for kv in sorted(dropped.items()))
@@ -169,6 +216,7 @@ def end_battle(ctx, ctl, cmd, payload):
     add_progress(st, 7, elixir)
     if stars > 0:
         add_progress(st, 13, 1)
+    gain = 0
     if battle.get("kind") in ("real", "pvp"):
         from .ranking import change_trophy
         gain = (10 if battle["kind"] == "real" else 5) * stars if stars > 0 else -5
@@ -176,6 +224,13 @@ def end_battle(ctx, ctl, cmd, payload):
     state.save(st, ctx.account)
     if battle.get("kind") == "real":
         note += _hit_victim(ctx, battle["victim"], gold, elixir, dark, percent, stars)
+    if battle.get("rec") is not None:
+        try:
+            rid = _record(ctx, battle, acts, used_now, ints[0], stars, percent, (gold, elixir, dark),
+                          gain if battle.get("kind") in ("real", "pvp") else 0)
+            note += ", ghi trận #%d (%d lần thả)" % (rid, len(acts))
+        except Exception as e:
+            ctx.log("!! ghi trận lỗi: %s" % e)
     ctx.battle = None
     ctx.log("KẾT THÚC TRẬN: %d sao, phá %d%%, cướp vàng %d / dầu %d / dầu đen %d%s"
             % (stars, percent, gold, elixir, dark, note))
@@ -199,14 +254,54 @@ def _hit_victim(ctx, victim, gold, elixir, dark, percent, stars):
     else:
         from .profile import add_progress
         add_progress(vst, 14, 1)                 # phòng thủ thành công
-    me = state.load(ctx.account)["player"].get("name", ctx.account)
-    log = vst.setdefault("defense_log", [])
-    log.append({"t": int(time.time()), "by": ctx.account, "name": me, "stars": stars, "percent": percent,
-                "lost": list(lost)})
-    del log[:-30]
     state.save(vst, victim)
+    battle = getattr(ctx, "battle", None) or {}
+    battle["lost"], battle["victim_tchange"] = list(lost), (-8 * stars if stars > 0 else 0)
     return ", %s mất vàng %d / dầu %d / dầu đen %d%s" % (victim, lost[0], lost[1], lost[2],
                                                           (", được khiên %d giờ" % hours) if hours else "")
+
+
+def _clan_info(account):
+    c = clans.clan_of(account) if account else None
+    return (c["name"], int(c.get("icon", 1))) if c else ("", 0)
+
+
+def _record(ctx, battle, acts, used, end_tick, stars, percent, loot, gain):
+    """Lưu bản ghi xem lại + nhật ký tấn công (người đánh) / phòng thủ (người bị đánh). Trả về id trận."""
+    rec, now = battle["rec"], int(time.time())
+    levels = rec.get("levels") or {}
+    me = state.load(ctx.account)
+    victim = battle.get("victim")
+    clan_used = rec.get("clan") if any(a[0] == "Clan" for a in acts) else {}
+    clan_used = {t: [int(levels.get(t, 1)), int(n)] for t, n in (clan_used or {}).items() if int(n) > 0}
+    troops_used = {t: [int(levels.get(t, 1)), int(n)] for t, n in used.items() if int(n) > 0}
+    last = max([a[2] for a in acts] or [0])
+    rid = replays.new_id()
+    replays.save({
+        "id": rid, "t": now, "attacker": ctx.account, "att_name": me["player"].get("name", ""),
+        "defender": victim, "def_name": rec.get("def_name", ""), "th": rec.get("th", 1), "base": rec["base"],
+        "actions": [[t, c, int(levels.get(t, 1)), k] for t, c, k in acts],
+        "clan": {t: [int(levels.get(t, 1)), int(n)] for t, n in (rec.get("clan") or {}).items() if int(n) > 0},
+        "used": troops_used, "end_tick": max(int(end_tick or 0), last + 90), "stars": stars, "percent": percent,
+        "loot": list(loot)})
+    vst = state.load(victim) if victim else None
+    vname, vicon = _clan_info(victim)
+    replays.add_log(me, "attack_log", {
+        "id": rid, "t": now, "uid": int(rec.get("enemy_id", 0)), "acc": victim, "name": rec.get("def_name", ""),
+        "clan_name": vname, "clan_icon": vicon,
+        "trophy": int(vst["player"].get("trophy", 0)) if vst else 0, "tchange": gain, "stars": stars,
+        "percent": percent, "loot": list(loot), "troops": troops_used, "clan_troops": clan_used, "replay": True})
+    state.save(me, ctx.account)
+    if vst is not None:
+        mname, micon = _clan_info(ctx.account)
+        replays.add_log(vst, "defense_log", {
+            "id": rid, "t": now, "uid": clans.uid_of(ctx.account), "acc": ctx.account,
+            "name": me["player"].get("name", ""), "clan_name": mname, "clan_icon": micon,
+            "trophy": int(me["player"].get("trophy", 0)), "tchange": battle.get("victim_tchange", 0),
+            "stars": stars, "percent": percent, "loot": battle.get("lost", list(loot)), "troops": troops_used,
+            "clan_troops": clan_used, "replay": True, "revenged": False})
+        state.save(vst, victim)
+    return rid
 
 
 def _count_drop(ctx, troop):
@@ -235,6 +330,7 @@ def add_troop(ctx, ctl, cmd, payload):
         ctx.log("thả lính: không đọc được (%s)" % e)
         return True
     _count_drop(ctx, troop)
+    _act(ctx, troop, cell, tick)
     ctx.log("THẢ LÍNH %s (ô %d, t=%d, #%d)" % (troop, cell, tick, seq))
     return True                       # không trả lời, xem ghi chú đầu file
 
@@ -247,8 +343,9 @@ def battle_ack(ctx, ctl, cmd, payload):
         n = r.u32()
         cnt = {}
         for _ in range(n):
-            t = r.str(); r.u32(); r.u32()
+            t, cell, tick = r.str(), r.u32(), r.u32()
             cnt[t] = cnt.get(t, 0) + 1
+            _act(ctx, t, cell, tick)
         battle = getattr(ctx, "battle", None)
         if battle is not None and cnt:
             prev = battle.get("batch_drops", {})

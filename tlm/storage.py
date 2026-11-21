@@ -23,6 +23,13 @@ TABLE_SQL = ("CREATE TABLE IF NOT EXISTS accounts ("
              "name VARCHAR(64), "
              "data LONGTEXT NOT NULL, "
              "updated_at BIGINT NOT NULL)")
+# kho khoá-giá trị phụ (dữ liệu xem lại trận...): ns = nhóm, k = khoá
+KV_SQL = ("CREATE TABLE IF NOT EXISTS kv ("
+          "ns VARCHAR(32) NOT NULL, "
+          "k VARCHAR(128) NOT NULL, "
+          "data LONGTEXT NOT NULL, "
+          "updated_at BIGINT NOT NULL, "
+          "PRIMARY KEY (ns, k))")
 
 
 class JsonStorage:
@@ -78,6 +85,41 @@ class JsonStorage:
             except FileNotFoundError:
                 pass
 
+    # --- kho phụ: thư mục <dữ liệu>/<ns>/<khoá>.json ---
+    def _kv_path(self, ns, k):
+        folder = os.path.join(os.path.dirname(self.folder), ns)
+        os.makedirs(folder, exist_ok=True)
+        return os.path.join(folder, re.sub(r"[^A-Za-z0-9_.@-]", "_", str(k)) + ".json")
+
+    def kv_get(self, ns, k):
+        return self.get_file(self._kv_path(ns, k))
+
+    def kv_put(self, ns, k, obj):
+        with self.lock:
+            path = self._kv_path(ns, k)
+            with open(path + ".tmp", "w", encoding="utf-8") as f:
+                json.dump(obj, f, ensure_ascii=False)
+                f.flush()
+                os.fsync(f.fileno())
+            os.replace(path + ".tmp", path)
+
+    def kv_delete(self, ns, k):
+        try:
+            os.remove(self._kv_path(ns, k))
+        except FileNotFoundError:
+            pass
+
+    def kv_prune(self, ns, before):
+        """Xoá mục cập nhật trước thời điểm `before` (giây). Trả về số mục đã xoá."""
+        folder = os.path.dirname(self._kv_path(ns, "x"))
+        n = 0
+        for fn in os.listdir(folder):
+            p = os.path.join(folder, fn)
+            if fn.endswith(".json") and os.path.getmtime(p) < before:
+                os.remove(p)
+                n += 1
+        return n
+
 
 class SqlStorage:
     """Dùng chung cho SQLite và MySQL (chỉ khác kiểu tham số và câu upsert)."""
@@ -88,6 +130,7 @@ class SqlStorage:
         self.ph = "?" if dialect == "sqlite" else "%s"
         self.lock = threading.RLock()
         self._run(TABLE_SQL)
+        self._run(KV_SQL)
 
     def _run(self, sql, args=(), fetch=False):
         with self.lock:
@@ -124,6 +167,30 @@ class SqlStorage:
 
     def delete(self, key):
         self._run("DELETE FROM accounts WHERE account_key=%s" % self.ph, (key,))
+
+    # --- kho phụ (bảng kv) ---
+    def kv_get(self, ns, k):
+        rows = self._run("SELECT data FROM kv WHERE ns=%s AND k=%s" % (self.ph, self.ph), (ns, str(k)), fetch=True)
+        return json.loads(rows[0][0]) if rows else None
+
+    def kv_put(self, ns, k, obj):
+        data, now = json.dumps(obj, ensure_ascii=False), int(time.time())
+        if self.dialect == "sqlite":
+            sql = ("INSERT INTO kv(ns,k,data,updated_at) VALUES(?,?,?,?) ON CONFLICT(ns,k) DO UPDATE SET "
+                   "data=excluded.data, updated_at=excluded.updated_at")
+        else:
+            sql = ("INSERT INTO kv(ns,k,data,updated_at) VALUES(%s,%s,%s,%s) ON DUPLICATE KEY UPDATE "
+                   "data=VALUES(data), updated_at=VALUES(updated_at)")
+        self._run(sql, (ns, str(k), data, now))
+
+    def kv_delete(self, ns, k):
+        self._run("DELETE FROM kv WHERE ns=%s AND k=%s" % (self.ph, self.ph), (ns, str(k)))
+
+    def kv_prune(self, ns, before):
+        n = len(self._run("SELECT k FROM kv WHERE ns=%s AND updated_at<%s" % (self.ph, self.ph), (ns, int(before)),
+                          fetch=True))
+        self._run("DELETE FROM kv WHERE ns=%s AND updated_at<%s" % (self.ph, self.ph), (ns, int(before)))
+        return n
 
 
 _store = None
@@ -225,7 +292,12 @@ def backup(keep=7):
 
 
 def backup_loop():
-    """Chạy nền: sao lưu lúc khởi động rồi mỗi 6 giờ."""
+    """Chạy nền: sao lưu lúc khởi động rồi mỗi 6 giờ; dọn dữ liệu xem lại trận quá cũ."""
     while True:
         backup()
+        try:
+            from . import replays
+            replays.prune()
+        except Exception as e:
+            log("!! dọn dữ liệu xem lại lỗi: %s" % e)
         time.sleep(6 * 3600)

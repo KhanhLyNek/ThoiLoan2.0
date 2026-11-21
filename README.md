@@ -69,6 +69,16 @@ Lần chạy đầu với MySQL, các tài khoản JSON có sẵn được tự 
 thể dùng `{"type": "sqlite"}` (có sẵn trong Python). Nếu không mở được MySQL, server báo lỗi và dừng
 (không tự chơi trên bản JSON cũ để tránh lệch dữ liệu).
 
+## Nhật ký trận, xem lại, trả thù (v7.0)
+
+- Mỗi trận chinh phạt được ghi lại: làng đối thủ lúc đánh, từng lính thả (loại, ô, thời điểm), sao, % phá, chiến lợi phẩm.
+- Hộp thư > Báo cáo trận: tab **Tấn công** và **Phòng thủ** như game gốc, có chấm đỏ khi đăng nhập.
+- Nút **Xem lại**: chiếu lại trận theo đúng thời điểm thả lính (tua nhanh bằng nút tốc độ của game).
+- Nút **Trả thù** (trận phòng thủ bị người thật đánh): đánh lại làng hiện tại của người đó, dùng 1 lần.
+  Không trả thù được khi đối phương đang online hoặc đang có khiên (game tự báo).
+- Trận đánh làng máy cũng có trong tab Tấn công và xem lại được (không có nút trả thù).
+- Dữ liệu xem lại lưu trong `thoiloan.db` (bảng `kv`), tự xoá sau 30 ngày; mỗi người giữ 30 trận gần nhất mỗi loại.
+
 ## Lưu dữ liệu an toàn (v6.9)
 
 - Mặc định lưu bằng **SQLite** (`thoiloan.db` trong thư mục dữ liệu), chế độ WAL + ghi đồng bộ: mỗi thao tác
