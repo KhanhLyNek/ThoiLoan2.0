@@ -24,7 +24,8 @@ def _head(b):
 
 def _hero_hp(b):
     hp = gamedata.HERO_HP.get(b["type"], {})
-    return int(hp.get(str(b.get("hero_level", 1)), hp.get("1", 0))) & 0x7FFF
+    # cấp anh hùng = cấp nhà anh hùng (CityKingQueen::setInfo đọc byte cấp @0x28 của công trình)
+    return int(hp.get(str(b.get("level", 1)), hp.get("1", 0))) & 0x7FFF
 
 
 def _clan_troops(st, count_fn):

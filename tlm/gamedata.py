@@ -36,8 +36,24 @@ def cost_of(btype, level):
     return COST.get(btype, {}).get(str(level), [0, 0, 0, 0])
 
 
+IMAGE_MAP = load_table("image_map.json")
+
+
 def display_level(btype, level):
-    """Cấp dùng để hiển thị: cấp thật nếu có ảnh, nếu không thì cấp có ảnh gần nhất."""
+    """Cấp gửi cho game. Game tự đổi cấp -> ảnh bằng ContentName3.json (JsonMgr::getImageName), nên được gửi
+    CẤP THẬT nếu bảng có cấp đó VÀ ảnh nó trỏ tới có thật; không thì cấp hợp lệ cao nhất <= cấp thật.
+    (Bản <= 7.3 so cấp với số ảnh: bệ anh hùng KQB chỉ có ảnh _1 nên luôn gửi cấp 1 -> anh hùng không lên cấp;
+     DEF_2 có ảnh tới 9 nhưng game hỗ trợ tới 15...)"""
+    m = IMAGE_MAP.get(btype)
+    if m:
+        have = set(IMAGE_LEVELS.get(btype, [])) or None
+        ok = [int(l) for l, img in m.items() if have is None or img in have]
+        if not ok:
+            return level
+        if level in ok:
+            return level
+        below = [l for l in ok if l <= level]
+        return max(below) if below else min(ok)
     levels = IMAGE_LEVELS.get(btype, [])
     if not levels or level in levels:
         return level
