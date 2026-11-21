@@ -1,6 +1,6 @@
 """BuildingInfo (cmd 1002) - theo CmdReceiveBuildingInfo::readData.
 
-Thứ tự: nhà chính, trại lính, trại quân, quân trong trại, phòng thí nghiệm, mỏ, kho,
+Thứ tự: nhà chính, trại lính, trại quân, CẤP LÍNH, phòng thí nghiệm, mỏ, kho,
 phòng thủ, tường, lâu đài bang, nhà thợ xây, bẫy, bia mộ, chướng ngại, nhà phép, phép, TRANG TRÍ, NHÀ ANH HÙNG (KQB), ...
 (mỗi nhóm: u16 số lượng).
 Đối tượng chung: int id | chuỗi loại | double@0x40 (giờ xong) | double@0x58 | byte TRẠNG THÁI@0x68
@@ -47,7 +47,11 @@ def build(st, account=None):
     data = u16(1) + _head(th) + TAIL                       # nhà chính
     data += lst("barrack", extra=u16(0))                    # trại lính (+ hàng đợi rỗng)
     data += lst("armycamp")                                 # trại quân
-    data += u16(0)                                          # quân trong trại
+    # CẤP LÍNH (nghiên cứu): [short n] n x [chuỗi lính][byte cấp] -> vector DataResearchStruct mà
+    # GameDataMgr::getTroopLevel đọc (phòng thí nghiệm, lính trong trại, thanh chọn lính, chỉ số khi đánh).
+    # Bản cũ gửi 0 -> sau mỗi lần tải lại làng (về nhà sau trận, vào lại game) mọi lính về cấp 1.
+    lv = [(t, int(l)) for t, l in sorted(st.get("troop_levels", {}).items()) if int(l) > 1]
+    data += u16(len(lv)) + b"".join(pstr(t) + u8(l & 0xFF) for t, l in lv)
     lab = groups.get("lab")
     if lab:                                                 # phòng thí nghiệm: cờ 1 + đối tượng
         data += u16(1) + _head(lab[0]) + pstr("") + u16(0) + u32(0) + TAIL

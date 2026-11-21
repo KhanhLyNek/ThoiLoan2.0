@@ -11,6 +11,7 @@ Tiếp theo: int số loại LÍNH CỦA NGƯỜI ĐÁNH, mỗi loại [chuỗi 
          (v5.2 trở về trước gửi ngược -> 20 lính cấp 1 hiện thành 1 lính "cấp 20" không có chỉ số, chết ngay.)
          Gửi rỗng -> vào trận không có lính để thả.
 Tiếp theo: QUÂN BANG (@0x40) [int n] n x [chuỗi][byte cấp][short số].
+Phó bản (int đầu = 1000 + màn > 1): danh sách lính @0x30 = lính ĐƯỢC CHỌN, @0x14c = sức chứa.
 Sau đó là nhiều danh sách phụ (quân hỗ trợ @0x48, phép @0x38, bẫy, vật phẩm, ...) và 7 double: gửi 0 = rỗng (đã kiểm tra
 mọi nhánh số lượng 0 đều bỏ qua).
 """
@@ -19,7 +20,7 @@ from ..botbase import MAP_W
 from ..protocol.codec import pstr, u8, u16, u32
 
 
-def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_troops=None):
+def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_troops=None, single_capacity=0):
     d = u32(enemy_id) + pstr(name) + u32(th_level) + u32(0) + u8(0) + pstr("") + u32(0) + pstr("") + u32(0)
     d += u32(len(base))
     for b in base:
@@ -32,4 +33,10 @@ def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_t
     # danh sách @0x40 (BattleMgr+0xd8, getLevelTroop loại 1) = QUÂN BANG: [int n] n x [chuỗi][byte cấp][short số]
     ct = [(t, int(n)) for t, n in sorted((clan_troops or {}).items()) if int(n) > 0]
     d += u32(len(ct)) + b"".join(pstr(t) + u8(max(1, int(levels.get(t, 1)))) + u16(n) for t, n in ct)
+    # các trường tới @0x14c/@0x150 (theo readData): quân hỗ trợ @0x48, [int n x int], 7 double, int @0x108,
+    # int @0x10c, chuỗi, short @0x110, [int n x (chuỗi,byte,short)] @0x118, [int n x (int,byte)], byte @0x128,
+    # [int n x chuỗi] @0x138, byte @0x148, double @0xf8, double @0x100,
+    # int @0x14c = SỨC CHỨA LÍNH PHÓ BẢN, byte @0x150 = sức chứa phép (SingleBattleSelectGUI::initData)
+    d += u32(0) + u32(0) + bytes(8 * 7) + u32(0) + u32(0) + pstr("") + u16(0) + u32(0) + u32(0) + u8(0)
+    d += u32(0) + u8(0) + bytes(16) + u32(single_capacity) + u8(0)
     return d + bytes(2048)

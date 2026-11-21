@@ -4,31 +4,24 @@
       (cấp kế tiếp: researchElixir/researchDarkElixir) và ghi research = {troop, end}.
 11007 sendQuickResearch(): xong ngay bằng G (quy đổi thời gian còn lại).
 11020 sendFinishResearch(): hết giờ -> xong.
-Xong -> troop_levels[lính] + 1, rồi đẩy 11021.
-11021 (server -> game, nhánh 0x2b0d trong onReceived; game cũng xin bằng sendGetSkillTroopInfo):
-      [byte cờ=0][byte n] + n x [chuỗi lính][byte cấp] -> danh sách GameDataMgr+0x90 mà
-      GameDataMgr::getTroopLevel đọc (lính trong trại, thanh chọn lính, chỉ số khi đánh). Không có -> mọi lính cấp 1.
-      Cần có LAB_1 (game gắn cờ vào phòng thí nghiệm).
+Xong -> troop_levels[lính] + 1 (game tự cộng cấp trong máy qua LaboratoryObject::finishResearch).
+CẤP LÍNH gửi lại mỗi lần tải làng trong BuildingInfo (danh sách ngay trước phòng thí nghiệm).
+11021 sendGetSkillTroopInfo: [byte cờ][byte n] + n x [chuỗi][byte] là CẤP KỸ NĂNG lính (DataResearchStruct +0xc),
+      KHÔNG phải cấp lính (+0x8). Bản 6.7 gửi nhầm cấp lính vào đây -> kỹ năng lính sai. Giờ trả rỗng.
 """
 import time
 
 from .. import state
 from ..costs import time_cost
 from ..data import load_table
-from ..protocol.codec import Reader, pstr, u8
+from ..protocol.codec import Reader, u8
 from . import handler
 
 RESEARCH = load_table("research.json")
 
 
 def levels_frame(st):
-    lv = [(t, int(l)) for t, l in sorted(st.get("troop_levels", {}).items()) if int(l) > 1]
-    return u8(0) + u8(len(lv)) + b"".join(pstr(t) + u8(l) for t, l in lv) + bytes(32)
-
-
-def push_levels(ctx, ctl, st):
-    ctx.push(ctl, 11021, levels_frame(st),
-             " [cấp lính: %s]" % (", ".join("%s %s" % kv for kv in sorted(st.get("troop_levels", {}).items())) or "tất cả cấp 1"))
+    return u8(0) + u8(0) + bytes(32)             # kỹ năng lính: chưa có
 
 
 def _finish(ctx, ctl, st, why):
@@ -88,7 +81,6 @@ def finish_research(ctx, ctl, cmd, payload):
         _finish(ctx, ctl, st, "hết giờ")
     state.save(st, ctx.account)
     ctx.reply(ctl, cmd, 0, None, "GỬI cmd=%d xong nghiên cứu" % cmd)
-    push_levels(ctx, ctl, st)
     return True
 
 
@@ -97,5 +89,5 @@ def get_levels(ctx, ctl, cmd, payload):
     st = state.load(ctx.account)
     if settle_research(ctx, st):
         state.save(st, ctx.account)
-    ctx.reply(ctl, 11021, 0, levels_frame(st), "GỬI cmd=11021 cấp lính")
+    ctx.reply(ctl, 11021, 0, levels_frame(st), "GỬI cmd=11021 kỹ năng lính (rỗng)")
     return True

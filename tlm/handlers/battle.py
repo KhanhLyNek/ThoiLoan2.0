@@ -11,6 +11,7 @@
      BattleMgr::onGetAddTroopMsg xoá phần tử đầu của hàng đợi rỗng -> memmove âm -> sập.
      Server đếm lính đã thả rồi trừ khỏi trại khi trận kết thúc (9003).
 9012 BattleMgr::sendCmdAck (5 giây/lần): [int thời điểm][int n] + n x [chuỗi lính][int ô][int thời điểm]
+     = TOÀN BỘ lính đã thả từ đầu trận (không phải phần mới) -> lấy ảnh chụp mới nhất.
      = các lính thả SAU lính đầu tiên (hàng đợi queueAddTroop), gửi theo lô. Không trả lời.
 9014 (server -> game, lớp ErrorCode) = KẾT QUẢ TRẬN, gửi sau 9003. BattleMgr::onGetBattleResult đọc
      [bool][byte số vật phẩm][...]; onGetBattleUpdate đặt cờ "đã có kết quả" (BattleMgr+0x18d) và gọi
@@ -65,6 +66,22 @@ def real_base(st):
     return out
 
 
+def single_choices(st):
+    """Phó bản không dùng quân nhà: được chọn mọi loại lính đã mở theo cấp trại lính (Barrack.json unlockedUnit),
+    số lượng đủ lấp đầy sức chứa trại quân."""
+    from .army import camp_capacity
+    unlock = botbase.GEN.get("barrack_unlock", {})
+    cap = max(1, camp_capacity(st))
+    out = {}
+    for kind in ("BAR_1", "BAR_2"):
+        top = max([b["level"] for b in st["buildings"] if b["type"] == kind] or [0])
+        for lvl in range(1, top + 1):
+            t = unlock.get(kind, {}).get(str(lvl))
+            if t:
+                out[t] = max(1, cap // max(1, int(botbase.GEN["housing"].get(t, 1))))
+    return out or {"ARM_1": cap}
+
+
 @handler(9001)
 def find_battle(ctx, ctl, cmd, payload):
     map_id = int.from_bytes(payload[0:4], "big") if len(payload) >= 4 else 0
@@ -97,10 +114,16 @@ def find_battle(ctx, ctl, cmd, payload):
     loot = [sum(b.get(k, 0) for b in base) for k in ("gold", "elixir", "dark")]
     ctx.log("%s: đối thủ '%s', nhà chính cấp %d, %d công trình, chiến lợi phẩm vàng %d / dầu %d / dầu đen %d"
             % (what, name, th, len(base), loot[0], loot[1], loot[2]))
-    troops = st.get("troops", {})
-    ctx.log("    lính mang theo: %s" % (", ".join("%s x%s" % kv for kv in sorted(troops.items())) or "KHÔNG CÓ (luyện quân trước)"))
-    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"),
-                                                st.get("clan_troops")), "GỬI cmd=9001 BattleInfo (%s)" % what)
+    from .army import camp_capacity
+    if ctx.battle["kind"] == "single":
+        troops, cap = single_choices(st), camp_capacity(st)
+        ctx.log("    phó bản: chọn lính tự do (%s), sức chứa %d chỗ" % (", ".join(sorted(troops)), cap))
+        clan = None
+    else:
+        troops, cap, clan = st.get("troops", {}), 0, st.get("clan_troops")
+        ctx.log("    lính mang theo: %s" % (", ".join("%s x%s" % kv for kv in sorted(troops.items())) or "KHÔNG CÓ (luyện quân trước)"))
+    ctx.reply(ctl, 9001, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"), clan,
+                                                single_capacity=cap), "GỬI cmd=9001 BattleInfo (%s)" % what)
     return True
 
 
@@ -116,6 +139,10 @@ def end_battle(ctx, ctl, cmd, payload):
     note = ""
     battle = getattr(ctx, "battle", None) or {}
     dropped = battle.get("dropped") or {}
+    if battle.get("kind") == "single":
+        if dropped:
+            note += ", phó bản dùng %s (không trừ quân nhà)" % ", ".join("%s x%d" % kv for kv in sorted(dropped.items()))
+        dropped = {}
     if dropped:
         troops = st.setdefault("troops", {})
         for t, n in dropped.items():
@@ -183,10 +210,19 @@ def _hit_victim(ctx, victim, gold, elixir, dark, percent, stars):
 
 
 def _count_drop(ctx, troop):
+    """9002: lính thả lẻ (đếm cộng dồn)."""
     battle = getattr(ctx, "battle", None)
     if battle is not None:
-        d = battle.setdefault("dropped", {})
+        d = battle.setdefault("single_drops", {})
         d[troop] = d.get(troop, 0) + 1
+        _merge_drops(battle)
+
+
+def _merge_drops(battle):
+    """Số lính đã dùng = max(đếm 9002, ảnh chụp 9012 mới nhất) cho từng loại.
+    9012 gửi lại TOÀN BỘ danh sách đã thả mỗi 5 giây (cộng dồn), bản cũ cộng hết các lần -> trừ lính gấp 3-6 lần."""
+    a, b = battle.get("single_drops", {}), battle.get("batch_drops", {})
+    battle["dropped"] = {t: max(a.get(t, 0), b.get(t, 0)) for t in set(a) | set(b)}
 
 
 @handler(9002)
@@ -209,16 +245,17 @@ def battle_ack(ctx, ctl, cmd, payload):
         r = Reader(payload)
         r.u32()
         n = r.u32()
-        drops = []
+        cnt = {}
         for _ in range(n):
             t = r.str(); r.u32(); r.u32()
-            drops.append(t)
-            _count_drop(ctx, t)
-        if drops:
-            cnt = {}
-            for t in drops:
-                cnt[t] = cnt.get(t, 0) + 1
-            ctx.log("THẢ LÍNH (lô): " + ", ".join("%s x%d" % kv for kv in sorted(cnt.items())))
+            cnt[t] = cnt.get(t, 0) + 1
+        battle = getattr(ctx, "battle", None)
+        if battle is not None and cnt:
+            prev = battle.get("batch_drops", {})
+            battle["batch_drops"] = {t: max(cnt.get(t, 0), prev.get(t, 0)) for t in set(cnt) | set(prev)}
+            _merge_drops(battle)
+        if cnt:
+            ctx.log("THẢ LÍNH (ảnh chụp, cộng dồn): " + ", ".join("%s x%d" % kv for kv in sorted(cnt.items())))
     except Exception as e:
         ctx.log("9012: không đọc được (%s)" % e)
     return True
