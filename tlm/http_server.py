@@ -98,6 +98,13 @@ class HttpHandler(BaseHTTPRequestHandler):
         if self.path.startswith("/obb"):
             self._send_obb(method)
             return
+        if self.path.startswith("/obblog"):
+            # chẩn đoán từ trình tải OBB trong APK (tools/obbgate): chỉ ghi log
+            msg = urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query).get("m", [""])[0]
+            log("    -> OBB (từ máy): %s" % msg)
+            self.send_response(204)
+            self.end_headers()
+            return
         if self.path.split("?")[0] in ("/t.obb", "/ts.obb"):
             self._send_theme(method)
             return

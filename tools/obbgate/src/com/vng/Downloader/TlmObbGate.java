@@ -29,7 +29,59 @@ public class TlmObbGate implements Runnable {
 
     TlmObbGate(SampleDownloaderActivity a) { act = a; }
 
+    /** Nhánh "đã có OBB" của onCreate: gắn lại OBB (phòng lần gắn đầu hụt), báo chẩn đoán về server, rồi kiểm tra như cũ. */
+    public static void delivered(SampleDownloaderActivity a) {
+        try {
+            Activity ctx = SampleDownloaderActivity.mainActivity;
+            String path = Helpers.generateSaveFileName(ctx, Helpers.getExpansionAPKFileName(ctx, true, 1380));
+            int rc = mount(path);
+            report("có sẵn OBB, " + describe(path) + ", gắn lại -> " + rc);
+        } catch (Throwable e) {
+            report("có sẵn OBB, lỗi khi gắn lại: " + e);
+        }
+        a.validateXAPKZipFiles();
+    }
+
+    static int mount(String path) {
+        try { return com.vng.thoiloan.ThoiLoan.addResourceFile(path); } catch (Throwable e) { return -999; }
+    }
+
+    static String describe(String path) {
+        File f = new File(path);
+        int sdk = -1;
+        try { sdk = Class.forName("android.os.Build$VERSION").getField("SDK_INT").getInt(null); } catch (Throwable e) { }
+        return "Android SDK " + sdk + ", " + path + " tồn tại=" + f.exists() + " đọc được=" + f.canRead()
+                + " cỡ=" + f.length() + (f.length() == SIZE ? " (đúng)" : " (SAI, cần " + SIZE + ")");
+    }
+
+    /** Gửi một dòng chẩn đoán về server (/obblog) để hiện trong log.txt. Chạy nền, lỗi thì bỏ qua. */
+    static void report(final String msg) {
+        Thread t = new Thread(new Runnable() { public void run() {
+            try {
+                HttpURLConnection c = (HttpURLConnection) new URL(SOURCES[0].replace("/obb", "/obblog?m=")
+                        + java.net.URLEncoder.encode(msg, "UTF-8")).openConnection();
+                c.setConnectTimeout(3000); c.setReadTimeout(3000);
+                c.getResponseCode(); c.disconnect();
+            } catch (Throwable e) { }
+        } });
+        t.setDaemon(true);
+        t.start();
+    }
+
+    /** APK đã chứa sẵn dữ liệu OBB (patch_apk.py --embed-obb)? Game đọc thẳng assets/ trong APK, không cần file OBB. */
+    static boolean embedded() {
+        try {
+            return TlmObbGate.class.getClassLoader().getResource("assets/800_480/Content/cloud_1.png") != null;
+        } catch (Throwable e) { return false; }
+    }
+
     public static void start(SampleDownloaderActivity a) {
+        if (embedded()) {
+            report("APK có sẵn dữ liệu OBB -> vào game, không cần tải");
+            Activity c = SampleDownloaderActivity.mainActivity;
+            c.runOnUiThread(new Runnable() { public void run() { SampleDownloaderActivity.startLoadGame(); } });
+            return;
+        }
         Thread t = new Thread(new TlmObbGate(a), "TlmObbGate");
         t.setDaemon(true);
         t.start();
@@ -52,6 +104,7 @@ public class TlmObbGate implements Runnable {
 
     public void run() {
         Activity ctx = SampleDownloaderActivity.mainActivity;
+        report("thiếu OBB, bắt đầu tải");
         try { ctx.getObbDir(); } catch (Throwable e) { /* tạo thư mục obb của app */ }
         File dst = new File(Helpers.generateSaveFileName(ctx, Helpers.getExpansionAPKFileName(ctx, true, 1380)));
         File dir = dst.getParentFile();
@@ -71,7 +124,8 @@ public class TlmObbGate implements Runnable {
                             ctx.runOnUiThread(new Runnable() { public void run() {
                                 // ThoiLoan.checkResource() đã gọi addResouceZFile() lúc file CHƯA có -> gắn hụt.
                                 // Gắn lại OBB vừa tải trước khi cho vào game (thiếu thì văng ở LoadingGui: cloud_1.png).
-                                try { com.vng.thoiloan.ThoiLoan.addResourceFile(path); } catch (Throwable e) { /* bỏ qua */ }
+                                int rc = mount(path);
+                                report("tải xong OBB, " + describe(path) + ", gắn -> " + rc);
                                 a.validateXAPKZipFiles();
                             } });
                             return;
@@ -80,6 +134,7 @@ public class TlmObbGate implements Runnable {
                     }
                 } catch (Throwable e) {
                     ui("Lỗi tải: " + e.getMessage() + " - thử lại sau 5 giây (lần " + round + ")", -1);
+                    report("lỗi tải từ " + src + ": " + e);
                     try { Thread.sleep(5000); } catch (InterruptedException ie) { return; }
                 }
             }

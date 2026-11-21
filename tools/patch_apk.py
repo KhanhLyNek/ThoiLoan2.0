@@ -10,6 +10,8 @@ Cách dùng (cần Java: Termux `pkg install openjdk-17`; máy tính: JDK bất 
   python tools/patch_apk.py ThoiLoan.apk ThoiLoan_vá.apk                 # IP 127.0.0.1 (server trên chính máy)
   python tools/patch_apk.py ThoiLoan.apk ThoiLoan_ban.apk --ip 100.64.1.2  # cho bạn bè qua Tailscale
   --replace classes2.dex=tools/obbgate/build/classes2.dex   thay file trong APK (trình tải OBB, xem tools/obbgate)
+  --embed-obb main.1380.gsn.zps.thoiloan.obb   chép dữ liệu OBB vào APK (assets/...): cài là chơi, không cần tải OBB.
+      File trùng giữa APK và OBB giữ bản của APK (game vẫn ưu tiên APK trước OBB).
 Lần đầu tự tải apksig.jar (Google Maven) và testkey (mã nguồn AOSP) vào tools/apksign/.
 """
 import argparse
@@ -82,6 +84,7 @@ def main():
     ap.add_argument("src"); ap.add_argument("dst")
     ap.add_argument("--ip", default="127.0.0.1"); ap.add_argument("--port", type=int, default=8080)
     ap.add_argument("--replace", action="append", default=[], help="TÊN_TRONG_APK=file_thay")
+    ap.add_argument("--embed-obb", help="file OBB chính để chép vào APK")
     a = ap.parse_args()
     repl = dict(r.split("=", 1) for r in a.replace)
     ensure_tools()
@@ -99,6 +102,15 @@ def main():
                 data, done = patch_so(data, a.ip, a.port)
                 print("Vá %s: %s" % (n, ", ".join("%s x%d" % d for d in done)))
             zo.writestr(info, data, compress_type=info.compress_type)
+        if a.embed_obb:
+            have = set(zi.namelist()); added = 0
+            with zipfile.ZipFile(a.embed_obb) as zb:
+                for info in zb.infolist():
+                    if info.is_dir() or not info.filename.startswith("assets/") or info.filename in have:
+                        continue
+                    zo.writestr(info, zb.read(info.filename), compress_type=info.compress_type)
+                    added += 1
+            print("Chép %d file từ OBB vào APK" % added)
     if repl:
         raise SystemExit("Không có trong APK: " + ", ".join(repl))
     pk = os.path.join(SIGN_DIR, "testkey.pk8"); cert = os.path.join(SIGN_DIR, "testkey.x509.pem")

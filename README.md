@@ -85,7 +85,11 @@ cảnh quanh làng phủ tuyết, suối đóng băng, nền ô tuyết, cây th
 - Vá APK cho bạn bè (IP Tailscale): `python tools/patch_apk.py ThoiLoan.apk ThoiLoan_ban.apk --ip 100.x.y.z`
   (cần Java; lần đầu tự tải apksig + khoá testkey). Vá cả địa chỉ /info lẫn địa chỉ theme.
 
-### Tự tải dữ liệu game (OBB) khi cài mới / gỡ ra cài lại
+### Dữ liệu game (OBB): nhúng sẵn trong APK, dự phòng tự tải
+
+- **APK đầy đủ** (`--embed-obb`): toàn bộ dữ liệu OBB nằm trong APK (game đọc thẳng `assets/` trong APK), cài là chơi,
+  không cần file OBB. `python tools/patch_apk.py ThoiLoan.apk ra.apk --replace classes2.dex=tools/obbgate/build/classes2.dex --embed-obb main.1380.gsn.zps.thoiloan.obb`
+- **APK nhẹ** (không nhúng): dùng trình tải bên dưới.
 
 Gỡ app thì Android xoá luôn OBB (~43 MB). APK vá có trình tải riêng (tools/obbgate, thay trình tải Google Play đã chết):
 thiếu OBB -> tải từ server (`/obb`, nhanh nếu đặt file `main.1380.gsn.zps.thoiloan.obb` vào thư mục dữ liệu),

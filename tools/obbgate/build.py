@@ -26,6 +26,9 @@ DEPS = {
     "guava.jar": C + "com/google/guava/guava/31.1-android/guava-31.1-android.jar",
     "failureaccess.jar": C + "com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar",
 }
+HOOK2_OLD = "    :cond_78\n    invoke-virtual {p0}, Lcom/vng/Downloader/SampleDownloaderActivity;->validateXAPKZipFiles()V"
+HOOK2_NEW = ("    :cond_78\n    # ThoiLoan2.0: đã có OBB -> gắn lại + báo chẩn đoán rồi mới kiểm tra\n"
+             "    invoke-static {p0}, Lcom/vng/Downloader/TlmObbGate;->delivered(Lcom/vng/Downloader/SampleDownloaderActivity;)V")
 HOOK_OLD = "    if-nez v0, :cond_78\n\n    .line 289\n    :try_start_50"
 HOOK_NEW = ("    if-nez v0, :cond_78\n\n"
             "    # ThoiLoan2.0: thiếu OBB -> trình tải riêng (server /obb hoặc Google Drive) thay Google Play\n"
@@ -60,9 +63,9 @@ def main(apk, out):
     run(*bak, os.path.join(b, "dex", "classes.dex"))
     p = os.path.join(b, "c2", "com", "vng", "Downloader", "SampleDownloaderActivity.smali")
     s = open(p, encoding="utf-8").read()
-    if s.count(HOOK_OLD) != 1:
+    if s.count(HOOK_OLD) != 1 or s.count(HOOK2_OLD) != 1:
         raise SystemExit("Không tìm thấy chỗ móc trong SampleDownloaderActivity.onCreate (APK khác bản 7.6.12?)")
-    open(p, "w", encoding="utf-8").write(s.replace(HOOK_OLD, HOOK_NEW))
+    open(p, "w", encoding="utf-8").write(s.replace(HOOK_OLD, HOOK_NEW).replace(HOOK2_OLD, HOOK2_NEW))
     run("java", "-cp", cp, "com.android.tools.smali.smali.Main", "a", "-a", "15", "-o", out, os.path.join(b, "c2"))
     print("Đã tạo", out)
 
