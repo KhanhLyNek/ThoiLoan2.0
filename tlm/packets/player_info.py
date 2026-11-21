@@ -37,7 +37,7 @@ def build(st, log=None, account=None):
     d += f64(0) + u32(0) + f64(0)           # @0x130 @0x138 @0x140
     d += pstr("")                           # chuỗi thứ hai
     d += f64(0) + f64(0)                    # @0x90 @0x148
-    d += u16(0) + u32(0)                    # @0x150 @0x70
+    d += u16(0) + u32(int(p.get("uranium", 0)))  # @0x150, @0x70 URANIUM (GameDataMgr+0x118)
     d += u8(0)                              # @0x160
     d += u32(0) + u32(0)                    # @0x164 @0x168
     d += f64(0) + f64(0) + f64(0)           # @0x170 @0x208 @0x210

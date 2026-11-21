@@ -202,6 +202,14 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v7.5** - cổng thế giới (đảo + uranium)
+- Bản đồ đảo (14001) có dữ liệu thật: đảo bạn chiếm hiện viền xanh và TÊN BẠN (+ ảnh, tên bang), đảo người khác hiện tên chủ.
+- Đánh đảo (9017) vào trận như thường; thắng >= 1 sao là chiếm đảo (đảo trống = làng máy, đảo có chủ = làng của chủ đảo,
+  không cướp tài nguyên). Mỗi người giữ tối đa `maxIslandOwner` đảo theo cấp bang, chiếm thêm thì bỏ đảo cũ nhất.
+- Thu hoạch uranium (14003 + 1040): đảo sản xuất 120/giờ, tối đa 480; bạn nhận `percentUranium` % theo cấp
+  Kho uranium (KQB_3), không quá sức chứa của kho; phần còn lại vào quỹ bang. Uranium lưu trong hồ sơ và gửi lúc đăng nhập.
+- Đảo lưu ở kho phụ (`world/islands`), sống qua khởi động lại.
+
 **v5.1**
 - Vào trận có lính để thả: BattleInfo gửi kèm lính trong trại (`[tên][số lượng][cấp]`, danh sách mà
   `BattleMgr::addTroop` và thanh chọn lính đọc). Bản 5.0 gửi rỗng nên thanh chọn lính trống.

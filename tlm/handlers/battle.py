@@ -222,6 +222,9 @@ def end_battle(ctx, ctl, cmd, payload):
         gain = (10 if battle["kind"] == "real" else 5) * stars if stars > 0 else -5
         note += ", cúp %+d (= %d)" % (gain, change_trophy(st, gain))
     state.save(st, ctx.account)
+    if battle.get("kind") == "island":
+        from .worldmap import on_battle_end
+        note += on_battle_end(ctx, battle, stars)
     if battle.get("kind") == "real":
         note += _hit_victim(ctx, battle["victim"], gold, elixir, dark, percent, stars)
     if battle.get("rec") is not None:
