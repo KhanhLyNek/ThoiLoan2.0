@@ -93,6 +93,9 @@ def build(st, account=None):
         + u8(0) for d in decos)                             # còn hạn = giờ bắt đầu + time > giờ hiện tại
     kqbs = groups.get("kqbarrack", [])                      # nhà anh hùng (KQBarrack): đối tượng chung + double@0x60
     data += u16(len(kqbs)) + b"".join(                      #  + short máu anh hùng @0x1e8 + double@0x1f0 (giờ hồi máu)
-        _head(k) + bytes(8) + u16(_hero_hp(k)) + bytes(8)    #  + bool@0x1f8 + short@0xa2 + int@0xa4. Có 4 danh sách
-        + u8(0) + u16(0) + u32(0) for k in kqbs)            #  KQBarrack (xen danh sách Rose...), cùng đổ vào 1 vector
+        _head(k) + bytes(8) + u16(_hero_hp(k)) + bytes(8)    #  + bool@0x1f8 ANH HÙNG SẴN SÀNG + short@0xa2 + int@0xa4.
+        + u8(1) + u16(0) + u32(0) for k in kqbs)            #  Có 4 danh sách KQBarrack, cùng đổ vào 1 vector.
+    # bool@0x1f8: CityMgr::createKingQueenOnCity -> CityKingQueen::setInfo(..., cờ): 1 = guard() (canh gác),
+    # khác 1 = sleep() (đi về bệ ngủ -> BaseMap::pathTo). Gửi 0 (bản <= 7.2) -> huỷ "Sắp xếp làng" dựng lại anh hùng
+    # khi bản đồ tìm đường chưa sẵn -> AStar::findShortestPath đọc nút đích rỗng -> văng.
     return data + bytes(1024)                               # các danh sách sau: 0

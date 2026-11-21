@@ -19,6 +19,66 @@ import java.util.regex.Pattern;
  * Cùng gói com.vng.Downloader để gọi được validateXAPKZipFiles() (phạm vi gói).
  */
 public class TlmObbGate implements Runnable {
+    /** Phản hồi HTTP tối giản. http:// đi qua Socket tự viết: app targetSdk 29 bị Android cấm HTTP thường
+     *  (cleartext) với HttpURLConnection, nên tải từ server 127.0.0.1 / báo chẩn đoán trước đây đều hỏng âm thầm. */
+    static class Resp {
+        int code; String type, location; long length = -1; InputStream in;
+        java.net.Socket sock; HttpURLConnection conn;
+        void close() {
+            try { if (in != null) in.close(); } catch (Throwable e) { }
+            try { if (sock != null) sock.close(); } catch (Throwable e) { }
+            if (conn != null) conn.disconnect();
+        }
+    }
+
+    static Resp open(String url, long have) throws Exception {
+        URL u = new URL(url);
+        Resp r = new Resp();
+        if ("http".equals(u.getProtocol())) {
+            int port = u.getPort() > 0 ? u.getPort() : 80;
+            r.sock = new java.net.Socket();
+            r.sock.connect(new java.net.InetSocketAddress(u.getHost(), port), 8000);
+            r.sock.setSoTimeout(30000);
+            String path = u.getFile().length() > 0 ? u.getFile() : "/";
+            String req = "GET " + path + " HTTP/1.0\r\nHost: " + u.getHost() + ":" + port
+                    + "\r\nUser-Agent: ThoiLoanObb\r\n" + (have > 0 ? "Range: bytes=" + have + "-\r\n" : "") + "\r\n";
+            r.sock.getOutputStream().write(req.getBytes("UTF-8"));
+            InputStream in = new java.io.BufferedInputStream(r.sock.getInputStream(), 65536);
+            String[] parts = line(in).split(" ");
+            r.code = parts.length > 1 ? Integer.parseInt(parts[1]) : 0;
+            for (String h = line(in); h.length() > 0; h = line(in)) {
+                int i = h.indexOf(':');
+                if (i < 0) continue;
+                String k = h.substring(0, i).trim().toLowerCase(), v = h.substring(i + 1).trim();
+                if (k.equals("content-type")) r.type = v;
+                else if (k.equals("location")) r.location = v;
+                else if (k.equals("content-length")) r.length = Long.parseLong(v);
+            }
+            r.in = in;
+            return r;
+        }
+        HttpURLConnection c = (HttpURLConnection) u.openConnection();
+        c.setInstanceFollowRedirects(false);
+        c.setConnectTimeout(8000);
+        c.setReadTimeout(30000);
+        c.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android) ThoiLoanObb");
+        if (have > 0) c.setRequestProperty("Range", "bytes=" + have + "-");
+        r.conn = c;
+        r.code = c.getResponseCode();
+        r.type = c.getContentType();
+        r.location = c.getHeaderField("Location");
+        r.length = c.getContentLength();
+        if (r.code < 400) r.in = c.getInputStream();
+        return r;
+    }
+
+    static String line(InputStream in) throws Exception {
+        StringBuilder b = new StringBuilder();
+        int ch;
+        while ((ch = in.read()) >= 0 && ch != '\n') if (ch != '\r') b.append((char) ch);
+        return b.toString();
+    }
+
     static final long SIZE = 45330886L;
     static final String[] SOURCES = {
         "http://127.0.0.1:8080/obb",
@@ -58,10 +118,7 @@ public class TlmObbGate implements Runnable {
     static void report(final String msg) {
         Thread t = new Thread(new Runnable() { public void run() {
             try {
-                HttpURLConnection c = (HttpURLConnection) new URL(SOURCES[0].replace("/obb", "/obblog?m=")
-                        + java.net.URLEncoder.encode(msg, "UTF-8")).openConnection();
-                c.setConnectTimeout(3000); c.setReadTimeout(3000);
-                c.getResponseCode(); c.disconnect();
+                open(SOURCES[0].replace("/obb", "/obblog?m=") + java.net.URLEncoder.encode(msg, "UTF-8"), 0).close();
             } catch (Throwable e) { }
         } });
         t.setDaemon(true);
@@ -148,28 +205,20 @@ public class TlmObbGate implements Runnable {
         if (have > SIZE) { tmp.delete(); have = 0; }
         if (have == SIZE) return true;
         String cur = url;
-        HttpURLConnection c = null;
+        Resp c = null;
         for (int hop = 0; hop < 10; hop++) {
-            c = (HttpURLConnection) new URL(cur).openConnection();
-            c.setInstanceFollowRedirects(false);
-            c.setConnectTimeout(8000);
-            c.setReadTimeout(30000);
-            c.setRequestProperty("User-Agent", "Mozilla/5.0 (Linux; Android) ThoiLoanObb");
-            if (have > 0) c.setRequestProperty("Range", "bytes=" + have + "-");
-            int code = c.getResponseCode();
-            String loc = c.getHeaderField("Location");
-            if (code >= 300 && code < 400 && loc != null) {
-                cur = new URL(new URL(cur), loc).toString();
-                c.disconnect();
+            c = open(cur, have);
+            if (c.code >= 300 && c.code < 400 && c.location != null) {
+                cur = new URL(new URL(cur), c.location).toString();
+                c.close();
                 continue;
             }
-            if (code == 404) { c.disconnect(); return false; }
-            if (code == 416) { c.disconnect(); return tmp.length() == SIZE; }
-            if (code != 200 && code != 206) { c.disconnect(); throw new Exception("HTTP " + code); }
-            String type = c.getContentType();
-            if (type != null && type.startsWith("text/html")) {      // trang "quét virus" của Google Drive
-                String html = readAll(c.getInputStream());
-                c.disconnect();
+            if (c.code == 404) { c.close(); return false; }
+            if (c.code == 416) { c.close(); return tmp.length() == SIZE; }
+            if (c.code != 200 && c.code != 206) { c.close(); throw new Exception("HTTP " + c.code); }
+            if (c.type != null && c.type.startsWith("text/html")) {      // trang "quét virus" của Google Drive
+                String html = readAll(c.in);
+                c.close();
                 String next = driveConfirm(html);
                 if (next == null) throw new Exception("Drive trả trang web thay vì file (link phải để công khai)");
                 cur = next;
@@ -178,15 +227,14 @@ public class TlmObbGate implements Runnable {
             break;
         }
         if (c == null) return false;
-        boolean append = c.getResponseCode() == 206 && have > 0;
+        boolean append = c.code == 206 && have > 0;
         if (!append) have = 0;
-        InputStream in = c.getInputStream();
         FileOutputStream out = new FileOutputStream(tmp, append);
         byte[] buf = new byte[256 * 1024];
         long got = have;
         int n;
         try {
-            while ((n = in.read(buf)) > 0) {
+            while ((n = c.in.read(buf)) > 0) {
                 out.write(buf, 0, n);
                 got += n;
                 long now = System.currentTimeMillis();
@@ -197,8 +245,7 @@ public class TlmObbGate implements Runnable {
             }
         } finally {
             out.close();
-            in.close();
-            c.disconnect();
+            c.close();
         }
         if (got < SIZE) throw new Exception("mất kết nối giữa chừng (" + mb(got) + "), đang tải tiếp");
         RandomAccessFile r = new RandomAccessFile(tmp, "r");
