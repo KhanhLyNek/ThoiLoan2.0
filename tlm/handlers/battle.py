@@ -275,3 +275,20 @@ def army_to_battle(ctx, ctl, cmd, payload):
     except Exception as e:
         ctx.log("quân vào trận: không đọc được (%s)" % e)
     return True                       # game không chờ phản hồi lệnh này
+
+
+def abandon(ctx):
+    """Game thoát giữa trận (tắt app, mất mạng): chốt trận như THUA 0 sao, trừ lính đã thả, không cộng gì.
+    Tránh lính đã dùng vẫn còn trong trại / trận treo khi vào lại."""
+    battle = getattr(ctx, "battle", None)
+    if not battle:
+        return
+    ctx.log("MẤT KẾT NỐI GIỮA TRẬN -> chốt trận thua 0 sao")
+    try:
+        sent = []
+        ctx.reply = lambda *a, **k: sent.append(a)        # socket đã đóng: không gửi gì
+        ctx.push = lambda *a, **k: sent.append(a)
+        end_battle(ctx, 0, 9003, bytes(28))
+    except Exception as e:
+        ctx.log("!! chốt trận lỗi: %s" % e)
+    ctx.battle = None

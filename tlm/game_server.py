@@ -87,6 +87,9 @@ class TcpHandler(socketserver.BaseRequestHandler):
                     self.on_frame(ctx, *fr)
         from .handlers.context import unregister
         unregister(ctx)
+        if getattr(ctx, "battle", None):
+            from .handlers.battle import abandon
+            abandon(ctx)
 
     def on_frame(self, ctx, hdr, body):
         tag = ctx.tag

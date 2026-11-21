@@ -40,6 +40,7 @@ def main():
     handlers = load_all()
     log("Đã nạp %d handler: %s" % (len(handlers), ", ".join(str(c) for c in sorted(handlers))))
     store = storage.open_storage()
+    threading.Thread(target=storage.backup_loop, daemon=True).start()
     log("Kho lưu: %s | %d tài khoản | tuỳ chọn: tự trả lời=%s, đẩy làng=%s, OBB=%s"
         % (store.kind, len(store.keys()), config.AUTO_REPLY, config.PUSH_ENABLED, config.USE_OBB))
     try:

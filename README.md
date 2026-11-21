@@ -69,6 +69,16 @@ Lần chạy đầu với MySQL, các tài khoản JSON có sẵn được tự 
 thể dùng `{"type": "sqlite"}` (có sẵn trong Python). Nếu không mở được MySQL, server báo lỗi và dừng
 (không tự chơi trên bản JSON cũ để tránh lệch dữ liệu).
 
+## Lưu dữ liệu an toàn (v6.9)
+
+- Mặc định lưu bằng **SQLite** (`thoiloan.db` trong thư mục dữ liệu), chế độ WAL + ghi đồng bộ: mỗi thao tác
+  (xây, nâng cấp, luyện quân, nạp G...) ghi xong là nằm chắc trên bộ nhớ. Tắt game, mất mạng, tắt Termux hay sập
+  nguồn đều không mất những gì đã làm.
+- Lần đầu chạy bản mới: các tài khoản cũ trong `accounts/` được tự chép sang SQLite (thư mục cũ vẫn giữ nguyên).
+- Thoát game giữa trận: trận được chốt như thua 0 sao, trừ đúng số lính đã thả.
+- Sao lưu tự động vào `backups/` lúc khởi động và mỗi 6 giờ, giữ 7 ngày gần nhất.
+- Muốn quay lại lưu JSON: tạo `db.json` với nội dung `{"type": "json"}`.
+
 ## Chơi cùng bạn bè (v6.4)
 
 Mỗi người dùng **một tài khoản riêng** trên cùng server: chung bang hội, chat bang hiện ngay cho người đang

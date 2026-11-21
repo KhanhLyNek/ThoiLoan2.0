@@ -1,8 +1,10 @@
 """Tầng lưu trữ tài khoản: mỗi tài khoản là một "state" (dict) như state.json cũ.
 
 Chọn kiểu lưu bằng file db.json trong thư mục dữ liệu (/sdcard/ThoiLoan2.0/db.json):
-  {"type": "json"}                                     mặc định: thư mục accounts/, mỗi tài khoản 1 file
-  {"type": "sqlite", "file": "thoiloan.db"}            SQLite có sẵn trong Python
+  {"type": "sqlite", "file": "thoiloan.db"}            MẶC ĐỊNH (từ v6.9): SQLite có sẵn trong Python, chế độ
+                                                       WAL + synchronous=FULL -> mỗi thao tác ghi xong là nằm
+                                                       chắc trên bộ nhớ, tắt game / tắt Termux / sập nguồn không mất
+  {"type": "json"}                                     cũ: thư mục accounts/, mỗi tài khoản 1 file
   {"type": "mysql", "host": "127.0.0.1", "port": 3306,
    "user": "tlm", "password": "tlm123", "database": "thoiloan"}   cần: pip install pymysql
 Khi chuyển sang SQLite/MySQL lần đầu (bảng rỗng), các tài khoản JSON có sẵn được tự chép sang.
@@ -48,6 +50,8 @@ class JsonStorage:
             tmp = self._path(key) + ".tmp"
             with open(tmp, "w", encoding="utf-8") as f:
                 json.dump(st, f, ensure_ascii=False, indent=1)
+                f.flush()
+                os.fsync(f.fileno())               # ghi hẳn xuống bộ nhớ trước khi thay file cũ
             os.replace(tmp, self._path(key))
 
     def keys(self):
@@ -130,7 +134,7 @@ def _read_cfg():
         with open(config.data_path("db.json"), "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
-        return {"type": "json"}
+        return {"type": "sqlite", "file": "thoiloan.db"}
     except ValueError as e:
         log("!! db.json sai định dạng (%s), dùng lưu JSON." % e)
         return {"type": "json"}
@@ -149,7 +153,14 @@ def open_storage():
             import sqlite3
             path = cfg.get("file", "thoiloan.db")
             path = path if os.path.isabs(path) else config.data_path(path)
-            _store = SqlStorage(lambda: sqlite3.connect(path), "sqlite")
+
+            def _connect():
+                conn = sqlite3.connect(path, timeout=30)
+                conn.execute("PRAGMA journal_mode=WAL")
+                conn.execute("PRAGMA synchronous=FULL")
+                return conn
+            _store = SqlStorage(_connect, "sqlite")
+            _store.path = path
         elif kind == "mysql":
             try:
                 import pymysql
@@ -176,3 +187,45 @@ def open_storage():
         if moved:
             log("Đã chép %d tài khoản từ accounts/ (JSON) sang %s." % (moved, _store.kind))
     return _store
+
+
+def backup(keep=7):
+    """Sao lưu kho lưu vào thư mục backups/ (1 bản mỗi ngày, giữ `keep` bản mới nhất)."""
+    st = open_storage()
+    folder = config.data_path("backups")
+    os.makedirs(folder, exist_ok=True)
+    day = time.strftime("%Y%m%d")
+    try:
+        if getattr(st, "kind", "") == "sqlite":
+            import sqlite3
+            dst = os.path.join(folder, "thoiloan_%s.db" % day)
+            src = sqlite3.connect(st.path)
+            out = sqlite3.connect(dst)
+            with out:
+                src.backup(out)
+            src.close(); out.close()
+        else:
+            dst = os.path.join(folder, "accounts_%s.json" % day)
+            data = {k: st.get(k) for k in st.keys()}
+            with open(dst, "w", encoding="utf-8") as f:
+                json.dump(data, f, ensure_ascii=False)
+        for extra in ("clans.json",):
+            src = config.data_path(extra)
+            if os.path.isfile(src):
+                import shutil
+                shutil.copyfile(src, os.path.join(folder, "%s_%s" % (day, extra)))
+        files = sorted(f for f in os.listdir(folder) if f[:1] in "act0123456789")
+        days = sorted({re.sub(r"\D", "", f)[:8] for f in files}, reverse=True)
+        for f in files:
+            if re.sub(r"\D", "", f)[:8] not in days[:keep]:
+                os.remove(os.path.join(folder, f))
+        log("Đã sao lưu dữ liệu vào %s" % folder)
+    except Exception as e:
+        log("!! sao lưu lỗi: %s" % e)
+
+
+def backup_loop():
+    """Chạy nền: sao lưu lúc khởi động rồi mỗi 6 giờ."""
+    while True:
+        backup()
+        time.sleep(6 * 3600)
