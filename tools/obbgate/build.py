@@ -66,6 +66,16 @@ def main(apk, out):
     if s.count(HOOK_OLD) != 1 or s.count(HOOK2_OLD) != 1:
         raise SystemExit("Không tìm thấy chỗ móc trong SampleDownloaderActivity.onCreate (APK khác bản 7.6.12?)")
     open(p, "w", encoding="utf-8").write(s.replace(HOOK_OLD, HOOK_NEW).replace(HOOK2_OLD, HOOK2_NEW))
+    # Nạp G: purchaseAnItem -> TlmFreePay.buy (không qua Google Play), consumePurchase -> bỏ qua
+    p2 = os.path.join(b, "c2", "com", "platform", "AndroidPlatform.smali")
+    s2 = open(p2, encoding="utf-8").read()
+    for sig, body in ((".method public static purchaseAnItem(Ljava/lang/String;)V",
+                       "    invoke-static {p0}, Lcom/vng/Downloader/TlmFreePay;->buy(Ljava/lang/String;)V\n    return-void\n"),
+                      (".method public static consumePurchase(Ljava/lang/String;Ljava/lang/String;)V", "    return-void\n")):
+        i = s2.index(sig)
+        j = s2.index("\n", s2.index(".registers", i)) + 1
+        s2 = s2[:j] + "    # ThoiLoan2.0: nạp G qua server riêng\n" + body + s2[j:]
+    open(p2, "w", encoding="utf-8").write(s2)
     run("java", "-cp", cp, "com.android.tools.smali.smali.Main", "a", "-a", "15", "-o", out, os.path.join(b, "c2"))
     print("Đã tạo", out)
 

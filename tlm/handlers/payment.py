@@ -7,7 +7,7 @@
      THẬT bằng PlatformUtil::sendSms) -> server trả trạng thái 2 để game chỉ hiện hộp thông báo, không gửi SMS.
      Mọi lần nạp đều thành công: cộng PAY_G G rồi đẩy cmd 1010.
 12005 CityMgr::validateGoogleIap (mua Google Play): [chuỗi JSON đơn hàng][chuỗi chữ ký][chuỗi gói].
-     APK vá (com.tlm.FreePay) đổi MỌI kiểu nạp (Google Play, ZaloPay, SMS, thẻ web, ATM) thành lệnh này, không mở
+     APK vá (tools/obbgate: TlmFreePay, móc AndroidPlatform.purchaseAnItem) đổi kiểu nạp Google Play (Google Play, ZaloPay, SMS, thẻ web, ATM) thành lệnh này, không mở
      ứng dụng ngoài (trước đây game bị đẩy ra ngoài rồi quay lại màn tải). Phản hồi error 0 + [chuỗi][chuỗi]
      -> AddGGUI::comsumePurchase (APK vá đã tắt consume) rồi server đẩy 1010.
 1047 (server -> game) VIP: [byte cấp VIP][int điểm VIP] -> GameDataMgr+0x424/+0x428 rồi VIPmanager::checkVip.
