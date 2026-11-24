@@ -5,9 +5,11 @@
 
 Các bước: baksmali classes2.dex -> thêm TlmObbGate (src/, biên dịch với stubs/ rồi d8) -> sửa
 SampleDownloaderActivity.onCreate: thiếu OBB thì gọi TlmObbGate.start(this) thay trình tải Google Play -> smali lại.
+Bộ nạp bản vá (TlmLoader): ThoiLoan / ZingPlayReferrer nạp libcocos2dcpp qua TlmLoader.load -> bản vá mã máy
+lấy từ server (/patch/native.txt, sinh từ tlm/res/patches/native.json) được áp mỗi lần mở game.
 Lần đầu tự tải d8 (r8), smali/baksmali và thư viện phụ vào tools/obbgate/jars/. Cần JDK (javac, java).
 """
-import os, shutil, subprocess, sys, urllib.request, zipfile
+import os, re, shutil, subprocess, sys, urllib.request, zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 JARS = os.path.join(HERE, "jars")
@@ -76,6 +78,15 @@ def main(apk, out):
         j = s2.index("\n", s2.index(".registers", i)) + 1
         s2 = s2[:j] + "    # ThoiLoan2.0: nạp G qua server riêng\n" + body + s2[j:]
     open(p2, "w", encoding="utf-8").write(s2)
+    # Bộ nạp bản vá: System.loadLibrary("cocos2dcpp") -> TlmLoader.load (vá mã máy từ server rồi mới nạp)
+    for rel in (("com", "vng", "thoiloan", "ThoiLoan.smali"), ("com", "vng", "thoiloan", "ZingPlayReferrer.smali")):
+        p3 = os.path.join(b, "c2", *rel)
+        s3 = open(p3, encoding="utf-8").read()
+        old = re.compile(r'(const-string (v\d+), "cocos2dcpp"\s+(?:\.line \d+\s+)?)invoke-static \{\2\}, Ljava/lang/System;->loadLibrary\(Ljava/lang/String;\)V')
+        s3, n = old.subn(r"\1invoke-static {\2}, Lcom/vng/Downloader/TlmLoader;->load(Ljava/lang/String;)V", s3)
+        if n != 1:
+            raise SystemExit("Không tìm thấy loadLibrary(cocos2dcpp) trong " + rel[-1])
+        open(p3, "w", encoding="utf-8").write(s3)
     run("java", "-cp", cp, "com.android.tools.smali.smali.Main", "a", "-a", "15", "-o", out, os.path.join(b, "c2"))
     print("Đã tạo", out)
 

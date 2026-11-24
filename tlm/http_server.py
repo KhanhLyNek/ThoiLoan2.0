@@ -33,6 +33,21 @@ def default_info():
     return info
 
 
+def patch_list():
+    lines, size = [], None
+    for path in (os.path.join(os.path.dirname(__file__), "res", "patches", "native.json"), config.data_path("native.json")):
+        if not os.path.isfile(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            doc = json.load(f)
+        size = doc.get("lib_size") or size
+        for p in doc.get("patches", []):
+            if p.get("off"):
+                continue
+            lines.append("%x %s %s" % (int(p["addr"]), p.get("old") or "-", p["new"]))
+    return ("size %d\n" % size if size else "") + "".join(l + "\n" for l in lines)
+
+
 class HttpHandler(BaseHTTPRequestHandler):
     server_version = "ThoiLoanServer/" + config.VERSION
 
@@ -48,6 +63,18 @@ class HttpHandler(BaseHTTPRequestHandler):
             self._send_404()
             return
         self._send_file(method, path)
+
+    def _send_patches(self, method):
+        """/patch/native.txt: bản vá mã máy cho bộ nạp trong APK (tools/obbgate TlmLoader). Nguồn: tlm/res/patches/native.json
+        (+ native.json trong thư mục dữ liệu nếu có, để thử nghiệm). Dòng: "địa_chỉ_hex byte_cũ_hex byte_mới_hex"."""
+        body = patch_list().encode("utf-8")
+        log("    -> BỘ NẠP: gửi %d bản vá mã máy" % max(0, body.count(b"\n") - 1))
+        self.send_response(200)
+        self.send_header("Content-Type", "text/plain; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.end_headers()
+        if method != "HEAD":
+            self.wfile.write(body)
 
     def _send_theme(self, method):
         """/t.obb, /ts.obb: theme mùa đông. Ưu tiên theme.obb trong thư mục dữ liệu, không có thì dùng bản kèm server."""
@@ -101,6 +128,9 @@ class HttpHandler(BaseHTTPRequestHandler):
             log("    -> OBB (từ máy): %s" % msg)
             self.send_response(204)
             self.end_headers()
+            return
+        if self.path.split("?")[0] == "/patch/native.txt":
+            self._send_patches(method)
             return
         if self.path.startswith("/obb"):
             self._send_obb(method)

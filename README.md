@@ -202,6 +202,16 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v7.6** - bộ nạp bản vá + dê và đại bàng trong làng (cần cài APK mới MỘT LẦN)
+- APK có BỘ NẠP BẢN VÁ (`tools/obbgate/src/.../TlmLoader.java`): mỗi lần mở game hỏi server `/patch/native.txt`,
+  vá bản sao `libcocos2dcpp.so` (chỉ khi mọi byte cũ khớp) rồi nạp bản đã vá; lỗi gì cũng quay về lib gốc.
+  Từ nay sửa mã máy của game chỉ cần `tl` (sửa `tools/native/*.s` -> `python tools/native/build.py <lib gốc>`
+  -> `tlm/res/patches/native.json`), không phải cài lại APK. Server tắt thì dùng bản vá lần trước.
+  Log ghi `OBB (từ máy): bộ nạp: ...` cho biết đã nạp lib vá hay lib gốc.
+- Dê (Farmer, ảnh GOA_1) đi từ nhà chính sang các nhà trong làng, đại bàng bay ngang trời: game gốc đã khoá
+  `CityMgr::createFarmer` / `createAngryBird` (thân hàm chỉ còn `ret`); bản vá viết lại hai hàm (tối đa 4 dê, 1 đại bàng,
+  không tạo khi đang sắp xếp làng) trong vùng mã chết `TutorialMgr::addCheatFinishTutButton`.
+
 **v7.5** - cổng thế giới (đảo + uranium)
 - Bản đồ đảo (14001) có dữ liệu thật: đảo bạn chiếm hiện viền xanh và TÊN BẠN (+ ảnh, tên bang), đảo người khác hiện tên chủ.
 - Đánh đảo (9017) vào trận như thường; thắng >= 1 sao là chiếm đảo (đảo trống = làng máy, đảo có chủ = làng của chủ đảo,
