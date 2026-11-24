@@ -25,6 +25,17 @@ CREATE_FARMER = 0x97cb5c         # CityMgr::createFarmer(int) = "ret"
 CREATE_EAGLE = 0x97cc34          # CityMgr::createAngryBird() = "ret"
 RET = bytes.fromhex("c0035fd6")
 MAX_FARMER, MAX_EAGLE = 4, 1
+# Giao diện mùa đông bật sẵn: CCUserDefault::getBoolForKey("USE_THEME", false) -> mặc định true.
+# Ai chưa từng tắt trong Cài đặt > Giao diện thì game tự tải theme (/t.obb) lúc mở và dùng luôn; tắt tay vẫn được.
+MOV_W2_0, MOV_W2_1 = "02008052", "22008052"
+SIMPLE = [
+    ("USE_THEME mặc định bật: PreloadScreen::checkVersion (tải + gắn theme)", 0xb935fc, MOV_W2_0, MOV_W2_1),
+    ("USE_THEME mặc định bật: CityMap::loadMap (tuyết rơi)", 0xb32808, MOV_W2_0, MOV_W2_1),
+    ("USE_THEME mặc định bật: DownloadScreen::updateTips", 0x5d6334, MOV_W2_0, MOV_W2_1),
+    ("USE_THEME mặc định bật: SettingGUI::updateTheme (nút Cài đặt)", 0xa739b0, MOV_W2_0, MOV_W2_1),
+    ("USE_THEME mặc định bật: SettingGUI::doSwitchTheme", 0xa73f4c, MOV_W2_0, MOV_W2_1),
+    ("USE_THEME mặc định bật: DownloadScreen::downloadTheme", 0x7ec958, "e203152a", MOV_W2_1),
+]
 
 
 def b_insn(pc, target, link=False):
@@ -73,7 +84,7 @@ def main(lib=None):
          "new": b_insn(CREATE_FARMER, CAVE + lab["farmer"]).hex()},
         {"name": "CityMgr::createAngryBird -> mã mới", "addr": CREATE_EAGLE, "old": RET.hex(),
          "new": b_insn(CREATE_EAGLE, CAVE + lab["eagle"]).hex()},
-    ]
+    ] + [{"name": n, "addr": a, "old": o, "new": nw} for n, a, o, nw in SIMPLE]
     if lib:
         raw = open(lib, "rb").read()
         patches[0]["old"] = raw[CAVE:CAVE + len(code)].hex()

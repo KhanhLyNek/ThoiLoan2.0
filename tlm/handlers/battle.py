@@ -87,6 +87,11 @@ def single_choices(st):
 @handler(9001)
 def find_battle(ctx, ctl, cmd, payload):
     map_id = int.from_bytes(payload[0:4], "big") if len(payload) >= 4 else 0
+    island = int.from_bytes(payload[8:12], "big") if len(payload) >= 12 else 0
+    if map_id == 0 and 0 < island < 100000:
+        # Cổng thế giới, đảo TRỐNG: AttackIslandGui::sendAttackIsland -> sendFindMatch(0, id đảo) = 9001 [0][1|2][id đảo]
+        from .worldmap import start_island
+        return start_island(ctx, ctl, island, 9001)
     st = state.load(ctx.account)
     if map_id > 1000:
         level = min(MAX_MAP, map_id - 1000)
@@ -116,6 +121,15 @@ def find_battle(ctx, ctl, cmd, payload):
     return start_battle(ctx, ctl, 9001, st, base, name, th, enemy_id, what)
 
 
+# Nhà anh hùng -> lính anh hùng (CityMgr::createKingQueenOnCity; BattleObject::isKingQueen). Anh hùng vào trận như
+# 1 lính trong danh sách quân của BattleInfo, CẤP = cấp nhà anh hùng. KQB_3 (bệ thần ARM_13/14/15) chưa làm.
+HERO_OF = {"KQB_1": "ARM_11", "KQB_2": "ARM_12", "KQB_4": "ARM_18", "KQB_5": "ARM_19"}
+
+
+def hero_troops(st):
+    return {HERO_OF[b["type"]]: max(1, int(b.get("level", 1))) for b in st.get("buildings", []) if b["type"] in HERO_OF}
+
+
 def start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id, what):
     """Gửi BattleInfo (9001 tìm trận / 9013 trả thù) và chuẩn bị ghi trận."""
     loot = [sum(b.get(k, 0) for b in base) for k in ("gold", "elixir", "dark")]
@@ -127,13 +141,20 @@ def start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id, what):
         ctx.log("    phó bản: bảng chọn %s (hàng trên trống, tự chọn), sức chứa %d chỗ" % (", ".join(sorted(troops)), cap))
         clan = None
     else:
-        troops, cap, clan = st.get("troops", {}), 0, st.get("clan_troops")
+        troops, cap, clan = dict(st.get("troops", {})), 0, st.get("clan_troops")
         ctx.log("    lính mang theo: %s" % (", ".join("%s x%s" % kv for kv in sorted(troops.items())) or "KHÔNG CÓ (luyện quân trước)"))
+        heroes = hero_troops(st)
+        if heroes:
+            ctx.log("    anh hùng: %s" % ", ".join("%s cấp %d" % (t, l) for t, l in sorted(heroes.items())))
+        troops.update({t: 1 for t in heroes})
         ctx.battle["rec"] = {"base": [dict(b) for b in base], "def_name": name, "th": th, "enemy_id": enemy_id,
-                             "levels": dict(st.get("troop_levels") or {}), "clan": dict(clan or {}),
+                             "levels": dict(st.get("troop_levels") or {}, **hero_troops(st)), "clan": dict(clan or {}),
                              "t": int(time.time())}
         ctx.battle["actions"] = {}
-    ctx.reply(ctl, reply_cmd, 0, battle_info.build(base, enemy_id, name, th, troops, st.get("troop_levels"), clan,
+    levels = dict(st.get("troop_levels") or {})
+    if ctx.battle["kind"] != "single":
+        levels.update(hero_troops(st))
+    ctx.reply(ctl, reply_cmd, 0, battle_info.build(base, enemy_id, name, th, troops, levels, clan,
                                                      single_capacity=cap, keep_zero=ctx.battle["kind"] == "single"), "GỬI cmd=%d BattleInfo (%s)" % (reply_cmd, what))
     return True
 

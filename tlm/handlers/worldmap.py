@@ -8,8 +8,9 @@
   IslandObject::checkState: id 0 = đảo nhà; uid chủ 0 = đảo trống; uid chủ = GameDataMgr+0xd0 (userId của mình)
   và = uid đang giữ -> trạng thái 2 = ĐẢO CỦA MÌNH (viền xanh, hiện tên, thu hoạch được); chủ khác -> 3 (hiện tên chủ);
   uid đang giữ khác chủ -> 4/5 (đang bị chiếm, viền đỏ).
-9017 ServerCommunication::sendAttackOccupy: [int uid đang giữ đảo][int id đảo][int 1|2] -> trả BattleInfo (cmd 9001,
-  CityMgr đã ở trạng thái 10 = đánh đảo). Kết thúc trận (9003) >= 1 sao -> chiếm đảo (handlers/battle.py).
+Đảo TRỐNG: AttackIslandGui::sendAttackIsland -> sendFindMatch = 9001 [int 0][int 1|2][int id đảo] (bản <= 7.6 tưởng
+  là chinh phạt thường -> đánh xong không chiếm được đảo). Đảo CÓ CHỦ: 9017 ServerCommunication::sendAttackOccupy
+  [int uid đang giữ đảo][int id đảo][int 1|2]. Cả hai trả BattleInfo (cmd 9001, CityMgr đã ở trạng thái 10 = đánh đảo). Kết thúc trận (9003) >= 1 sao -> chiếm đảo (handlers/battle.py).
 14003 ServerCommunication::sendHarvestUrainum: [int id đảo] -> WorldMapMgr::onReceiveHarvestUranium:
   [int -> WorldMapMgr+0x40][int id đảo][double giờ thu hoạch mới -> IslandObject+0x138]; kèm 1040 [int tổng uranium]
   (-> GameDataMgr+0x118, số uranium hiển thị).
@@ -54,8 +55,13 @@ def map_info(ctx, ctl, cmd, payload):
 
 @handler(9017)
 def attack_island(ctx, ctl, cmd, payload):
+    """Đánh đảo ĐÃ CÓ CHỦ (OccupyIslandGui). Đảo trống đi đường 9001 [0][1|2][id đảo] (handlers/battle.py)."""
     r = Reader(payload)
     holder, iid = r.u32(), r.u32()
+    return start_island(ctx, ctl, iid, 9001)
+
+
+def start_island(ctx, ctl, iid, reply_cmd):
     st = state.load(ctx.account)
     rec = worldmap.load().get(str(iid))
     player_th = next((b["level"] for b in st["buildings"] if b["type"] == "TOW_1"), 1)
@@ -75,7 +81,7 @@ def attack_island(ctx, ctl, cmd, payload):
         b["gold"] = b["elixir"] = b["dark"] = 0
     ctx.battle = {"kind": "island", "island": iid, "dropped": {}}
     enemy_id = clans.uid_of(owner) if owner else 800000 + iid
-    return start_battle(ctx, ctl, 9001, st, base, name, th, enemy_id,
+    return start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id,
                         "ĐÁNH CHIẾM ĐẢO %d (%s)" % (iid, "chủ: %s" % rec["name"] if rec else "đảo trống"))
 
 

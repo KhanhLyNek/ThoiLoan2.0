@@ -202,6 +202,13 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v7.7**
+- Đánh đảo TRỐNG ở Cổng thế giới đi lệnh 9001 [0][1|2][id đảo] (không phải 9017): bản trước tưởng là chinh phạt thường
+  nên thắng xong không chiếm được đảo, không có uranium. Nay nhận ra id đảo -> trận đánh đảo -> chiếm đảo.
+- Anh hùng vào trận: BattleInfo gửi kèm lính anh hùng theo nhà anh hùng (KQB_1 -> ARM_11 vua, KQB_2 -> ARM_12 nữ hoàng,
+  KQB_4 -> ARM_18, KQB_5 -> ARM_19), cấp = cấp nhà. Trước đây danh sách chỉ có lính thường nên không có anh hùng.
+- Bản vá mã máy (qua bộ nạp): giao diện mùa đông BẬT SẴN (USE_THEME mặc định true) -> game tự tải /t.obb và có tuyết rơi.
+
 **v7.6** - bộ nạp bản vá + dê và đại bàng trong làng (cần cài APK mới MỘT LẦN)
 - APK có BỘ NẠP BẢN VÁ (`tools/obbgate/src/.../TlmLoader.java`): mỗi lần mở game hỏi server `/patch/native.txt`,
   vá bản sao `libcocos2dcpp.so` (chỉ khi mọi byte cũ khớp) rồi nạp bản đã vá; lỗi gì cũng quay về lib gốc.

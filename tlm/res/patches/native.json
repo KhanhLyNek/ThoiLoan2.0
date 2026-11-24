@@ -19,6 +19,42 @@
    "addr": 9948212,
    "old": "c0035fd6",
    "new": "003a0514"
+  },
+  {
+   "name": "USE_THEME mặc định bật: PreloadScreen::checkVersion (tải + gắn theme)",
+   "addr": 12137980,
+   "old": "02008052",
+   "new": "22008052"
+  },
+  {
+   "name": "USE_THEME mặc định bật: CityMap::loadMap (tuyết rơi)",
+   "addr": 11741192,
+   "old": "02008052",
+   "new": "22008052"
+  },
+  {
+   "name": "USE_THEME mặc định bật: DownloadScreen::updateTips",
+   "addr": 6120244,
+   "old": "02008052",
+   "new": "22008052"
+  },
+  {
+   "name": "USE_THEME mặc định bật: SettingGUI::updateTheme (nút Cài đặt)",
+   "addr": 10959280,
+   "old": "02008052",
+   "new": "22008052"
+  },
+  {
+   "name": "USE_THEME mặc định bật: SettingGUI::doSwitchTheme",
+   "addr": 10960716,
+   "old": "02008052",
+   "new": "22008052"
+  },
+  {
+   "name": "USE_THEME mặc định bật: DownloadScreen::downloadTheme",
+   "addr": 8309080,
+   "old": "e203152a",
+   "new": "22008052"
   }
  ]
 }
