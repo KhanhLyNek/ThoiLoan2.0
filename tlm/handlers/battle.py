@@ -242,6 +242,9 @@ def end_battle(ctx, ctl, cmd, payload):
             p["single_map"] = lvl + 1
             note += ", mở màn %d" % (lvl + 1)
     from .profile import add_progress
+    from .daily import on_battle as _daily_battle
+    if battle.get("kind") != "single":
+        _daily_battle(st, stars, gold, elixir, dark)
     add_progress(st, 2, stars)
     add_progress(st, 6, gold)
     add_progress(st, 7, elixir)

@@ -111,6 +111,8 @@ def collect(ctx, ctl, cmd, payload):
     key = gamedata.RES_KEY.get(rtype)
     if key:
         state.add_resource(st, key, amount)
+        from .daily import progress
+        progress(st, {"gold": "HARVEST_GOLD", "elixir": "HARVEST_ELIXIR", "dark_elixir": "HARVEST_DARK"}[key], amount)
     state.save(st, ctx.account)
     ctx.log("THU HOẠCH %s id=%d: +%d %s" % (b["type"], bid, amount, rtype))
     return False
@@ -126,6 +128,8 @@ def remove_obstacle(ctx, ctl, cmd, payload):
         st["obstacles"].remove(o)
         st.setdefault("timers", {})["OBS:%d" % bid] = time.time() + gamedata.build_time(o["type"], 1)
         c = state.pay(st, o["type"], 1)
+        from .daily import progress
+        progress(st, "REMOVE_OBS")
         state.save(st, ctx.account)
         ctx.log("DỌN CHƯỚNG NGẠI %s id=%d, trừ %s" % (o["type"], bid, c))
     return False

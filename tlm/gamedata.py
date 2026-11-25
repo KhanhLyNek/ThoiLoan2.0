@@ -18,7 +18,7 @@ _KQB = load_table("kqb.json")
 HERO_HP = _KQB["hero_hp"]                            # KQB_x -> cấp -> máu anh hùng
 for _t, _lv in _KQB["dark"].items():                # giá nhà anh hùng (dầu đen) bổ sung vào bảng giá
     COST.setdefault(_t, {k: [0, 0, v, 0] for k, v in _lv.items()})
-ITEM_RES = {"1": "gold", "2": "elixir", "3": "dark_elixir"}   # túi tài nguyên trong kho đồ
+ITEM_RES = {"1": "gold", "2": "elixir", "3": "dark_elixir", "16": "gold", "17": "elixir", "18": "dark_elixir"}   # túi tài nguyên trong kho đồ
 
 # Nhóm danh sách trong BuildingInfo theo tiền tố tên (chỉ nhóm đã xác nhận định dạng qua readData).
 CATEGORY = {"TOW": "townhall", "BAR": "barrack", "AMC": "armycamp", "LAB": "lab", "RES": "resources",

@@ -118,6 +118,9 @@ def train_troop(ctx, ctl, cmd, payload):
                     bid = int(qb)
                 got += k
             _to_camp(st, troop, max(got, count))
+            from .daily import progress
+            progress(st, "TRAIN", max(got, count))
+            progress(st, "TRAIN_" + troop, max(got, count))
             note = ": xong %s x%d -> trại quân (có %d, %d/%d chỗ)" % (
                 troop, count, st["troops"][troop], used_space(st["troops"]), camp_capacity(st))
     except Exception as e:

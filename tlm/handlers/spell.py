@@ -86,6 +86,8 @@ def create(ctx, ctl, cmd, payload):
         q.append([spell, n])
     e, d = _cost(st, spell, n)
     state.spend(st, elixir=e, dark=d)
+    from .daily import progress
+    progress(st, "MAKE_" + spell, n)
     state.save(st, ctx.account)
     ctx.log("CHẾ PHÉP %s x%d: -%d dầu -%d dầu đen (hàng đợi: %s)" % (spell, n, e, d, q))
     return False

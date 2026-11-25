@@ -202,6 +202,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.1** - Nhiệm vụ ngày
+- 15 nhiệm vụ mỗi ngày (DailyQuest.json, theo cấp nhà chính), độ khó tăng dần (hardMode). Nhận quà (6004) -> vật phẩm
+  vào kho (túi vàng/dầu/dầu đen, rương ChestGift), xong ngay bằng G (6006), đổi nhiệm vụ (6007). Lưu trên server.
+- Server tự cộng tiến độ cho: đánh trận (sao), cướp vàng/dầu/dầu đen, thu hoạch mỏ, luyện lính, chế phép, dọn chướng ngại.
+- Dùng được túi tài nguyên loại 16/17/18 (quà nhiệm vụ).
+
 **v8.0** - CÁ NHÂN: nhân vật + khảm ngọc (pha lê)
 - Chọn / đổi nhân vật (1053/1068) được lưu; 1082 trả nhân vật khi vào game (trước đây luôn rỗng -> chọn lại từ đầu).
 - Ngọc (CrystalMgr, GemSupport.json): mua đá pha lê (1094, trừ G), mở đá ra ngọc (1093, theo bộ sưu tập),
