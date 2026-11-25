@@ -245,6 +245,8 @@ def end_battle(ctx, ctl, cmd, payload):
     from .daily import on_battle as _daily_battle
     if battle.get("kind") != "single":
         _daily_battle(st, stars, gold, elixir, dark)
+        from .goblin_treasure import on_battle as _gt_battle
+        _gt_battle(st, gold, elixir, dark)
     add_progress(st, 2, stars)
     add_progress(st, 6, gold)
     add_progress(st, 7, elixir)

@@ -202,6 +202,10 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.4** - Kho báu yêu tinh (thử nghiệm)
+- Vé quay: 5 vé lần đầu + vé miễn phí 7h/15h/23h + đổi điểm (cướp tài nguyên khi đánh trận) lấy vé; hết vé quay bằng G.
+- Quay (7072) ra bóng của từng món quà (GiftHunting.json), đủ 3 bóng nhận quà (7073) vào kho.
+
 **v8.3**
 - 7008 (sự kiện nâng nhà chính) trả lỗi = "không có sự kiện" theo đúng nhánh của game (trước đây không trả lời).
 
