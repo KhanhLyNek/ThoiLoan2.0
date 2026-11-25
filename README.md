@@ -202,6 +202,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.0** - CÁ NHÂN: nhân vật + khảm ngọc (pha lê)
+- Chọn / đổi nhân vật (1053/1068) được lưu; 1082 trả nhân vật khi vào game (trước đây luôn rỗng -> chọn lại từ đầu).
+- Ngọc (CrystalMgr, GemSupport.json): mua đá pha lê (1094, trừ G), mở đá ra ngọc (1093, theo bộ sưu tập),
+  khảm / tháo vào ô (1088/1089), mở ô (1091), ghép 3 -> 1 cấp cao hơn (1095), xem ngọc người khác (1100).
+  Tất cả lưu trên server, gửi lại qua 1087 khi mở bảng.
+
 **v7.9** - Xưởng phép, phép, bỏ lính, huỷ xây...
 - Xây được NHÀ PHÉP (SPF_1); chế phép (11008), huỷ (11009), phép xong (11010), xong ngay bằng G (11011), bỏ phép (11016).
   Hàng đợi + kho phép lưu trên server, gửi lại trong BuildingInfo; phép mang vào trận (BattleInfo @0x38), dùng xong trừ kho.

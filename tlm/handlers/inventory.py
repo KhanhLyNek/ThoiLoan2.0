@@ -21,7 +21,7 @@ def build_items(st):
     items = [i for i in st.get("items", []) if int(i.get("count", 0)) > 0]
     d = u16(len(items))
     for i in items:
-        d += u32(i["id"]) + u8(int(i["type"])) + u8(int(i["sub"])) + u32(int(i["count"])) + u8(0)
+        d += u32(i["id"]) + u8(int(i["type"])) + u8(int(i["sub"])) + u32(int(i["count"])) + u8(int(i.get("set", 0)))
     return d + u16(0) + bytes(64)
 
 
