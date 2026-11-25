@@ -202,6 +202,9 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.5.1**
+- Sửa văng game khi quay kho báu yêu tinh: mỗi lượt quay phải rơi 3 bóng (bảng nhận bóng có 3 ô).
+
 **v8.5** - Mở sự kiện KHÔNG cần APK + sự kiện dê (thử nghiệm)
 - Game tự tải JSON mới từ `json_url` khi `json_version` của server lớn hơn bản đã lưu, và JSON tải về được dùng
   thay file trong OBB. Server trả `/json` với EventConfig.json mở lại khung giờ sự kiện (2020-2035), `json_version` = 101.

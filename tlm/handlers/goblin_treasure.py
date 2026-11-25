@@ -4,6 +4,7 @@
      [byte bảng quà @0x50][int VÉ QUAY @0x2c][int ĐIỂM @0x28][int bậc đổi điểm @0x48][int n] n x [int id quà][int số bóng]
      (GoblinTreasureGUI::updateGui hiện "điểm / pointCoinExchangeRate[bậc]")
 7072 spin [int số lần] -> onReceiveGoblinTreasureSpin: [int n] n x [int id quà][int bóng thêm]
+     (GoblinTreasureGUI::onReceiveBall nhân bản id theo số bóng; MỖI LẦN QUAY = 3 BÓNG, bảng nhận bóng có 3 ô)
      (quà @0x30 += bóng, @0x1c = bóng / 3 = số lần nhận được)
 7073 sendReceiveGift [int id]... -> nhận quà vào kho (server trả 0 + cập nhật kho đồ)
 Điểm: cướp được vàng/dầu (goldPointRate/elixirPointRate) + dầu đen (darkElixirPointRate) -> đủ mốc thì +1 vé.
@@ -97,9 +98,9 @@ def spin(ctx, ctl, cmd, payload):
     cfg = _cfg(st)
     ok = [i for i, x in enumerate(cfg) if str(x.get("outGame")) != "true"]
     got = {}
-    for _ in range(n):
+    for _ in range(n * 3):              # MỖI LẦN QUAY RƠI 3 BÓNG: GoblinTreasureReceiveBallGUI có đúng 3 ô và đọc
         i = random.choices(ok, weights=[int(cfg[k].get("rate", 1)) for k in ok])[0]
-        got[i] = got.get(i, 0) + 1
+        got[i] = got.get(i, 0) + 1     # danh sách bóng .at(0..2) -> ít hơn 3 bóng = văng game (log 22:30)
     for i, k in got.items():
         g["balls"][str(i)] = int(g["balls"].get(str(i), 0)) + k
     state.save(st, ctx.account)
