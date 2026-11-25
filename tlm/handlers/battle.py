@@ -405,7 +405,12 @@ def army_to_battle(ctx, ctl, cmd, payload):
         army = [(r.str(), r.u16()) for _ in range(n)]
         # quân game thật sự có trong trại -> đồng bộ (game là nguồn đúng; server có thể lệch vì hàng đợi luyện)
         st = state.load(ctx.account)
-        st["troops"] = {t: c for t, c in army if c > 0}
+        # danh sách có cả PHÉP (SPE_*) -> phép về kho phép, KHÔNG để trong trại lính (TroopInfo có SPE_1 = văng
+        # game khi về nhà sau trận, log 22:36)
+        st["troops"] = {t: c for t, c in army if c > 0 and not t.startswith("SPE_")}
+        sp = {t: c for t, c in army if c > 0 and t.startswith("SPE_")}
+        if sp or st.get("spells"):
+            st["spells"] = sp
         state.save(st, ctx.account)
         ctx.log("QUÂN VÀO TRẬN (đồng bộ trại quân theo game): %s" % ", ".join("%s x%d" % a for a in army))
     except Exception as e:

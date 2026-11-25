@@ -93,6 +93,11 @@ def load(account=DEFAULT_ACCOUNT):
         if "items" not in st:
             st["items"] = []
             changed = True
+        bad = [t for t in st.get("troops", {}) if t.startswith("SPE_")]
+        if bad:                                       # bản <= 8.5.1 ghi phép vào trại lính (11018) -> bỏ ra
+            for t in bad:
+                st["troops"].pop(t)
+            changed = True
         if config.USE_OBB:
             if not any(b["type"].startswith("BDH") for b in st["buildings"]):
                 hut = dict(DEFAULT_BUILDER_HUT)

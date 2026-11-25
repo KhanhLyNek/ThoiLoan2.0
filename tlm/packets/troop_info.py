@@ -6,5 +6,6 @@ from ..protocol.codec import pstr, u16, u32
 
 
 def build(st):
-    troops = [(t, int(n)) for t, n in sorted(st.get("troops", {}).items()) if int(n) > 0]
+    troops = [(t, int(n)) for t, n in sorted(st.get("troops", {}).items()) if int(n) > 0
+              and not t.startswith("SPE_")]          # phép không phải lính (gửi trong BuildingInfo)
     return u32(len(troops)) + b"".join(pstr(t) + u16(min(n, 0xFFFF)) for t, n in troops) + bytes(256)

@@ -202,6 +202,10 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.5.2**
+- Sửa: mang phép vào trận làm phép (SPE_*) bị ghi vào trại lính -> về nhà sau trận game nhận lính lạ và văng.
+  Phép giờ đồng bộ vào kho phép; làng cũ bị lỗi tự dọn khi vào game.
+
 **v8.5.1**
 - Sửa văng game khi quay kho báu yêu tinh: mỗi lượt quay phải rơi 3 bóng (bảng nhận bóng có 3 ô).
 
