@@ -154,8 +154,12 @@ def start_battle(ctx, ctl, reply_cmd, st, base, name, th, enemy_id, what):
     levels = dict(st.get("troop_levels") or {})
     if ctx.battle["kind"] != "single":
         levels.update(hero_troops(st))
+    spells = st.get("spells") if ctx.battle["kind"] != "single" else None
+    if spells:
+        ctx.log("    phép: %s" % ", ".join("%s x%s" % kv for kv in sorted(spells.items())))
     ctx.reply(ctl, reply_cmd, 0, battle_info.build(base, enemy_id, name, th, troops, levels, clan,
-                                                     single_capacity=cap, keep_zero=ctx.battle["kind"] == "single"), "GỬI cmd=%d BattleInfo (%s)" % (reply_cmd, what))
+                                                     single_capacity=cap, keep_zero=ctx.battle["kind"] == "single",
+                                                     spells=spells), "GỬI cmd=%d BattleInfo (%s)" % (reply_cmd, what))
     return True
 
 
@@ -214,6 +218,12 @@ def end_battle(ctx, ctl, cmd, payload):
     if dropped:
         troops = st.setdefault("troops", {})
         for t, n in dropped.items():
+            if t.startswith("SPE_"):                       # phép thả trong trận -> trừ kho phép
+                sp = st.setdefault("spells", {})
+                sp[t] = int(sp.get(t, 0)) - n
+                if sp[t] <= 0:
+                    sp.pop(t, None)
+                continue
             left = int(troops.get(t, 0)) - n
             if left > 0:
                 troops[t] = left

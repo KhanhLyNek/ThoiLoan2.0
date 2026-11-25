@@ -202,6 +202,13 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v7.9** - Xưởng phép, phép, bỏ lính, huỷ xây...
+- Xây được NHÀ PHÉP (SPF_1); chế phép (11008), huỷ (11009), phép xong (11010), xong ngay bằng G (11011), bỏ phép (11016).
+  Hàng đợi + kho phép lưu trên server, gửi lại trong BuildingInfo; phép mang vào trận (BattleInfo @0x38), dùng xong trừ kho.
+  Nghiên cứu phép ở phòng thí nghiệm (SpellLevel.json).
+- Bỏ lính khỏi trại quân (11015) nay trừ trên server (trước đây vào lại game lính bỏ đi vẫn còn).
+- Huỷ xây/nâng cấp (2009, hoàn 50%), sửa bẫy (2027), dựng lại lâu đài bang (2012), đổi tên (1011), anh hùng (11012/11013).
+
 **v7.8** - công trình nâng cấp xong bị tụt cấp
 - Server gửi CẤP THẬT cho game. Bản cũ hạ cấp khi ContentName3 không liệt kê đúng cấp (AMC_1 9, LAB_1 10, CLC_1 7,
   DEF_1/DEF_2 16-17, DEF_3 11-13, STO 12, BDH 2-5... 47 trường hợp) dù JsonMgr::getImageName tự lùi về ảnh gần nhất

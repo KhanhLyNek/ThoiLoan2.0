@@ -23,7 +23,7 @@ from ..protocol.codec import pstr, u8, u16, u32
 
 
 def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_troops=None, single_capacity=0,
-          keep_zero=False):
+          keep_zero=False, spells=None):
     d = u32(enemy_id) + pstr(name) + u32(th_level) + u32(0) + u8(0) + pstr("") + u32(0) + pstr("") + u32(0)
     d += u32(len(base))
     for b in base:
@@ -42,4 +42,10 @@ def build(base, enemy_id, name, th_level, troops=None, troop_levels=None, clan_t
     # int @0x14c = SỨC CHỨA LÍNH PHÓ BẢN, byte @0x150 = sức chứa phép (SingleBattleSelectGUI::initData)
     d += u32(0) + u32(0) + bytes(8 * 7) + u32(0) + u32(0) + pstr("") + u16(0) + u32(0) + u32(0) + u8(0)
     d += u32(0) + u8(0) + bytes(16) + u32(single_capacity) + u8(0)
+    # sau @0x150: [byte n] (byte, doubleA, chuỗi) x2 (dòng trang bị), [byte n] (int, chuỗi), [byte n] (chuỗi, byte),
+    # rồi PHÉP MANG VÀO TRẬN @0x38: [byte n] n x [chuỗi phép][byte cấp @0xc][byte số @8]
+    sp = [(s, int(n)) for s, n in sorted((spells or {}).items()) if int(n) > 0]
+    lv = troop_levels or {}
+    d += u8(0) + u8(0) + u8(0) + u8(0)
+    d += u8(len(sp)) + b"".join(pstr(s) + u8(max(1, int(lv.get(s, 1)))) + u8(n & 0xFF) for s, n in sp)
     return d + bytes(2048)

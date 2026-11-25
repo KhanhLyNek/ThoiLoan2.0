@@ -27,7 +27,8 @@ def push_city(ctx, ctl, with_player=False):
     st = state.load(ctx.account)
     from .army import fit_to_camps, settle_training
     from .research import settle_research
-    moved = settle_training(st) + int(settle_research(ctx, st))
+    from .spell import settle_spells
+    moved = settle_training(st) + int(settle_research(ctx, st)) + settle_spells(st)
     if fit_to_camps(st) or moved:
         state.save(st, ctx.account)
     if with_player:

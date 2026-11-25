@@ -2,7 +2,7 @@
 import os
 import sys
 
-VERSION = "7.8"
+VERSION = "7.9"
 FOLDER_NAME = "ThoiLoan2.0"          # thư mục dữ liệu ngoài bộ nhớ chung (log, state.json...)
 
 BIND_HOST = "0.0.0.0"

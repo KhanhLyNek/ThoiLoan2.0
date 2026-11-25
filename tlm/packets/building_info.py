@@ -85,8 +85,16 @@ def build(st, account=None):
     obs = st.get("obstacles", []) if config.USE_OBB else []
     data += u16(len(obs)) + b"".join(u32(o["id"]) + pstr(o["type"]) + bytes(8)
                                      + bytes([o["x"] & 0xFF, o["y"] & 0xFF]) for o in obs)
-    data += u16(0)                                          # nhà phép (SpellFactory): 0
-    data += u16(0)                                          # phép đã có: 0
+    spf = groups.get("spellfactory")                        # NHÀ PHÉP: [short cờ] + đối tượng chung (không TAIL)
+    if spf:                                                 #  + hàng đợi [short n] n x [chuỗi phép][short số]
+        q = [(s, int(n)) for s, n in st.get("spell_queue", []) if int(n) > 0]   # + double@0x60 short@0xa2 int@0xa4
+        h = _head(spf[0])                                   # @0x40 = GIỜ BẮT ĐẦU CHẾ (getStartTrainTime, giây)
+        h = h[:4 + 2 + len(spf[0]["type"])] + f64(int(st.get("spell_start") or 0)) + h[4 + 2 + len(spf[0]["type"]) + 8:]
+        data += (u16(1) + h + u16(len(q)) + b"".join(pstr(s) + u16(n) for s, n in q) + TAIL)
+    else:
+        data += u16(0)
+    sp = [(s, int(n)) for s, n in sorted(st.get("spells", {}).items()) if int(n) > 0]
+    data += u16(len(sp)) + b"".join(pstr(s) + u8(n & 0xFF) for s, n in sp)   # PHÉP ĐÃ CÓ -> GameDataMgr+0x88
     decos = groups.get("decoration", [])                    # trang trí (DecorationObject): id, loại, double
     data += u16(len(decos)) + b"".join(                     #  giờ bắt đầu @0x40 (giây), byte trạng thái @0x68,
         u32(d["id"]) + pstr(d["type"]) + f64(d.get("placed_at", 0))   # byte cấp, x, y, @0x1a8, @0x1ac,
