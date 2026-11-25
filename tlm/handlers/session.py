@@ -49,6 +49,10 @@ def get_user_info(ctx, ctl, cmd, payload):
         push_city(ctx, ctl)
         from .payment import push_vip
         push_vip(ctx, ctl, st)
+        from .daily import push_login7
+        st = state.load(ctx.account)                 # tải lại: push_city vừa lưu (lính luyện xong, phép...)
+        push_login7(ctx, ctl, st)
+        state.save(st, ctx.account)
     return True
 
 

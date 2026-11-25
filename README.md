@@ -202,6 +202,11 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.2** - Cửa hàng yêu tinh + quà đăng nhập 7 ngày
+- Cửa hàng yêu tinh (6008/6009/6010): 6 món ngẫu nhiên từ DailyShop, mua bằng xu nhiệm vụ (vật phẩm loại 14),
+  tự làm mới sau 8 giờ hoặc làm mới bằng G.
+- Quà đăng nhập 7 ngày (7004 đẩy khi vào game, 7005 nhận quà OnlineGift.json vào kho).
+
 **v8.1** - Nhiệm vụ ngày
 - 15 nhiệm vụ mỗi ngày (DailyQuest.json, theo cấp nhà chính), độ khó tăng dần (hardMode). Nhận quà (6004) -> vật phẩm
   vào kho (túi vàng/dầu/dầu đen, rương ChestGift), xong ngay bằng G (6006), đổi nhiệm vụ (6007). Lưu trên server.
