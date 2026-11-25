@@ -39,23 +39,34 @@ def cost_of(btype, level):
 IMAGE_MAP = load_table("image_map.json")
 
 
+def _image_for(m, level):
+    """Ảnh game chọn cho cấp này: JsonMgr::getImageName thử cấp, cấp-1, ... tới khi ContentName3 có mục."""
+    lv = [int(k) for k in m if int(k) <= level]
+    return m[str(max(lv))] if lv else 1
+
+
 def display_level(btype, level):
-    """Cấp gửi cho game. Game tự đổi cấp -> ảnh bằng ContentName3.json (JsonMgr::getImageName), nên được gửi
-    CẤP THẬT nếu bảng có cấp đó VÀ ảnh nó trỏ tới có thật; không thì cấp hợp lệ cao nhất <= cấp thật.
-    (Bản <= 7.3 so cấp với số ảnh: bệ anh hùng KQB chỉ có ảnh _1 nên luôn gửi cấp 1 -> anh hùng không lên cấp;
-     DEF_2 có ảnh tới 9 nhưng game hỗ trợ tới 15...)"""
+    """Cấp gửi cho game = CẤP THẬT, trừ khi ảnh game sẽ chọn cho cấp đó không có trong dữ liệu (OBB) -> hạ xuống
+    cấp cao nhất có ảnh (hiện chỉ DEF_4 cấp 9+ thiếu ảnh DEF_4_5).
+    Bản <= 7.7 hạ cấp mỗi khi ContentName3 không liệt kê đúng cấp đó (AMC_1 cấp 9, DEF_1 16-17, LAB_1 10...) dù
+    getImageName tự lùi về ảnh cấp gần nhất -> game hiện cấp thấp hơn, cho nâng lại, server báo đã tối đa
+    -> vào lại / đi đánh là "quay về cấp cũ"."""
     m = IMAGE_MAP.get(btype)
-    if m:
-        have = set(IMAGE_LEVELS.get(btype, [])) or None
-        ok = [int(l) for l, img in m.items() if have is None or img in have]
-        if not ok:
-            return level
-        if level in ok:
-            return level
-        below = [l for l in ok if l <= level]
-        return max(below) if below else min(ok)
-    levels = IMAGE_LEVELS.get(btype, [])
-    if not levels or level in levels:
+    have = set(IMAGE_LEVELS.get(btype, []))
+    if not m:
         return level
-    above = [l for l in levels if l >= level]
-    return min(above) if above else max(levels)
+    if not have or _image_for(m, level) in have:
+        return level
+    ok = [l for l in range(level, 0, -1) if _image_for(m, l) in have]
+    return ok[0] if ok else level
+
+
+def max_level(btype):
+    """Cấp cao nhất nâng được: theo bảng giá, và không vượt cấp cao nhất game vẽ được."""
+    lv = sorted(int(k) for k in COST.get(btype, {}))
+    if not lv:
+        return None
+    top = lv[-1]
+    while top > 1 and display_level(btype, top) != top:
+        top -= 1
+    return top

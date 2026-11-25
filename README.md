@@ -202,6 +202,12 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v7.8** - công trình nâng cấp xong bị tụt cấp
+- Server gửi CẤP THẬT cho game. Bản cũ hạ cấp khi ContentName3 không liệt kê đúng cấp (AMC_1 9, LAB_1 10, CLC_1 7,
+  DEF_1/DEF_2 16-17, DEF_3 11-13, STO 12, BDH 2-5... 47 trường hợp) dù JsonMgr::getImageName tự lùi về ảnh gần nhất
+  -> game hiện cấp thấp, cho nâng lại, server báo tối đa nhưng vẫn trả "thành công" -> vào lại/đi đánh là tụt cấp.
+- Chỉ DEF_4 cấp 9+ còn bị giữ ở 8 (OBB không có ảnh DEF_4_5). Nâng quá cấp tối đa nay trả LỖI cho game.
+
 **v7.7**
 - Đánh đảo TRỐNG ở Cổng thế giới đi lệnh 9001 [0][1|2][id đảo] (không phải 9017): bản trước tưởng là chinh phạt thường
   nên thắng xong không chiếm được đảo, không có uranium. Nay nhận ra id đảo -> trận đánh đảo -> chiếm đảo.

@@ -79,9 +79,13 @@ def upgrade(ctx, ctl, cmd, payload):
         ctx.log("nâng cấp: không thấy công trình %s id=%s" % (btype, bid))
         return False
     new_level = b["level"] + 1
-    if b["type"] in gamedata.COST and str(new_level) not in gamedata.COST[b["type"]]:
-        ctx.log("nâng cấp %s: đã ở cấp tối đa" % b["type"])
-        return False
+    top = gamedata.max_level(b["type"])
+    if top is not None and new_level > top:
+        # Trả LỖI để game không tự lên cấp (trả thành công như bản cũ -> game hiện cấp mới, vào lại bị tụt).
+        ctx.log("nâng cấp %s id=%d: đã ở cấp tối đa %d (server giữ cấp %d) -> báo lỗi cho game"
+                % (b["type"], bid, top, b["level"]))
+        ctx.reply(ctl, cmd, 1, bytes(512), "GỬI cmd=2003 lỗi: đã cấp tối đa")
+        return True
     c = state.pay(st, b["type"], new_level)
     b["level"] = new_level
     b["busy_until"] = time.time() + gamedata.build_time(b["type"], new_level)
