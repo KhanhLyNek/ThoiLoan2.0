@@ -95,3 +95,12 @@ def hero_state(ctx, ctl, cmd, payload):
         ctx.log("ĐỔI TRẠNG THÁI ANH HÙNG loại %d" % kind)
     state.save(st, ctx.account)
     return False
+
+
+@handler(7008)
+def townhall_event(ctx, ctl, cmd, payload):
+    """sendGetTownhallEvent: trả LỖI -> onReceived đặt GameDataMgr+0x4f0 = -1, +4 = 20 (không có sự kiện), không mở
+    UpgradeTHGUI. (Có dữ liệu thì UpgradeTHGiftDialog::startWithLevel(cấp nhà chính) tra TownHallGift.json chỉ có
+    cấp 2-7 -> nhà chính cấp cao sập; trả rỗng error 0 cũng sập -> bản cũ không trả lời.)"""
+    ctx.reply(ctl, 7008, 1, b"", "GỬI cmd=7008 lỗi = không có sự kiện nâng nhà chính")
+    return True

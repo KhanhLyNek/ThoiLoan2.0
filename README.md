@@ -202,6 +202,9 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.3**
+- 7008 (sự kiện nâng nhà chính) trả lỗi = "không có sự kiện" theo đúng nhánh của game (trước đây không trả lời).
+
 **v8.2** - Cửa hàng yêu tinh + quà đăng nhập 7 ngày
 - Cửa hàng yêu tinh (6008/6009/6010): 6 món ngẫu nhiên từ DailyShop, mua bằng xu nhiệm vụ (vật phẩm loại 14),
   tự làm mới sau 8 giờ hoặc làm mới bằng G.
