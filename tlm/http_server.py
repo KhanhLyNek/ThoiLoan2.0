@@ -13,7 +13,7 @@ import re
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
-from . import admin, config
+from . import admin, config, events
 from .data import load_table
 from .logger import log
 
@@ -30,6 +30,7 @@ def default_info():
     info.update({"server_ip": ip, "server_port": config.GAME_PORT, "chat_ip": ip, "chat_port": config.CHAT_PORT,
                  "client_ip": ip, "mail_api": "http://%s:%d/mail?country=" % (ip, http),
                  "login_url": "http://%s:%d/login" % (ip, http), "json_url": "http://%s:%d/json/" % (ip, http)})
+    info["json_version"] = events.JSON_VERSION
     return info
 
 
@@ -170,6 +171,12 @@ class HttpHandler(BaseHTTPRequestHandler):
             # CityMgr::finishGetListMessage đọc thẳng doc["data"] (thiếu -> sập)
             payload = json.dumps({"data": []}).encode("utf-8")
             log("    -> trả /mail: danh sách thư rỗng")
+        elif self.path.startswith("/json"):
+            # PreloadScreen::finishRequestConfig: mỗi mục -> CCUserDefault "Tên.json" (đè file JSON trong OBB)
+            files = events.json_files()
+            payload = json.dumps(files).encode("utf-8")
+            log("    -> trả /json (bản %s): %s - mở sự kiện %s"
+                % (events.JSON_VERSION, ", ".join(f + ".json" for f in files), ", ".join(events.OPEN)))
         elif self.path.startswith("/info"):
             try:
                 with open(config.data_path("info.json"), "rb") as f:
@@ -180,6 +187,8 @@ class HttpHandler(BaseHTTPRequestHandler):
                 try:                                 # info.json tự viết vẫn nhận cờ theme của server
                     d = json.loads(payload)
                     d.setdefault("enableTheme", bool(config.ENABLE_THEME))
+                    if "/json" in str(d.get("json_url", "")):
+                        d["json_version"] = events.JSON_VERSION
                     payload = json.dumps(d).encode("utf-8")
                 except ValueError:
                     pass

@@ -22,5 +22,5 @@ def handler(*cmds):
 
 
 def load_all():
-    from . import session, city, tutorial, battle, finish, profile, shop, army, single, layout, inventory, payment, clan, boost, ranking, research, replay, worldmap, spell, misc_city, personal, daily, goblin_treasure  # noqa: F401  (đăng ký handler)
+    from . import session, city, tutorial, battle, finish, profile, shop, army, single, layout, inventory, payment, clan, boost, ranking, research, replay, worldmap, spell, misc_city, personal, daily, goblin_treasure, goat  # noqa: F401  (đăng ký handler)
     return HANDLERS

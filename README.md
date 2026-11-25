@@ -202,6 +202,14 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.5** - Mở sự kiện KHÔNG cần APK + sự kiện dê (thử nghiệm)
+- Game tự tải JSON mới từ `json_url` khi `json_version` của server lớn hơn bản đã lưu, và JSON tải về được dùng
+  thay file trong OBB. Server trả `/json` với EventConfig.json mở lại khung giờ sự kiện (2020-2035), `json_version` = 101.
+  Danh sách sự kiện mở: `OPEN` trong `tlm/events.py` (thêm sự kiện = viết handler + thêm vào OPEN + tăng JSON_VERSION).
+- Đã mở: sự kiện dê (dê đi dạo trong làng, nhận 3 dê miễn phí, mua dê/cỏ, nâng cấp dê/chuồng, thu hoạch dê ra quà)
+  và kho báu yêu tinh (v8.4).
+- Cần thoát hẳn game rồi mở lại để game tải EventConfig mới.
+
 **v8.4** - Kho báu yêu tinh (thử nghiệm)
 - Vé quay: 5 vé lần đầu + vé miễn phí 7h/15h/23h + đổi điểm (cướp tài nguyên khi đánh trận) lấy vé; hết vé quay bằng G.
 - Quay (7072) ra bóng của từng món quà (GiftHunting.json), đủ 3 bóng nhận quà (7073) vào kho.
