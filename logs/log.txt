@@ -1,22 +1,24 @@
-# Log tạo lúc: 2026-11-25 00:06:55
-# ThoiLoanServer v7.7 | Python 3.14.10 | dữ liệu /storage/emulated/0/ThoiLoan2.0 | tự trả lời: BẬT
-[00:06:55] Đã nén log cũ -> /storage/emulated/0/ThoiLoan2.0/old_logs/log_2026-11-24_23-50-45.zip
-[00:06:55] ThoiLoanServer v7.7 | dữ liệu: /storage/emulated/0/ThoiLoan2.0
-[00:06:56] Đã nạp 65 handler: 1, 1001, 1006, 1009, 1015, 1016, 1018, 1046, 1076, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2010, 2011, 2014, 2024, 2029, 2042, 2043, 2046, 3002, 3003, 3004, 3005, 3006, 3008, 3009, 3014, 3017, 3037, 4001, 4003, 8001, 8002, 9001, 9002, 9003, 9011, 9012, 9013, 9017, 9039, 9047, 10003, 10005, 10008, 11001, 11002, 11003, 11004, 11005, 11007, 11018, 11020, 11021, 12005, 12006, 12007, 14001, 14003
-[00:06:56] Kho lưu: sqlite | 3 tài khoản | tuỳ chọn: tự trả lời=True, đẩy làng=True, OBB=True
-[00:06:56] Đang lắng nghe HTTP trên cổng 8080
-[00:06:56] Đang lắng nghe GAME trên cổng 9000
-[00:06:56] Đang lắng nghe CHAT trên cổng 9001
-[00:06:56] Trang quản trị: http://127.0.0.1:8080/admin
-[00:06:56] Sẵn sàng. Mở game đi. Ctrl+C để dừng.
-[00:06:56] Đã sao lưu dữ liệu vào /storage/emulated/0/ThoiLoan2.0/backups
-[00:07:01] HTTP GET /obblog?m=APK+c%C3%B3+s%E1%BA%B5n+d%E1%BB%AF+li%E1%BB%87u+OBB+-%3E+v%C3%A0o+game%2C+kh%C3%B4ng+c%E1%BA%A7n+t%E1%BA%A3i từ 127.0.0.1
-[00:07:01]     -> OBB (từ máy): APK có sẵn dữ liệu OBB -> vào game, không cần tải
-[00:07:01] HTTP GET /info?platform=android&package_name=gsn.zps.thoiloan&source=13&version_code=7.6.12&login_version=1&ref_code=&isHD=1 từ 127.0.0.1
-[00:07:01]     -> trả /info 632 byte (mặc định)
-[00:07:04] #1 [GAME] kết nối mới từ 127.0.0.1:39414
-[00:07:04] #2 [CHAT] kết nối mới từ 127.0.0.1:46078
-[00:07:04] #1 [GAME] nhận 245 byte:
+# Log tạo lúc: 2026-11-25 22:28:53
+# ThoiLoanServer v8.5 | Python 3.14.10 | dữ liệu /storage/emulated/0/ThoiLoan2.0 | tự trả lời: BẬT
+[22:28:53] Đã nén log cũ -> /storage/emulated/0/ThoiLoan2.0/old_logs/log_2026-11-25_19-39-37.zip
+[22:28:53] ThoiLoanServer v8.5 | dữ liệu: /storage/emulated/0/ThoiLoan2.0
+[22:28:53] Đã nạp 108 handler: 1, 1001, 1006, 1009, 1011, 1015, 1016, 1018, 1046, 1053, 1068, 1076, 1082, 1087, 1088, 1089, 1091, 1093, 1094, 1095, 1097, 1100, 2001, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 2014, 2024, 2027, 2029, 2042, 2043, 2046, 3002, 3003, 3004, 3005, 3006, 3008, 3009, 3014, 3017, 3037, 4001, 4003, 6003, 6004, 6006, 6007, 6008, 6009, 6010, 7005, 7008, 7029, 7030, 7031, 7032, 7036, 7037, 7038, 7071, 7072, 7073, 8001, 8002, 9001, 9002, 9003, 9011, 9012, 9013, 9017, 9039, 9047, 10003, 10005, 10008, 11001, 11002, 11003, 11004, 11005, 11007, 11008, 11009, 11010, 11011, 11012, 11013, 11015, 11016, 11018, 11020, 11021, 12005, 12006, 12007, 14001, 14003
+[22:28:54] Kho lưu: sqlite | 3 tài khoản | tuỳ chọn: tự trả lời=True, đẩy làng=True, OBB=True
+[22:28:54] Đang lắng nghe HTTP trên cổng 8080
+[22:28:54] Đang lắng nghe GAME trên cổng 9000
+[22:28:54] Đang lắng nghe CHAT trên cổng 9001
+[22:28:54] Trang quản trị: http://127.0.0.1:8080/admin
+[22:28:54] Sẵn sàng. Mở game đi. Ctrl+C để dừng.
+[22:28:54] Đã sao lưu dữ liệu vào /storage/emulated/0/ThoiLoan2.0/backups
+[22:28:55] HTTP GET /obblog?m=APK+c%C3%B3+s%E1%BA%B5n+d%E1%BB%AF+li%E1%BB%87u+OBB+-%3E+v%C3%A0o+game%2C+kh%C3%B4ng+c%E1%BA%A7n+t%E1%BA%A3i từ 127.0.0.1
+[22:28:55]     -> OBB (từ máy): APK có sẵn dữ liệu OBB -> vào game, không cần tải
+[22:28:55] HTTP GET /info?platform=android&package_name=gsn.zps.thoiloan&source=13&version_code=7.6.12&login_version=1&ref_code=&isHD=1 từ 127.0.0.1
+[22:28:55]     -> trả /info 633 byte (mặc định)
+[22:28:57] HTTP GET /json/ từ 127.0.0.1
+[22:28:57]     -> trả /json (bản 101): EventConfig.json - mở sự kiện goat, giftHunting
+[22:28:58] #1 [GAME] kết nối mới từ 127.0.0.1:54164
+[22:28:58] #2 [CHAT] kết nối mới từ 127.0.0.1:41862
+[22:28:58] #1 [GAME] nhận 245 byte:
     0000  90 00 f2 01 00 01 00 17 67 6f 6f 67 6c 65 2d 62  ........google-b
     0010  66 61 38 35 33 66 33 36 65 38 34 36 32 39 33 0d  fa853f36e846293.
     0020  00 00 10 62 66 61 38 35 33 66 33 36 65 38 34 36  ...bfa853f36e846
@@ -33,16 +35,16 @@
     00d0  00 00 00 11 30 32 3a 30 30 3a 30 30 3a 30 30 3a  ....02:00:00:00:
     00e0  30 30 3a 30 30 01 00 02 76 6e 00 09 31 32 37 2e  00:00...vn..127.
     00f0  30 2e 30 2e 31                                   0.0.1
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=1 [Login (sessionKey, thông tin máy)] dữ liệu 239 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     chuỗi: @0 'google-bfa853f36e846293'; @27 'bfa853f36e846293'; @45 '7.6.12'; @53 '16'; @57 '23117RA68G'; @69 '2289'; @75 '1036'; @81 'processor\t: 0 2000000 '; @105 '8020680704'; @117 'ARM Mali-G57 MC2'; @135 'OpenGL ES 3.2 v1.r54p1-09bet0.ffb9e377f5d7c95fe2471f3c463d2515'; @204 '02:00:00:00:00:00'
-[00:07:04] #1 [GAME]     hex: 0017676f6f676c652d626661383533663336653834363239330d000010626661383533663336653834363239330006372e362e313200023136000a32333131375241363847000432323839000431303336001670726f636573736f72093a2030203230303030303020000a38303230363830373034001041...
-[00:07:04] #1 [GAME]   tài khoản: google-bfa853f36e846293
-[00:07:04] #1 [GAME]   -> GỬI cmd=1 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME] nhận 6 byte:
+[22:28:58] #1 [GAME]   KHUNG ctl=1 cmd=1 [Login (sessionKey, thông tin máy)] dữ liệu 239 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:58] #1 [GAME]     chuỗi: @0 'google-bfa853f36e846293'; @27 'bfa853f36e846293'; @45 '7.6.12'; @53 '16'; @57 '23117RA68G'; @69 '2289'; @75 '1036'; @81 'processor\t: 0 2000000 '; @105 '8020680704'; @117 'ARM Mali-G57 MC2'; @135 'OpenGL ES 3.2 v1.r54p1-09bet0.ffb9e377f5d7c95fe2471f3c463d2515'; @204 '02:00:00:00:00:00'
+[22:28:58] #1 [GAME]     hex: 0017676f6f676c652d626661383533663336653834363239330d000010626661383533663336653834363239330006372e362e313200023136000a32333131375241363847000432323839000431303336001670726f636573736f72093a2030203230303030303020000a38303230363830373034001041...
+[22:28:58] #1 [GAME]   tài khoản: google-bfa853f36e846293
+[22:28:58] #1 [GAME]   -> GỬI cmd=1 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:58] #1 [GAME] nhận 6 byte:
     0000  90 00 03 01 03 e9                                ......
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=1001 [getUserInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetPlayerInfo
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #2 [CHAT] nhận 245 byte:
+[22:28:58] #1 [GAME]   KHUNG ctl=1 cmd=1001 [getUserInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetPlayerInfo
+[22:28:58] #1 [GAME]     hex: 
+[22:28:58] #2 [CHAT] nhận 245 byte:
     0000  90 00 f2 01 00 01 00 17 67 6f 6f 67 6c 65 2d 62  ........google-b
     0010  66 61 38 35 33 66 33 36 65 38 34 36 32 39 33 0d  fa853f36e846293.
     0020  00 00 10 62 66 61 38 35 33 66 33 36 65 38 34 36  ...bfa853f36e846
@@ -59,1151 +61,204 @@
     00d0  00 00 00 11 30 32 3a 30 30 3a 30 30 3a 30 30 3a  ....02:00:00:00:
     00e0  30 30 3a 30 30 01 00 02 76 6e 00 09 31 32 37 2e  00:00...vn..127.
     00f0  30 2e 30 2e 31                                   0.0.1
-[00:07:04] #2 [CHAT]   KHUNG ctl=1 cmd=1 [Login (sessionKey, thông tin máy)] dữ liệu 239 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #2 [CHAT]     chuỗi: @0 'google-bfa853f36e846293'; @27 'bfa853f36e846293'; @45 '7.6.12'; @53 '16'; @57 '23117RA68G'; @69 '2289'; @75 '1036'; @81 'processor\t: 0 2000000 '; @105 '8020680704'; @117 'ARM Mali-G57 MC2'; @135 'OpenGL ES 3.2 v1.r54p1-09bet0.ffb9e377f5d7c95fe2471f3c463d2515'; @204 '02:00:00:00:00:00'
-[00:07:04] #2 [CHAT]     hex: 0017676f6f676c652d626661383533663336653834363239330d000010626661383533663336653834363239330006372e362e313200023136000a32333131375241363847000432323839000431303336001670726f636573736f72093a2030203230303030303020000a38303230363830373034001041...
-[00:07:04] #2 [CHAT]   tài khoản: google-bfa853f36e846293
-[00:07:04] #1 [GAME]       người chơi: vàng 140249/9003000, dầu 8990271/11000000, dầu đen 126515/240000, G 30057
-[00:07:04] #2 [CHAT]   -> GỬI cmd=1 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   -> GỬI cmd=1001 GetPlayerInfo (497 byte)
-[00:07:04] #1 [GAME]   -> ĐẨY chủ động cmd=1002 lớp BuildingInfo [40 công trình + 54 chướng ngại] (3915 byte)
-[00:07:04] #1 [GAME]   -> ĐẨY chủ động cmd=1003 lớp TroopInfo [quân: DAR_2 x10] (276 byte)
-[00:07:04] #1 [GAME]   -> ĐẨY chủ động cmd=1047 lớp ErrorCode [VIP 6, 7400 điểm] (44 byte)
-[00:07:04] #1 [GAME] nhận 18 byte:
+[22:28:58] #2 [CHAT]   KHUNG ctl=1 cmd=1 [Login (sessionKey, thông tin máy)] dữ liệu 239 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:58] #2 [CHAT]     chuỗi: @0 'google-bfa853f36e846293'; @27 'bfa853f36e846293'; @45 '7.6.12'; @53 '16'; @57 '23117RA68G'; @69 '2289'; @75 '1036'; @81 'processor\t: 0 2000000 '; @105 '8020680704'; @117 'ARM Mali-G57 MC2'; @135 'OpenGL ES 3.2 v1.r54p1-09bet0.ffb9e377f5d7c95fe2471f3c463d2515'; @204 '02:00:00:00:00:00'
+[22:28:58] #2 [CHAT]     hex: 0017676f6f676c652d626661383533663336653834363239330d000010626661383533663336653834363239330006372e362e313200023136000a32333131375241363847000432323839000431303336001670726f636573736f72093a2030203230303030303020000a38303230363830373034001041...
+[22:28:58] #2 [CHAT]   tài khoản: google-bfa853f36e846293
+[22:28:58] #2 [CHAT]   -> GỬI cmd=1 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:58] #1 [GAME]       người chơi: vàng 171048/9003000, dầu 1620335/11000000, dầu đen 67079/240000, G 16579
+[22:28:58] #1 [GAME]   -> GỬI cmd=1001 GetPlayerInfo (497 byte)
+[22:28:58] #1 [GAME]   -> ĐẨY chủ động cmd=1002 lớp BuildingInfo [40 công trình + 54 chướng ngại] (3915 byte)
+[22:28:58] #1 [GAME]   -> ĐẨY chủ động cmd=1003 lớp TroopInfo [quân: DAR_2 x18] (276 byte)
+[22:28:58] #1 [GAME]   -> ĐẨY chủ động cmd=1047 lớp ErrorCode [VIP 6, 7600 điểm] (44 byte)
+[22:28:58] #1 [GAME]   -> ĐẨY chủ động cmd=7004 lớp DailyBonus [quà 7 ngày: ngày 1, đã nhận []] (25 byte)
+[22:28:59] HTTP GET /mail?country=vn&uId=1 từ 127.0.0.1
+[22:28:59]     -> trả /mail: danh sách thư rỗng
+[22:28:59] #1 [GAME] nhận 24 byte:
     0000  90 00 03 01 3e 8d 90 00 03 01 3e 83 90 00 03 01  ....>.....>.....
-    0010  3e 87                                            >.
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=16013 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=16013 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=16003 [MessageData.loadData] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=16003 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=16007 [MessageData.loadData] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=16007 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 17 73                                .....s
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=6003 [sendGetDailyQuestInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveDailyQuest
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=6003 lớp DailyQuest, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 1b 72                                .....r
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=7026 [sendGetMonthGiftInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMonthGiftInfo
-[00:07:04] HTTP GET /mail?country=vn&uId=1 từ 127.0.0.1
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04]     -> trả /mail: danh sách thư rỗng
-[00:07:04] #1 [GAME]   -> GỬI cmd=7026 lớp MonthGiftInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME] nhận 64 byte:
-    0000  90 00 03 01 23 4f 90 00 03 01 0f ae 90 00 04 01  ....#O..........
-    0010  07 ea 00 90 00 04 01 07 ea 01 90 00 07 01 04 3a  ...............:
-    0020  00 00 00 01 90 00 03 01 04 39 90 00 03 01 1b c0  .........9......
-    0030  90 00 03 01 1b c2 90 00 07 01 04 3d 00 00 00 01  ...........=....
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=9039 [sendGetSingleMapInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveSingleMap
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=9039 SingleMap: đã mở tới màn 4 (271 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=4014 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMailV3
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=4014 lớp MailV3, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=2026 [(gửi từ CityMgr.onGetPlayerInfo, dữ liệu 1 byte)] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 00
-[00:07:04] #1 [GAME]   -> GỬI cmd=2026 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=2026 [(gửi từ CityMgr.onGetPlayerInfo, dữ liệu 1 byte)] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 01
-[00:07:04] #1 [GAME]   -> GỬI cmd=2026 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=1082 [(equipment; gửi từ CityMgr.onGetPlayerInfo, dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 00000001
-[00:07:04] #1 [GAME]   -> GỬI cmd=1082 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=1081 [EquipmentManager.getEquipmentInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=1081 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=7104 [sendNewUser14dayGetInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=7104 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=7106 [sendNewUser14dayGetShop] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=7106 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=1085 [sendTopTrophyGetInfo (dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:04] #1 [GAME]     hex: 00000001
-[00:07:04] #1 [GAME]   -> GỬI cmd=1085 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:04] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a ad                                ....:.
-[00:07:04] #1 [GAME]   KHUNG ctl=1 cmd=15021 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveClanTournamentInfo
-[00:07:04] #1 [GAME]     hex: 
-[00:07:04] #1 [GAME]   -> GỬI cmd=15021 lớp ClanTournamentInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 1f 42                                .....B
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=8002 [Achievement (thành tựu)] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveAchievement
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=8002 Achievement (16 thành tựu) (376 byte)
-[00:07:05] #1 [GAME] nhận 40 byte:
-    0000  90 00 03 01 27 18 90 00 07 01 0b dd 00 00 03 ec  ....'...........
-    0010  90 00 03 01 32 c9 90 00 03 01 1b 71 90 00 03 01  ....2......q....
-    0020  04 0b 90 00 03 01 1b 9f                          ........
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=10008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveItemInfo
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=10008 kho đồ: 4 vật phẩm (119 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=3037 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveClanDetail
-[00:07:05] #1 [GAME]     hex: 000003ec
-[00:07:05] #1 [GAME]   -> GỬI cmd=3037 CHI TIẾT BANG "LyMeowz" id=1004, 1 thành viên (167 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=13001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveTopFarm
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   (KHÔNG trả lời cmd 13001: TopFarm: TopFarmTableViewCell::setSlotData sập với dữ liệu rỗng)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=7025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveCardEventInfo
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=7025 lớp CardEventInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1035 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=1035 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=7071 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=7071 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3e 94                                ....>.
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=16020 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=16020 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 13 byte:
-    0000  90 00 04 01 04 16 04 90 00 03 01 07 f2           .............
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1046 [?] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveTopTrophyBoard
-[00:07:05] #1 [GAME]     hex: 04
-[00:07:05] #1 [GAME]   -> GỬI cmd=1046 bảng cúp tuần: 15 người (1585 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=2034 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=2034 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 94 byte:
+    0010  3e 87 90 00 03 01 17 73                          >......s
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=16013 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=16013 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=16003 [MessageData.loadData] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=16003 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=16007 [MessageData.loadData] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=16007 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=6003 [sendGetDailyQuestInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveDailyQuest
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=6003 nhiệm vụ ngày 1/15: DIE_STO_3 x1 (thông tin) (67 byte)
+[22:28:59] #1 [GAME] nhận 76 byte:
+    0000  90 00 03 01 1b 72 90 00 03 01 23 4f 90 00 03 01  .....r....#O....
+    0010  0f ae 90 00 04 01 07 ea 00 90 00 04 01 07 ea 01  ................
+    0020  90 00 07 01 04 3a 00 00 00 01 90 00 03 01 04 39  .....:.........9
+    0030  90 00 03 01 1b c0 90 00 03 01 1b c2 90 00 07 01  ................
+    0040  04 3d 00 00 00 01 90 00 03 01 3a ad              .=........:.
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=7026 [sendGetMonthGiftInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMonthGiftInfo
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=7026 lớp MonthGiftInfo, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=9039 [sendGetSingleMapInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveSingleMap
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=9039 SingleMap: đã mở tới màn 4 (271 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=4014 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMailV3
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=4014 lớp MailV3, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=2026 [(gửi từ CityMgr.onGetPlayerInfo, dữ liệu 1 byte)] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 00
+[22:28:59] #1 [GAME]   -> GỬI cmd=2026 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=2026 [(gửi từ CityMgr.onGetPlayerInfo, dữ liệu 1 byte)] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 01
+[22:28:59] #1 [GAME]   -> GỬI cmd=2026 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=1082 [(equipment; gửi từ CityMgr.onGetPlayerInfo, dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 00000001
+[22:28:59] #1 [GAME]   -> GỬI cmd=1082 nhân vật: chưa chọn (83 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=1081 [EquipmentManager.getEquipmentInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=1081 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=7104 [sendNewUser14dayGetInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=7104 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=7106 [sendNewUser14dayGetShop] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=7106 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=1085 [sendTopTrophyGetInfo (dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 00000001
+[22:28:59] #1 [GAME]   -> GỬI cmd=1085 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=15021 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveClanTournamentInfo
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=15021 lớp ClanTournamentInfo, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME] nhận 34 byte:
+    0000  90 00 03 01 1f 42 90 00 03 01 27 18 90 00 07 01  .....B....'.....
+    0010  0b dd 00 00 03 ec 90 00 03 01 32 c9 90 00 03 01  ..........2.....
+    0020  1b 71                                            .q
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=8002 [Achievement (thành tựu)] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveAchievement
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=8002 Achievement (16 thành tựu) (376 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=10008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveItemInfo
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=10008 kho đồ: 4 vật phẩm (119 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=3037 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveClanDetail
+[22:28:59] #1 [GAME]     hex: 000003ec
+[22:28:59] #1 [GAME]   -> GỬI cmd=3037 CHI TIẾT BANG "LyMeowz" id=1004, 1 thành viên (167 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=13001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveTopFarm
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   (KHÔNG trả lời cmd 13001: TopFarm: TopFarmTableViewCell::setSlotData sập với dữ liệu rỗng)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=7025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveCardEventInfo
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=7025 lớp CardEventInfo, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME] nhận 41 byte:
+    0000  90 00 03 01 04 0b 90 00 03 01 1b 9f 90 00 07 01  ................
+    0010  1b 75 00 00 00 01 90 00 03 01 3e 94 90 00 04 01  .u........>.....
+    0020  04 16 04 90 00 03 01 07 f2                       .........
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=1035 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=1035 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=7071 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=7071 kho báu yêu tinh: 5 vé, 0 điểm (56 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=7029 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 00000001
+[22:28:59] #1 [GAME]   -> GỬI cmd=7029 sự kiện dê: chuồng cấp 1, 0 con dê (chưa nhận dê miễn phí -> mở bảng nhận) (57 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=16020 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:28:59] #1 [GAME]     hex: 
+[22:28:59] #1 [GAME]   -> GỬI cmd=16020 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:28:59] #1 [GAME]   KHUNG ctl=1 cmd=1046 [?] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveTopTrophyBoard
+[22:28:59] #1 [GAME]     hex: 04
+[22:29:00] #1 [GAME]   -> GỬI cmd=1046 bảng cúp tuần: 15 người (1585 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=2034 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=2034 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME] nhận 100 byte:
     0000  90 00 03 01 07 f7 90 00 03 01 1b cd 90 00 07 01  ................
     0010  07 f6 00 00 00 01 90 00 03 01 04 3f 90 00 03 01  ...........?....
     0020  0b e9 90 00 03 01 23 57 90 00 03 01 2b 0b 90 00  ......#W....+...
     0030  03 01 1b 60 90 00 04 01 04 23 06 90 00 04 01 04  ...`.....#......
     0040  23 05 90 00 04 01 04 23 04 90 00 04 01 04 23 03  #......#......#.
-    0050  90 00 04 01 04 23 02 90 00 04 01 04 23 01        .....#......#.
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=2039 [?] dữ liệu 0 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=7117 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=7117 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=2038 [?] dữ liệu 4 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 00000001
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1087 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=1087 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=3049 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=3049 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=9047 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveReplayBattleList
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=9047 nhật ký trận (0 phòng thủ, 11 tấn công) (1817 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=11019 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=11019 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=7008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   (KHÔNG trả lời cmd 7008: sự kiện nâng nhà chính: CityMgr::onGetEventTownHall -> UpgradeTHGUI sập với dữ liệu rỗng)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 06
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 05
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 04
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 03
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 02
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
-[00:07:05] #1 [GAME]     hex: 01
-[00:07:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3e 90                                ....>.
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=16016 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=16016 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a b1                                ....:.
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=15025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=15025 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 0f a3                                ......
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=4003 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceivedGetClanMsg
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=4003 lịch sử chat (đẩy lại bằng 4002) (135 byte)
-[00:07:05] #1 [GAME] nhận 12 byte:
-    0000  90 00 03 01 0b d3 90 00 03 01 3a b5              ..........:.
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=3027 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=3027 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=15029 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=15029 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 07 fc                                ......
-[00:07:05] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:05] #1 [GAME]     hex: 
-[00:07:05] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:06] #1 [GAME] nhận 6 byte:
+    0050  90 00 04 01 04 23 02 90 00 04 01 04 23 01 90 00  .....#......#...
+    0060  03 01 3e 90                                      ..>.
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=2039 [?] dữ liệu 0 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=7117 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=7117 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=2038 [?] dữ liệu 4 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 00000001
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1087 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=1087 ngọc: 0 đang khảm, 0 loại trong túi, 0 ô mở (53 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=3049 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=3049 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=9047 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveReplayBattleList
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=9047 nhật ký trận (0 phòng thủ, 13 tấn công) (2277 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=11019 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=11019 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=7008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=7008 lỗi = không có sự kiện nâng nhà chính (7 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 06
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 05
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 04
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 03
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 02
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1059 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:00] #1 [GAME]     hex: 01
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=16016 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=16016 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME] nhận 30 byte:
+    0000  90 00 03 01 3a b1 90 00 03 01 0f a3 90 00 03 01  ....:...........
+    0010  0b d3 90 00 03 01 3a b5 90 00 03 01 07 fc        ......:.......
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=15025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=15025 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=4003 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceivedGetClanMsg
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=4003 lịch sử chat (đẩy lại bằng 4002) (135 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=3027 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=3027 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=15029 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=15029 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
+[22:29:00] #1 [GAME] nhận 6 byte:
+    0000  90 00 03 01 03 f7                                ......
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
+[22:29:00] #1 [GAME] nhận 6 byte:
     0000  90 00 03 01 0b c5                                ......
-[00:07:06] #1 [GAME]   KHUNG ctl=1 cmd=3013 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceivedGetRequestTroop
-[00:07:06] #1 [GAME]     hex: 
-[00:07:06] #1 [GAME]   -> GỬI cmd=3013 lớp dGetRequestTroop, error=0, dữ liệu 512 byte (519 byte)
-[00:07:06] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:07:06] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:07:06] #1 [GAME]     hex: 
-[00:07:06] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:07:09] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 01                    ..........
-[00:07:09] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:07:09] #1 [GAME]     hex: 00000001
-[00:07:09] #1 [GAME]   THU HOẠCH RES_1 id=1: +693 gold
-[00:07:09] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:07:15] #1 [GAME] nhận 22 byte:
-    0000  90 00 13 01 04 34 00 00 00 00 00 00 26 01 00 00  .....4......&...
-    0010  21 25 00 00 00 00                                !%....
-[00:07:15] #1 [GAME]   KHUNG ctl=1 cmd=1076 [sendBuyRes (mua tài nguyên thiếu bằng G)] dữ liệu 16 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:15] #1 [GAME]     hex: 00000000000026010000212500000000
-[00:07:15] #1 [GAME]   MUA BẰNG G: +0 vàng +9729 dầu +8485 dầu đen, trừ 1088 G (còn 28969 G)
-[00:07:15] #1 [GAME]   -> GỬI cmd=1076 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:15] #1 [GAME] nhận 22 byte:
-    0000  90 00 13 01 07 d3 00 05 41 4d 43 5f 31 00 00 00  ........AMC_1...
-    0010  03 00 00 00 01 00                                ......
-[00:07:15] #1 [GAME]   KHUNG ctl=1 cmd=2003 [sendUpgradeBuilding (nâng cấp)] dữ liệu 16 byte | game xử lý phản hồi bằng CmdReceiveUpgrade
-[00:07:15] #1 [GAME]     chuỗi: @0 'AMC_1'
-[00:07:15] #1 [GAME]     hex: 0005414d435f31000000030000000100
-[00:07:16] #1 [GAME]   nâng cấp AMC_1: đã ở cấp tối đa
-[00:07:16] #1 [GAME]   -> GỬI cmd=2003 lớp Upgrade, error=0, dữ liệu 512 byte (519 byte)
-[00:07:17] #1 [GAME] nhận 18 byte:
-    0000  90 00 0f 01 07 d6 00 05 41 4d 43 5f 31 00 00 00  ........AMC_1...
-    0010  03 00                                            ..
-[00:07:17] #1 [GAME]   KHUNG ctl=1 cmd=2006 [sendQuickFinish (xong ngay bằng G)] dữ liệu 12 byte | game xử lý phản hồi bằng CmdReceiveFinishBuilding
-[00:07:17] #1 [GAME]     chuỗi: @0 'AMC_1'
-[00:07:17] #1 [GAME]     hex: 0005414d435f310000000300
-[00:07:17] #1 [GAME]   XONG NGAY AMC_1 id=3 bằng G: còn 0s -> trừ 0 G (còn 28969 G)
-[00:07:17] #1 [GAME]   -> GỬI cmd=2006 FinishBuilding id=3 (xong ngay) (275 byte)
-[00:07:17] #1 [GAME]   HOÀN TẤT AMC_1 id=3 (dùng G)
-[00:07:23] #1 [GAME] nhận 22 byte:
-    0000  90 00 13 01 04 34 00 00 00 00 00 89 54 40 00 01  .....4......T@..
-    0010  eb 74 00 00 00 00                                .t....
-[00:07:23] #1 [GAME]   KHUNG ctl=1 cmd=1076 [sendBuyRes (mua tài nguyên thiếu bằng G)] dữ liệu 16 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:23] #1 [GAME]     hex: 00000000008954400001eb7400000000
-[00:07:23] #1 [GAME]   MUA BẰNG G: +0 vàng +9000000 dầu +125812 dầu đen, trừ 13509 G (còn 15460 G)
-[00:07:23] #1 [GAME]   -> GỬI cmd=1076 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:23] #1 [GAME] nhận 22 byte:
-    0000  90 00 13 01 07 d3 00 05 41 4d 43 5f 31 00 00 00  ........AMC_1...
-    0010  02 00 00 00 01 00                                ......
-[00:07:23] #1 [GAME]   KHUNG ctl=1 cmd=2003 [sendUpgradeBuilding (nâng cấp)] dữ liệu 16 byte | game xử lý phản hồi bằng CmdReceiveUpgrade
-[00:07:23] #1 [GAME]     chuỗi: @0 'AMC_1'
-[00:07:23] #1 [GAME]     hex: 0005414d435f31000000020000000100
-[00:07:23] #1 [GAME]   NÂNG CẤP AMC_1 id=2 lên cấp 9, trừ [0, 9000000, 135000, 0]
-[00:07:23] #1 [GAME]   -> GỬI cmd=2003 lớp Upgrade, error=0, dữ liệu 512 byte (519 byte)
-[00:07:24] #1 [GAME] nhận 18 byte:
-    0000  90 00 0f 01 07 d6 00 05 41 4d 43 5f 31 00 00 00  ........AMC_1...
-    0010  02 00                                            ..
-[00:07:24] #1 [GAME]   KHUNG ctl=1 cmd=2006 [sendQuickFinish (xong ngay bằng G)] dữ liệu 12 byte | game xử lý phản hồi bằng CmdReceiveFinishBuilding
-[00:07:24] #1 [GAME]     chuỗi: @0 'AMC_1'
-[00:07:24] #1 [GAME]     hex: 0005414d435f310000000200
-[00:07:24] #1 [GAME]   XONG NGAY AMC_1 id=2 bằng G: còn 1036798s -> trừ 3506 G (còn 11954 G)
-[00:07:24] #1 [GAME]   -> GỬI cmd=2006 FinishBuilding id=2 (xong ngay) (275 byte)
-[00:07:24] #1 [GAME]   HOÀN TẤT AMC_1 id=2 (dùng G)
-[00:07:32] #1 [GAME] nhận 192 byte:
-    0000  90 00 bd 01 2e e5 00 a4 7b 22 6f 72 64 65 72 49  ........{"orderI
-    0010  64 22 3a 22 54 4c 2e 31 37 39 35 35 34 30 30 35  d":"TL.179554005
-    0020  32 33 39 32 22 2c 22 70 61 63 6b 61 67 65 4e 61  2392","packageNa
-    0030  6d 65 22 3a 22 67 73 6e 2e 7a 70 73 2e 74 68 6f  me":"gsn.zps.tho
-    0040  69 6c 6f 61 6e 22 2c 22 70 72 6f 64 75 63 74 49  iloan","productI
-    0050  64 22 3a 22 74 6c 6d 5f 36 22 2c 22 70 75 72 63  d":"tlm_6","purc
-    0060  68 61 73 65 54 69 6d 65 22 3a 31 37 39 35 35 34  haseTime":179554
-    0070  30 30 35 32 33 39 32 2c 22 70 75 72 63 68 61 73  0052392,"purchas
-    0080  65 53 74 61 74 65 22 3a 30 2c 22 70 75 72 63 68  eState":0,"purch
-    0090  61 73 65 54 6f 6b 65 6e 22 3a 22 74 6c 31 37 39  aseToken":"tl179
-    00a0  35 35 34 30 30 35 32 33 39 32 22 7d 00 00 00 10  5540052392"}....
-    00b0  67 73 6e 2e 7a 70 73 2e 74 68 6f 69 6c 6f 61 6e  gsn.zps.thoiloan
-[00:07:32] #1 [GAME]   KHUNG ctl=1 cmd=12005 [?] dữ liệu 186 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:32] HTTP GET /obblog?m=mua+g%C3%B3i+tlm_6+%28n%E1%BA%A1p+th%E1%BA%B3ng+qua+server%2C+kh%C3%B4ng+qua+Google+Play%29 từ 127.0.0.1
-[00:07:32] #1 [GAME]     chuỗi: @0 '{"orderId":"TL.1795540052392","packageName":"gsn.zps.thoiloan","productId":"tlm_6","purchaseTime":1795540052392,"purchaseState":0,"purchaseToken":"tl1795540052392"}'; @168 'gsn.zps.thoiloan'
-[00:07:32]     -> OBB (từ máy): mua gói tlm_6 (nạp thẳng qua server, không qua Google Play)
-[00:07:32] #1 [GAME]     hex: 00a47b226f726465724964223a22544c2e31373935353430303532333932222c227061636b6167654e616d65223a2267736e2e7a70732e74686f696c6f616e222c2270726f647563744964223a22746c6d5f36222c22707572636861736554696d65223a313739353534303035323339322c227075726368...
-[00:07:32] #1 [GAME]   -> GỬI cmd=12005 NẠP (tlm_6) thành công +10000 G (tổng 21954) (95 byte)
-[00:07:32] #1 [GAME]   -> ĐẨY chủ động cmd=1010 lớp ErrorCode [G = 21954] (47 byte)
-[00:07:32] #1 [GAME]   -> ĐẨY chủ động cmd=1047 lớp ErrorCode [VIP 6, 7500 điểm] (44 byte)
-[00:07:32] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 1b 71                                .....q
-[00:07:32] #1 [GAME]   KHUNG ctl=1 cmd=7025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveCardEventInfo
-[00:07:32] #1 [GAME]     hex: 
-[00:07:32] #1 [GAME]   -> GỬI cmd=7025 lớp CardEventInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:07:32] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 04 17                                ......
-[00:07:32] #1 [GAME]   KHUNG ctl=1 cmd=1047 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:32] #1 [GAME]     hex: 
-[00:07:32] #1 [GAME]   -> GỬI cmd=1047 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:32] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 07 fc                                ......
-[00:07:32] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:32] #1 [GAME]     hex: 
-[00:07:32] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:34] #1 [GAME] nhận 192 byte:
-    0000  90 00 bd 01 2e e5 00 a4 7b 22 6f 72 64 65 72 49  ........{"orderI
-    0010  64 22 3a 22 54 4c 2e 31 37 39 35 35 34 30 30 35  d":"TL.179554005
-    0020  34 34 38 33 22 2c 22 70 61 63 6b 61 67 65 4e 61  4483","packageNa
-    0030  6d 65 22 3a 22 67 73 6e 2e 7a 70 73 2e 74 68 6f  me":"gsn.zps.tho
-    0040  69 6c 6f 61 6e 22 2c 22 70 72 6f 64 75 63 74 49  iloan","productI
-    0050  64 22 3a 22 74 6c 6d 5f 36 22 2c 22 70 75 72 63  d":"tlm_6","purc
-    0060  68 61 73 65 54 69 6d 65 22 3a 31 37 39 35 35 34  haseTime":179554
-    0070  30 30 35 34 34 38 33 2c 22 70 75 72 63 68 61 73  0054483,"purchas
-    0080  65 53 74 61 74 65 22 3a 30 2c 22 70 75 72 63 68  eState":0,"purch
-    0090  61 73 65 54 6f 6b 65 6e 22 3a 22 74 6c 31 37 39  aseToken":"tl179
-    00a0  35 35 34 30 30 35 34 34 38 33 22 7d 00 00 00 10  5540054483"}....
-    00b0  67 73 6e 2e 7a 70 73 2e 74 68 6f 69 6c 6f 61 6e  gsn.zps.thoiloan
-[00:07:34] #1 [GAME]   KHUNG ctl=1 cmd=12005 [?] dữ liệu 186 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:34] HTTP GET /obblog?m=mua+g%C3%B3i+tlm_6+%28n%E1%BA%A1p+th%E1%BA%B3ng+qua+server%2C+kh%C3%B4ng+qua+Google+Play%29 từ 127.0.0.1
-[00:07:34] #1 [GAME]     chuỗi: @0 '{"orderId":"TL.1795540054483","packageName":"gsn.zps.thoiloan","productId":"tlm_6","purchaseTime":1795540054483,"purchaseState":0,"purchaseToken":"tl1795540054483"}'; @168 'gsn.zps.thoiloan'
-[00:07:34]     -> OBB (từ máy): mua gói tlm_6 (nạp thẳng qua server, không qua Google Play)
-[00:07:34] #1 [GAME]     hex: 00a47b226f726465724964223a22544c2e31373935353430303534343833222c227061636b6167654e616d65223a2267736e2e7a70732e74686f696c6f616e222c2270726f647563744964223a22746c6d5f36222c22707572636861736554696d65223a313739353534303035343438332c227075726368...
-[00:07:34] #1 [GAME]   -> GỬI cmd=12005 NẠP (tlm_6) thành công +10000 G (tổng 31954) (95 byte)
-[00:07:34] #1 [GAME]   -> ĐẨY chủ động cmd=1010 lớp ErrorCode [G = 31954] (47 byte)
-[00:07:34] #1 [GAME]   -> ĐẨY chủ động cmd=1047 lớp ErrorCode [VIP 6, 7600 điểm] (44 byte)
-[00:07:34] #1 [GAME] nhận 12 byte:
-    0000  90 00 03 01 1b 71 90 00 03 01 04 17              .....q......
-[00:07:34] #1 [GAME]   KHUNG ctl=1 cmd=7025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveCardEventInfo
-[00:07:34] #1 [GAME]     hex: 
-[00:07:34] #1 [GAME]   -> GỬI cmd=7025 lớp CardEventInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:07:34] #1 [GAME]   KHUNG ctl=1 cmd=1047 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:34] #1 [GAME]     hex: 
-[00:07:34] #1 [GAME]   -> GỬI cmd=1047 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:34] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 07 fc                                ......
-[00:07:34] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:34] #1 [GAME]     hex: 
-[00:07:34] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:38] #1 [GAME] nhận 22 byte:
-    0000  90 00 13 01 04 34 00 00 00 00 00 89 54 40 00 01  .....4......T@..
-    0010  8a 6a 00 00 00 00                                .j....
-[00:07:38] #1 [GAME]   KHUNG ctl=1 cmd=1076 [sendBuyRes (mua tài nguyên thiếu bằng G)] dữ liệu 16 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:38] #1 [GAME]     hex: 000000000089544000018a6a00000000
-[00:07:38] #1 [GAME]   MUA BẰNG G: +0 vàng +9000000 dầu +100970 dầu đen, trừ 11709 G (còn 20245 G)
-[00:07:38] #1 [GAME]   -> GỬI cmd=1076 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:07:38] #1 [GAME] nhận 22 byte:
-    0000  90 00 13 01 07 d3 00 05 41 4d 43 5f 31 00 00 00  ........AMC_1...
-    0010  04 00 00 00 01 00                                ......
-[00:07:38] #1 [GAME]   KHUNG ctl=1 cmd=2003 [sendUpgradeBuilding (nâng cấp)] dữ liệu 16 byte | game xử lý phản hồi bằng CmdReceiveUpgrade
-[00:07:38] #1 [GAME]     chuỗi: @0 'AMC_1'
-[00:07:38] #1 [GAME]     hex: 0005414d435f31000000040000000100
-[00:07:38] #1 [GAME]   NÂNG CẤP AMC_1 id=4 lên cấp 9, trừ [0, 9000000, 135000, 0]
-[00:07:38] #1 [GAME]   -> GỬI cmd=2003 lớp Upgrade, error=0, dữ liệu 512 byte (519 byte)
-[00:07:39] #1 [GAME] nhận 18 byte:
-    0000  90 00 0f 01 07 d6 00 05 41 4d 43 5f 31 00 00 00  ........AMC_1...
-    0010  04 00                                            ..
-[00:07:39] #1 [GAME]   KHUNG ctl=1 cmd=2006 [sendQuickFinish (xong ngay bằng G)] dữ liệu 12 byte | game xử lý phản hồi bằng CmdReceiveFinishBuilding
-[00:07:39] #1 [GAME]     chuỗi: @0 'AMC_1'
-[00:07:39] #1 [GAME]     hex: 0005414d435f310000000400
-[00:07:40] #1 [GAME]   XONG NGAY AMC_1 id=4 bằng G: còn 1036798s -> trừ 3506 G (còn 16739 G)
-[00:07:40] #1 [GAME]   -> GỬI cmd=2006 FinishBuilding id=4 (xong ngay) (275 byte)
-[00:07:40] #1 [GAME]   HOÀN TẤT AMC_1 id=4 (dùng G)
-[00:07:51] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 36 b1                                ....6.
-[00:07:51] #1 [GAME]   KHUNG ctl=1 cmd=14001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:07:51] #1 [GAME]     hex: 
-[00:07:52] #1 [GAME]   -> GỬI cmd=14001 bản đồ đảo: 50 đảo, 0 đảo có chủ, của bạn 0 (2110 byte)
-[00:07:52] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:07:52] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:07:52] #1 [GAME]     hex: 
-[00:07:52] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:07:56] #1 [GAME] nhận 18 byte:
-    0000  90 00 0f 01 23 29 00 00 00 00 00 00 00 01 00 00  ....#)..........
-    0010  00 05                                            ..
-[00:07:56] #1 [GAME]   KHUNG ctl=1 cmd=9001 [?] dữ liệu 12 byte | game xử lý phản hồi bằng CmdReceiveBattleInfo
-[00:07:56] #1 [GAME]     hex: 000000000000000100000005
-[00:07:57] #1 [GAME]   ĐÁNH CHIẾM ĐẢO 5 (đảo trống): đối thủ 'Đảo 5', nhà chính cấp 11, 76 công trình, chiến lợi phẩm vàng 0 / dầu 0 / dầu đen 0
-[00:07:57] #1 [GAME]       lính mang theo: DAR_2 x10
-[00:07:57] #1 [GAME]       anh hùng: ARM_11 cấp 8, ARM_12 cấp 10, ARM_18 cấp 1
-[00:07:57] #1 [GAME]   -> GỬI cmd=9001 BattleInfo (ĐÁNH CHIẾM ĐẢO 5 (đảo trống)) (4939 byte)
-[00:07:58] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:07:58] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:07:58] #1 [GAME]     hex: 
-[00:07:58] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:08:02] #1 [GAME] nhận 25 byte:
-    0000  90 00 16 01 23 2a 00 05 44 41 52 5f 32 00 00 23  ....#*..DAR_2..#
-    0010  5e 00 00 00 8a 00 00 00 00                       ^........
-[00:08:02] #1 [GAME]   KHUNG ctl=1 cmd=9002 [?] dữ liệu 19 byte | game xử lý phản hồi bằng CmdReceiveConfirm
-[00:08:02] #1 [GAME]     chuỗi: @0 'DAR_2'
-[00:08:02] #1 [GAME]     hex: 00054441525f320000235e0000008a00000000
-[00:08:02] #1 [GAME]   THẢ LÍNH DAR_2 (ô 9054, t=138, #0)
-[00:08:06] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:08:06] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:06] #1 [GAME]     hex: 
-[00:08:06] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:08] #1 [GAME] nhận 183 byte:
-    0000  90 00 b4 01 23 34 00 00 01 2c 00 00 00 0b 00 05  ....#4...,......
-    0010  44 41 52 5f 32 00 00 22 56 00 00 00 8d 00 05 44  DAR_2.."V......D
-    0020  41 52 5f 32 00 00 22 db 00 00 00 91 00 05 44 41  AR_2..".......DA
-    0030  52 5f 32 00 00 22 57 00 00 00 96 00 05 44 41 52  R_2.."W......DAR
-    0040  5f 32 00 00 22 58 00 00 00 9c 00 05 44 41 52 5f  _2.."X......DAR_
-    0050  32 00 00 22 db 00 00 00 a0 00 05 44 41 52 5f 32  2..".......DAR_2
-    0060  00 00 22 dc 00 00 00 a8 00 05 44 41 52 5f 32 00  ..".......DAR_2.
-    0070  00 22 56 00 00 00 ac 00 05 44 41 52 5f 32 00 00  ."V......DAR_2..
-    0080  23 5f 00 00 00 af 00 05 44 41 52 5f 32 00 00 22  #_......DAR_2.."
-    0090  56 00 00 00 b2 00 06 41 52 4d 5f 31 32 00 00 23  V......ARM_12..#
-    00a0  16 00 00 00 f6 00 08 53 5f 41 52 4d 5f 31 32 00  .......S_ARM_12.
-    00b0  00 23 16 00 00 01 1c                             .#.....
-[00:08:08] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 177 byte | game KHÔNG có handler cho cmd này
-[00:08:08] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'ARM_12'; @159 'S_ARM_12'
-[00:08:08] #1 [GAME]     hex: 0000012c0000000b00054441525f32000022560000008d00054441525f32000022db0000009100054441525f32000022570000009600054441525f32000022580000009c00054441525f32000022db000000a000054441525f32000022dc000000a800054441525f3200002256000000ac00054441525f32...
-[00:08:08] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_12 x1, DAR_2 x9, S_ARM_12 x1
-[00:08:11] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:08:11] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:11] #1 [GAME]     hex: 
-[00:08:11] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:16] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:08:16] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:16] #1 [GAME]     hex: 
-[00:08:16] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:18] #1 [GAME] nhận 215 byte:
-    0000  90 00 d4 01 23 34 00 00 02 58 00 00 00 0d 00 05  ....#4...X......
-    0010  44 41 52 5f 32 00 00 22 56 00 00 00 8d 00 05 44  DAR_2.."V......D
-    0020  41 52 5f 32 00 00 22 db 00 00 00 91 00 05 44 41  AR_2..".......DA
-    0030  52 5f 32 00 00 22 57 00 00 00 96 00 05 44 41 52  R_2.."W......DAR
-    0040  5f 32 00 00 22 58 00 00 00 9c 00 05 44 41 52 5f  _2.."X......DAR_
-    0050  32 00 00 22 db 00 00 00 a0 00 05 44 41 52 5f 32  2..".......DAR_2
-    0060  00 00 22 dc 00 00 00 a8 00 05 44 41 52 5f 32 00  ..".......DAR_2.
-    0070  00 22 56 00 00 00 ac 00 05 44 41 52 5f 32 00 00  ."V......DAR_2..
-    0080  23 5f 00 00 00 af 00 05 44 41 52 5f 32 00 00 22  #_......DAR_2.."
-    0090  56 00 00 00 b2 00 06 41 52 4d 5f 31 32 00 00 23  V......ARM_12..#
-    00a0  16 00 00 00 f6 00 08 53 5f 41 52 4d 5f 31 32 00  .......S_ARM_12.
-    00b0  00 23 16 00 00 01 1c 00 06 41 52 4d 5f 31 31 00  .#.......ARM_11.
-    00c0  00 21 06 00 00 01 c1 00 06 41 52 4d 5f 31 38 00  .!.......ARM_18.
-    00d0  00 22 8c 00 00 02 4e                             ."....N
-[00:08:18] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 209 byte | game KHÔNG có handler cho cmd này
-[00:08:18] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'ARM_12'; @159 'S_ARM_12'; @177 'ARM_11'
-[00:08:18] #1 [GAME]     hex: 000002580000000d00054441525f32000022560000008d00054441525f32000022db0000009100054441525f32000022570000009600054441525f32000022580000009c00054441525f32000022db000000a000054441525f32000022dc000000a800054441525f3200002256000000ac00054441525f32...
-[00:08:18] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x9, S_ARM_12 x1
-[00:08:21] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:08:21] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:21] #1 [GAME]     hex: 
-[00:08:21] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:26] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:08:26] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:26] #1 [GAME]     hex: 
-[00:08:26] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:28] #1 [GAME] nhận 215 byte:
-    0000  90 00 d4 01 23 34 00 00 03 84 00 00 00 0d 00 05  ....#4..........
-    0010  44 41 52 5f 32 00 00 22 56 00 00 00 8d 00 05 44  DAR_2.."V......D
-    0020  41 52 5f 32 00 00 22 db 00 00 00 91 00 05 44 41  AR_2..".......DA
-    0030  52 5f 32 00 00 22 57 00 00 00 96 00 05 44 41 52  R_2.."W......DAR
-    0040  5f 32 00 00 22 58 00 00 00 9c 00 05 44 41 52 5f  _2.."X......DAR_
-    0050  32 00 00 22 db 00 00 00 a0 00 05 44 41 52 5f 32  2..".......DAR_2
-    0060  00 00 22 dc 00 00 00 a8 00 05 44 41 52 5f 32 00  ..".......DAR_2.
-    0070  00 22 56 00 00 00 ac 00 05 44 41 52 5f 32 00 00  ."V......DAR_2..
-    0080  23 5f 00 00 00 af 00 05 44 41 52 5f 32 00 00 22  #_......DAR_2.."
-    0090  56 00 00 00 b2 00 06 41 52 4d 5f 31 32 00 00 23  V......ARM_12..#
-    00a0  16 00 00 00 f6 00 08 53 5f 41 52 4d 5f 31 32 00  .......S_ARM_12.
-    00b0  00 23 16 00 00 01 1c 00 06 41 52 4d 5f 31 31 00  .#.......ARM_11.
-    00c0  00 21 06 00 00 01 c1 00 06 41 52 4d 5f 31 38 00  .!.......ARM_18.
-    00d0  00 22 8c 00 00 02 4e                             ."....N
-[00:08:28] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 209 byte | game KHÔNG có handler cho cmd này
-[00:08:28] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'ARM_12'; @159 'S_ARM_12'; @177 'ARM_11'
-[00:08:28] #1 [GAME]     hex: 000003840000000d00054441525f32000022560000008d00054441525f32000022db0000009100054441525f32000022570000009600054441525f32000022580000009c00054441525f32000022db000000a000054441525f32000022dc000000a800054441525f3200002256000000ac00054441525f32...
-[00:08:28] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x9, S_ARM_12 x1
-[00:08:30] #1 [GAME] nhận 329 byte:
-    0000  90 01 46 01 23 2b 00 00 03 b1 00 00 00 00 00 00  ..F.#+..........
-    0010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    0020  00 02 00 54 63 68 65 63 6b 20 73 75 6d 20 63 75  ...Tcheck sum cu
-    0030  72 4c 6f 6f 70 20 6e 75 6d 4f 62 6a 2c 68 70 2c  rLoop numObj,hp,
-    0040  64 78 2c 64 79 2c 65 78 74 20 3a 20 39 34 35 5f  dx,dy,ext : 945_
-    0050  37 33 5f 39 33 32 33 33 5f 31 31 35 36 32 34 5f  73_93233_115624_
-    0060  38 36 36 30 35 5f 30 5f 30 20 31 30 30 31 35 38  86605_0_0 100158
-    0070  5f 33 30 30 30 5f 31 33 00 00 00 0e 00 00 00 0d  _3000_13........
-    0080  00 05 44 41 52 5f 32 00 00 22 56 00 00 00 8d 00  ..DAR_2.."V.....
-    0090  05 44 41 52 5f 32 00 00 22 db 00 00 00 91 00 05  .DAR_2..".......
-    00a0  44 41 52 5f 32 00 00 22 57 00 00 00 96 00 05 44  DAR_2.."W......D
-    00b0  41 52 5f 32 00 00 22 58 00 00 00 9c 00 05 44 41  AR_2.."X......DA
-    00c0  52 5f 32 00 00 22 db 00 00 00 a0 00 05 44 41 52  R_2..".......DAR
-    00d0  5f 32 00 00 22 dc 00 00 00 a8 00 05 44 41 52 5f  _2..".......DAR_
-    00e0  32 00 00 22 56 00 00 00 ac 00 05 44 41 52 5f 32  2.."V......DAR_2
-    00f0  00 00 23 5f 00 00 00 af 00 05 44 41 52 5f 32 00  ..#_......DAR_2.
-    ... (còn 73 byte, xem file bin)
-[00:08:30] #1 [GAME]   KHUNG ctl=1 cmd=9003 [sendCmdEndBattle (kết thúc trận)] dữ liệu 323 byte | game KHÔNG có handler cho cmd này
-[00:08:30] #1 [GAME]     chuỗi: @28 'check sum curLoop numObj,hp,dx,dy,ext : 945_73_93233_115624_86605_0_0 100158_3000_13'; @122 'DAR_2'; @137 'DAR_2'; @152 'DAR_2'; @167 'DAR_2'; @182 'DAR_2'; @197 'DAR_2'; @212 'DAR_2'; @227 'DAR_2'; @242 'DAR_2'; @257 'ARM_12'; @273 'S_ARM_12'
-[00:08:30] #1 [GAME]     hex: 000003b10000000000000000000000000000000000000000000000020054636865636b2073756d206375724c6f6f70206e756d4f626a2c68702c64782c64792c657874203a203934355f37335f39333233335f3131353632345f38363630355f305f30203130303135385f333030305f31330000000e0000...
-[00:08:31] #1 [GAME]   KẾT THÚC TRẬN: 0 sao, phá 2%, cướp vàng 0 / dầu 0 / dầu đen 0, đã dùng ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x10, S_ARM_12 x1, không chiếm được đảo 5, ghi trận #12 (14 lần thả)
-[00:08:31] #1 [GAME]   -> GỬI cmd=9014 kết quả trận (cho phép về nhà) (265 byte)
-[00:08:32] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 36 b1                                ....6.
-[00:08:32] #1 [GAME]   KHUNG ctl=1 cmd=14001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:32] #1 [GAME]     hex: 
-[00:08:32] #1 [GAME]   -> GỬI cmd=14001 bản đồ đảo: 50 đảo, 0 đảo có chủ, của bạn 0 (2110 byte)
-[00:08:33] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:08:33] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:08:33] #1 [GAME]     hex: 
-[00:08:33] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:08:34] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 03 ee 00 00 00 01                    ..........
-[00:08:34] #1 [GAME]   KHUNG ctl=1 cmd=1006 [sendVisitFriend (về nhà = thăm chính mình)] dữ liệu 4 byte | game KHÔNG có handler cho cmd này
-[00:08:34] #1 [GAME]     hex: 00000001
-[00:08:35] #1 [GAME]       người chơi: vàng 140942/9003000, dầu 2000000/11000000, dầu đen 70970/240000, G 16739
-[00:08:35] #1 [GAME]   -> ĐẨY chủ động cmd=1001 lớp GetPlayerInfo [thông tin người chơi] (497 byte)
-[00:08:35] #1 [GAME]   -> ĐẨY chủ động cmd=1002 lớp BuildingInfo [40 công trình + 54 chướng ngại] (3915 byte)
-[00:08:35] #1 [GAME]   -> ĐẨY chủ động cmd=1003 lớp TroopInfo [quân: trống] (267 byte)
-[00:08:35] #1 [GAME] nhận 12 byte:
-    0000  90 00 03 01 17 73 90 00 03 01 1b 72              .....s.....r
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=6003 [sendGetDailyQuestInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveDailyQuest
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=6003 lớp DailyQuest, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7026 [sendGetMonthGiftInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMonthGiftInfo
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=7026 lớp MonthGiftInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME] nhận 44 byte:
-    0000  90 00 03 01 0f ae 90 00 07 01 04 3a 00 00 00 01  ...........:....
-    0010  90 00 03 01 04 39 90 00 03 01 1b c0 90 00 03 01  .....9..........
-    0020  1b c2 90 00 07 01 04 3d 00 00 00 01              .......=....
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=4014 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMailV3
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=4014 lớp MailV3, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=1082 [(equipment; gửi từ CityMgr.onGetPlayerInfo, dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 00000001
-[00:08:35] #1 [GAME]   -> GỬI cmd=1082 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=1081 [EquipmentManager.getEquipmentInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=1081 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7104 [sendNewUser14dayGetInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=7104 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7106 [sendNewUser14dayGetShop] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=7106 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=1085 [sendTopTrophyGetInfo (dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 00000001
-[00:08:35] #1 [GAME]   -> GỬI cmd=1085 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 1f 42                                .....B
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=8002 [Achievement (thành tựu)] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveAchievement
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=8002 Achievement (16 thành tựu) (376 byte)
-[00:08:35] #1 [GAME] nhận 117 byte:
-    0000  90 00 03 01 27 18 90 00 07 01 0b dd 00 00 03 ec  ....'...........
-    0010  90 00 03 01 32 c9 90 00 03 01 1b 71 90 00 03 01  ....2......q....
-    0020  04 0b 90 00 03 01 1b 9f 90 00 03 01 3e 94 90 00  ............>...
-    0030  04 01 04 16 04 90 00 03 01 07 f2 90 00 03 01 07  ................
-    0040  f7 90 00 03 01 1b cd 90 00 07 01 07 f6 00 00 00  ................
-    0050  01 90 00 03 01 04 3f 90 00 03 01 0b e9 90 00 03  ......?.........
-    0060  01 23 57 90 00 03 01 2b 0b 90 00 03 01 1b 60 90  .#W....+......`.
-    0070  00 03 01 07 fc                                   .....
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=10008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveItemInfo
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=10008 kho đồ: 4 vật phẩm (119 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=3037 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveClanDetail
-[00:08:35] #1 [GAME]     hex: 000003ec
-[00:08:35] #1 [GAME]   -> GỬI cmd=3037 CHI TIẾT BANG "LyMeowz" id=1004, 1 thành viên (167 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=13001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveTopFarm
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   (KHÔNG trả lời cmd 13001: TopFarm: TopFarmTableViewCell::setSlotData sập với dữ liệu rỗng)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveCardEventInfo
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=7025 lớp CardEventInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=1035 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=1035 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7071 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=7071 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=16020 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=16020 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=1046 [?] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveTopTrophyBoard
-[00:08:35] #1 [GAME]     hex: 04
-[00:08:35] #1 [GAME]   -> GỬI cmd=1046 bảng cúp tuần: 15 người (1585 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=2034 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=2034 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=2039 [?] dữ liệu 0 byte | game KHÔNG có handler cho cmd này
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7117 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=7117 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=2038 [?] dữ liệu 4 byte | game KHÔNG có handler cho cmd này
-[00:08:35] #1 [GAME]     hex: 00000001
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=1087 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=1087 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=3049 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=3049 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=9047 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveReplayBattleList
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=9047 nhật ký trận (0 phòng thủ, 12 tấn công) (2039 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=11019 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=11019 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=7008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   (KHÔNG trả lời cmd 7008: sự kiện nâng nhà chính: CityMgr::onGetEventTownHall -> UpgradeTHGUI sập với dữ liệu rỗng)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME] nhận 24 byte:
-    0000  90 00 03 01 0b d3 90 00 03 01 3a b5 90 00 03 01  ..........:.....
-    0010  07 fc 90 00 03 01 07 fc                          ........
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=3027 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=3027 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=15029 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=15029 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:35] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:35] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:08:35] #1 [GAME]     hex: 
-[00:08:36] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:08:36] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:08:36] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:08:36] #1 [GAME]     hex: 
-[00:08:36] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:08:37] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 05                    ..........
-[00:08:37] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:08:37] #1 [GAME]     hex: 00000005
-[00:08:37] #1 [GAME]   THU HOẠCH RES_3 id=5: +5 darkElixir
-[00:08:37] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:08:39] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 01                    ..........
-[00:08:39] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:08:39] #1 [GAME]     hex: 00000001
-[00:08:39] #1 [GAME]   THU HOẠCH RES_2 id=1: +293 elixir
-[00:08:39] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:08:39] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 01                    ..........
-[00:08:39] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:08:39] #1 [GAME]     hex: 00000001
-[00:08:39] #1 [GAME]   THU HOẠCH RES_1 id=1: +39 gold
-[00:08:39] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:08:41] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 04                    ..........
-[00:08:41] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:08:41] #1 [GAME]     hex: 00000004
-[00:08:41] #1 [GAME]   THU HOẠCH RES_3 id=4: +4 darkElixir
-[00:08:41] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:08:47] HTTP GET /mail?country=vn&uId=1 từ 127.0.0.1
-[00:08:47]     -> trả /mail: danh sách thư rỗng
-[00:09:03] #1 [GAME] nhận 20 byte:
-    0000  90 00 11 01 2a f9 00 00 00 01 00 06 41 52 4d 5f  ....*.......ARM_
-    0010  31 30 00 01                                      10..
-[00:09:03] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 14 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:03] #1 [GAME]     chuỗi: @4 'ARM_10'
-[00:09:03] #1 [GAME]     hex: 00000001000641524d5f31300001
-[00:09:03] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=1: xếp hàng ARM_10 x1 (-65000 dầu -0 dầu đen)
-[00:09:03] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=1 (275 byte)
-[00:09:04] #1 [GAME] nhận 30 byte:
-    0000  90 00 11 01 2a f9 00 00 00 01 00 06 41 52 4d 5f  ....*.......ARM_
-    0010  31 30 00 02 90 00 07 01 2a fc 00 00 00 01        10......*.....
-[00:09:04] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 14 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:04] #1 [GAME]     chuỗi: @4 'ARM_10'
-[00:09:04] #1 [GAME]     hex: 00000001000641524d5f31300002
-[00:09:04] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=1: xếp hàng ARM_10 x2 (-130000 dầu -0 dầu đen)
-[00:09:04] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=1 (275 byte)
-[00:09:04] #1 [GAME]   KHUNG ctl=1 cmd=11004 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:09:04] #1 [GAME]     hex: 00000001
-[00:09:04] #1 [GAME]   LUYỆN NHANH trại id=1: còn 8098 giây -> -66 G
-[00:09:04] #1 [GAME]   -> GỬI cmd=11004 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:09:05] #1 [GAME] nhận 20 byte:
-    0000  90 00 11 01 2a f9 00 00 00 01 00 06 41 52 4d 5f  ....*.......ARM_
-    0010  31 30 00 01                                      10..
-[00:09:05] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 14 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:05] #1 [GAME]     chuỗi: @4 'ARM_10'
-[00:09:05] #1 [GAME]     hex: 00000001000641524d5f31300001
-[00:09:05] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=1: xếp hàng ARM_10 x1 (-65000 dầu -0 dầu đen)
-[00:09:05] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=1 (275 byte)
-[00:09:06] #1 [GAME] nhận 30 byte:
-    0000  90 00 11 01 2a f9 00 00 00 01 00 06 41 52 4d 5f  ....*.......ARM_
-    0010  31 30 00 02 90 00 07 01 2a fc 00 00 00 01        10......*.....
-[00:09:06] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 14 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:06] #1 [GAME]     chuỗi: @4 'ARM_10'
-[00:09:06] #1 [GAME]     hex: 00000001000641524d5f31300002
-[00:09:06] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=1: xếp hàng ARM_10 x2 (-130000 dầu -0 dầu đen)
-[00:09:06] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=1 (275 byte)
-[00:09:06] #1 [GAME]   KHUNG ctl=1 cmd=11004 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:09:06] #1 [GAME]     hex: 00000001
-[00:09:06] #1 [GAME]   LUYỆN NHANH trại id=1: còn 8098 giây -> -66 G
-[00:09:06] #1 [GAME]   -> GỬI cmd=11004 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:09:18] #1 [GAME] nhận 19 byte:
-    0000  90 00 10 01 2a f9 00 00 00 02 00 05 44 41 52 5f  ....*.......DAR_
-    0010  32 00 01                                         2..
-[00:09:18] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 13 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:18] #1 [GAME]     chuỗi: @4 'DAR_2'
-[00:09:18] #1 [GAME]     hex: 0000000200054441525f320001
-[00:09:18] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=2: xếp hàng DAR_2 x1 (-0 dầu -115 dầu đen)
-[00:09:18] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=2 (275 byte)
-[00:09:20] #1 [GAME] nhận 19 byte:
-    0000  90 00 10 01 2a f9 00 00 00 02 00 05 44 41 52 5f  ....*.......DAR_
-    0010  32 00 11                                         2..
-[00:09:20] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 13 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:20] #1 [GAME]     chuỗi: @4 'DAR_2'
-[00:09:20] #1 [GAME]     hex: 0000000200054441525f320011
-[00:09:20] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=2: xếp hàng DAR_2 x17 (-0 dầu -1955 dầu đen)
-[00:09:20] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=2 (275 byte)
-[00:09:20] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 2a fc 00 00 00 02                    ....*.....
-[00:09:20] #1 [GAME]   KHUNG ctl=1 cmd=11004 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:09:20] #1 [GAME]     hex: 00000002
-[00:09:20] #1 [GAME]   LUYỆN NHANH trại id=2: còn 2569 giây -> -28 G
-[00:09:20] #1 [GAME]   -> GỬI cmd=11004 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:09:21] #1 [GAME] nhận 19 byte:
-    0000  90 00 10 01 2a f9 00 00 00 02 00 05 44 41 52 5f  ....*.......DAR_
-    0010  32 00 01                                         2..
-[00:09:21] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 13 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:21] #1 [GAME]     chuỗi: @4 'DAR_2'
-[00:09:21] #1 [GAME]     hex: 0000000200054441525f320001
-[00:09:21] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=2: xếp hàng DAR_2 x1 (-0 dầu -115 dầu đen)
-[00:09:21] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=2 (275 byte)
-[00:09:23] #1 [GAME] nhận 19 byte:
-    0000  90 00 10 01 2a f9 00 00 00 02 00 05 44 41 52 5f  ....*.......DAR_
-    0010  32 00 11                                         2..
-[00:09:23] #1 [GAME]   KHUNG ctl=1 cmd=11001 [luyện quân (id trại lính, loại lính, số lượng)] dữ liệu 13 byte | game xử lý phản hồi bằng CmdReceiverTrainTroop
-[00:09:23] #1 [GAME]     chuỗi: @4 'DAR_2'
-[00:09:23] #1 [GAME]     hex: 0000000200054441525f320011
-[00:09:23] #1 [GAME]   LUYỆN QUÂN cmd 11001 trại id=2: xếp hàng DAR_2 x17 (-0 dầu -1955 dầu đen)
-[00:09:23] #1 [GAME]   -> GỬI cmd=11001 rTrainTroop trại id=2 (275 byte)
-[00:09:32] #1 [GAME] nhận 27 byte:
-    0000  90 00 18 01 2b 0a 00 02 00 06 41 52 4d 5f 31 30  ....+.....ARM_10
-    0010  00 06 00 05 44 41 52 5f 32 00 12                 ....DAR_2..
-[00:09:32] #1 [GAME]   KHUNG ctl=1 cmd=11018 [?] dữ liệu 21 byte | game KHÔNG có handler cho cmd này
-[00:09:32] #1 [GAME]     chuỗi: @2 'ARM_10'; @12 'DAR_2'
-[00:09:32] #1 [GAME]     hex: 0002000641524d5f3130000600054441525f320012
-[00:09:32] #1 [GAME]   QUÂN VÀO TRẬN (đồng bộ trại quân theo game): ARM_10 x6, DAR_2 x18
-[00:09:33] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 36 b1                                ....6.
-[00:09:33] #1 [GAME]   KHUNG ctl=1 cmd=14001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:09:33] #1 [GAME]     hex: 
-[00:09:33] #1 [GAME]   -> GỬI cmd=14001 bản đồ đảo: 50 đảo, 0 đảo có chủ, của bạn 0 (2110 byte)
-[00:09:34] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:09:34] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:09:34] #1 [GAME]     hex: 
-[00:09:34] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:09:34] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:09:34] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:09:34] #1 [GAME]     hex: 
-[00:09:34] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:09:37] #1 [GAME] nhận 18 byte:
-    0000  90 00 0f 01 23 29 00 00 00 00 00 00 00 01 00 00  ....#)..........
-    0010  00 02                                            ..
-[00:09:37] #1 [GAME]   KHUNG ctl=1 cmd=9001 [?] dữ liệu 12 byte | game xử lý phản hồi bằng CmdReceiveBattleInfo
-[00:09:37] #1 [GAME]     hex: 000000000000000100000002
-[00:09:37] #1 [GAME]   ĐÁNH CHIẾM ĐẢO 2 (đảo trống): đối thủ 'Đảo 2', nhà chính cấp 11, 63 công trình, chiến lợi phẩm vàng 0 / dầu 0 / dầu đen 0
-[00:09:37] #1 [GAME]       lính mang theo: ARM_10 x6, DAR_2 x18
-[00:09:37] #1 [GAME]       anh hùng: ARM_11 cấp 8, ARM_12 cấp 10, ARM_18 cấp 1
-[00:09:37] #1 [GAME]   -> GỬI cmd=9001 BattleInfo (ĐÁNH CHIẾM ĐẢO 2 (đảo trống)) (4500 byte)
-[00:09:38] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:09:38] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:09:38] #1 [GAME]     hex: 
-[00:09:38] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:09:45] #1 [GAME] nhận 25 byte:
-    0000  90 00 16 01 23 2a 00 05 44 41 52 5f 32 00 00 1f  ....#*..DAR_2...
-    0010  7a 00 00 00 f7 00 00 00 00                       z........
-[00:09:45] #1 [GAME]   KHUNG ctl=1 cmd=9002 [?] dữ liệu 19 byte | game xử lý phản hồi bằng CmdReceiveConfirm
-[00:09:45] #1 [GAME]     chuỗi: @0 'DAR_2'
-[00:09:45] #1 [GAME]     hex: 00054441525f3200001f7a000000f700000000
-[00:09:45] #1 [GAME]   THẢ LÍNH DAR_2 (ô 8058, t=247, #0)
-[00:09:47] #1 [GAME] nhận 269 byte:
-    0000  90 01 0a 01 23 34 00 00 01 2c 00 00 00 11 00 05  ....#4...,......
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 13 byte, xem file bin)
-[00:09:47] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 263 byte | game KHÔNG có handler cho cmd này
-[00:09:47] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:09:47] #1 [GAME]     hex: 0000012c0000001100054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:09:47] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): DAR_2 x17
-[00:09:50] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:09:50] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:09:50] #1 [GAME]     hex: 
-[00:09:50] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:09:55] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:09:55] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:09:55] #1 [GAME]     hex: 
-[00:09:55] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:09:57] #1 [GAME] nhận 317 byte:
-    0000  90 01 3a 01 23 34 00 00 02 58 00 00 00 14 00 05  ..:.#4...X......
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 61 byte, xem file bin)
-[00:09:57] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 311 byte | game KHÔNG có handler cho cmd này
-[00:09:57] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:09:57] #1 [GAME]     hex: 000002580000001400054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:09:57] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x17
-[00:10:00] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:00] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:00] #1 [GAME]     hex: 
-[00:10:00] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:05] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:05] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:05] #1 [GAME]     hex: 
-[00:10:05] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:07] #1 [GAME] nhận 431 byte:
-    0000  90 01 ac 01 23 34 00 00 03 84 00 00 00 1b 00 05  ....#4..........
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 175 byte, xem file bin)
-[00:10:07] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 425 byte | game KHÔNG có handler cho cmd này
-[00:10:07] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:10:07] #1 [GAME]     hex: 000003840000001b00054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:10:07] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_10 x6, ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x17, S_ARM_12 x1
-[00:10:10] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:10] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:10] #1 [GAME]     hex: 
-[00:10:10] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:15] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:15] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:15] #1 [GAME]     hex: 
-[00:10:15] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:17] #1 [GAME] nhận 431 byte:
-    0000  90 01 ac 01 23 34 00 00 04 b0 00 00 00 1b 00 05  ....#4..........
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 175 byte, xem file bin)
-[00:10:17] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 425 byte | game KHÔNG có handler cho cmd này
-[00:10:17] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:10:17] #1 [GAME]     hex: 000004b00000001b00054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:10:17] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_10 x6, ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x17, S_ARM_12 x1
-[00:10:20] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:20] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:20] #1 [GAME]     hex: 
-[00:10:20] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:25] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:25] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:25] #1 [GAME]     hex: 
-[00:10:25] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:28] #1 [GAME] nhận 431 byte:
-    0000  90 01 ac 01 23 34 00 00 05 dc 00 00 00 1b 00 05  ....#4..........
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 175 byte, xem file bin)
-[00:10:28] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 425 byte | game KHÔNG có handler cho cmd này
-[00:10:28] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:10:28] #1 [GAME]     hex: 000005dc0000001b00054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:10:28] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_10 x6, ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x17, S_ARM_12 x1
-[00:10:30] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:30] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:30] #1 [GAME]     hex: 
-[00:10:30] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:35] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:35] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:35] #1 [GAME]     hex: 
-[00:10:35] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:38] #1 [GAME] nhận 431 byte:
-    0000  90 01 ac 01 23 34 00 00 07 08 00 00 00 1b 00 05  ....#4..........
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 175 byte, xem file bin)
-[00:10:38] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 425 byte | game KHÔNG có handler cho cmd này
-[00:10:38] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:10:38] #1 [GAME]     hex: 000007080000001b00054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:10:38] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_10 x6, ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x17, S_ARM_12 x1
-[00:10:40] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:40] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:40] #1 [GAME]     hex: 
-[00:10:40] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:45] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:45] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:45] #1 [GAME]     hex: 
-[00:10:45] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:48] #1 [GAME] nhận 431 byte:
-    0000  90 01 ac 01 23 34 00 00 08 34 00 00 00 1b 00 05  ....#4...4......
-    0010  44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00 05 44  DAR_2..........D
-    0020  41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05 44 41  AR_2..........DA
-    0030  52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44 41 52  R_2...|......DAR
-    0040  5f 32 00 00 1e f8 00 00 01 04 00 05 44 41 52 5f  _2..........DAR_
-    0050  32 00 00 20 00 00 00 01 07 00 05 44 41 52 5f 32  2.. .......DAR_2
-    0060  00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    0070  00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32 00 00  .........DAR_2..
-    0080  1d ee 00 00 01 10 00 05 44 41 52 5f 32 00 00 1c  ........DAR_2...
-    0090  64 00 00 01 13 00 05 44 41 52 5f 32 00 00 1c e6  d......DAR_2....
-    00a0  00 00 01 16 00 05 44 41 52 5f 32 00 00 1c e8 00  ......DAR_2.....
-    00b0  00 01 19 00 05 44 41 52 5f 32 00 00 1c 63 00 00  .....DAR_2...c..
-    00c0  01 1c 00 05 44 41 52 5f 32 00 00 1b df 00 00 01  ....DAR_2.......
-    00d0  1f 00 05 44 41 52 5f 32 00 00 1b e0 00 00 01 22  ...DAR_2......."
-    00e0  00 05 44 41 52 5f 32 00 00 1c 64 00 00 01 25 00  ..DAR_2...d...%.
-    00f0  05 44 41 52 5f 32 00 00 1c 62 00 00 01 28 00 05  .DAR_2...b...(..
-    ... (còn 175 byte, xem file bin)
-[00:10:48] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 425 byte | game KHÔNG có handler cho cmd này
-[00:10:48] #1 [GAME]     chuỗi: @8 'DAR_2'; @23 'DAR_2'; @38 'DAR_2'; @53 'DAR_2'; @68 'DAR_2'; @83 'DAR_2'; @98 'DAR_2'; @113 'DAR_2'; @128 'DAR_2'; @143 'DAR_2'; @158 'DAR_2'; @173 'DAR_2'
-[00:10:48] #1 [GAME]     hex: 000008340000001b00054441525f3200001ef8000000fa00054441525f3200001ef7000000fe00054441525f3200001f7c0000010100054441525f3200001ef80000010400054441525f32000020000000010700054441525f3200001ef80000010a00054441525f3200001dee0000010d00054441525f32...
-[00:10:48] #1 [GAME]   THẢ LÍNH (ảnh chụp, cộng dồn): ARM_10 x6, ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x17, S_ARM_12 x1
-[00:10:50] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 3a c6                                ....:.
-[00:10:50] #1 [GAME]   KHUNG ctl=1 cmd=15046 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:10:50] #1 [GAME]     hex: 
-[00:10:50] #1 [GAME]   -> GỬI cmd=15046 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:10:55] #1 [GAME] nhận 545 byte:
-    0000  90 02 1e 01 23 2b 00 00 09 05 00 00 00 03 00 00  ....#+..........
-    0010  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
-    0020  00 64 00 54 63 68 65 63 6b 20 73 75 6d 20 63 75  .d.Tcheck sum cu
-    0030  72 4c 6f 6f 70 20 6e 75 6d 4f 62 6a 2c 68 70 2c  rLoop numObj,hp,
-    0040  64 78 2c 64 79 2c 65 78 74 20 3a 20 32 33 30 39  dx,dy,ext : 2309
-    0050  5f 31 32 5f 32 30 30 35 33 5f 31 33 32 35 36 5f  _12_20053_13256_
-    0060  31 36 30 31 34 5f 30 5f 30 20 38 33 33 35 36 5f  16014_0_0 83356_
-    0070  38 33 33 35 36 5f 32 37 00 00 00 1c 00 00 00 1b  83356_27........
-    0080  00 05 44 41 52 5f 32 00 00 1e f8 00 00 00 fa 00  ..DAR_2.........
-    0090  05 44 41 52 5f 32 00 00 1e f7 00 00 00 fe 00 05  .DAR_2..........
-    00a0  44 41 52 5f 32 00 00 1f 7c 00 00 01 01 00 05 44  DAR_2...|......D
-    00b0  41 52 5f 32 00 00 1e f8 00 00 01 04 00 05 44 41  AR_2..........DA
-    00c0  52 5f 32 00 00 20 00 00 00 01 07 00 05 44 41 52  R_2.. .......DAR
-    00d0  5f 32 00 00 1e f8 00 00 01 0a 00 05 44 41 52 5f  _2..........DAR_
-    00e0  32 00 00 1d ee 00 00 01 0d 00 05 44 41 52 5f 32  2..........DAR_2
-    00f0  00 00 1d ee 00 00 01 10 00 05 44 41 52 5f 32 00  ..........DAR_2.
-    ... (còn 289 byte, xem file bin)
-[00:10:55] #1 [GAME]   KHUNG ctl=1 cmd=9003 [sendCmdEndBattle (kết thúc trận)] dữ liệu 539 byte | game KHÔNG có handler cho cmd này
-[00:10:55] #1 [GAME]     chuỗi: @28 'check sum curLoop numObj,hp,dx,dy,ext : 2309_12_20053_13256_16014_0_0 83356_83356_27'; @122 'DAR_2'; @137 'DAR_2'; @152 'DAR_2'; @167 'DAR_2'; @182 'DAR_2'; @197 'DAR_2'; @212 'DAR_2'; @227 'DAR_2'; @242 'DAR_2'; @257 'DAR_2'; @272 'DAR_2'
-[00:10:55] #1 [GAME]     hex: 000009050000000300000000000000000000000000000000000000640054636865636b2073756d206375724c6f6f70206e756d4f626a2c68702c64782c64792c657874203a20323330395f31325f32303035335f31333235365f31363031345f305f302038333335365f38333335365f32370000001c0000...
-[00:10:55] #1 [GAME]   KẾT THÚC TRẬN: 3 sao, phá 100%, cướp vàng 0 / dầu 0 / dầu đen 0, đã dùng ARM_10 x6, ARM_11 x1, ARM_12 x1, ARM_18 x1, DAR_2 x18, S_ARM_12 x1, CHIẾM ĐẢO 2, ghi trận #13 (28 lần thả)
-[00:10:55] #1 [GAME]   -> GỬI cmd=9014 kết quả trận (cho phép về nhà) (265 byte)
-[00:10:58] #1 [GAME] nhận 14 byte:
-    0000  90 00 0b 01 23 34 00 00 09 60 00 00 00 00        ....#4...`....
-[00:10:58] #1 [GAME]   KHUNG ctl=1 cmd=9012 [?] dữ liệu 8 byte | game KHÔNG có handler cho cmd này
-[00:10:58] #1 [GAME]     hex: 0000096000000000
-[00:11:03] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 36 b1                                ....6.
-[00:11:03] #1 [GAME]   KHUNG ctl=1 cmd=14001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:03] #1 [GAME]     hex: 
-[00:11:03] #1 [GAME]   -> GỬI cmd=14001 bản đồ đảo: 50 đảo, 1 đảo có chủ, của bạn 1 (2122 byte)
-[00:11:04] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:11:04] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:11:04] #1 [GAME]     hex: 
-[00:11:04] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:11:10] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 03 ee 00 00 00 01                    ..........
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=1006 [sendVisitFriend (về nhà = thăm chính mình)] dữ liệu 4 byte | game KHÔNG có handler cho cmd này
-[00:11:10] #1 [GAME]     hex: 00000001
-[00:11:10] #1 [GAME]       người chơi: vàng 140981/9003000, dầu 1610293/11000000, dầu đen 66839/240000, G 16579
-[00:11:10] #1 [GAME]   -> ĐẨY chủ động cmd=1001 lớp GetPlayerInfo [thông tin người chơi] (497 byte)
-[00:11:10] #1 [GAME]   -> ĐẨY chủ động cmd=1002 lớp BuildingInfo [40 công trình + 54 chướng ngại] (3915 byte)
-[00:11:10] #1 [GAME]   -> ĐẨY chủ động cmd=1003 lớp TroopInfo [quân: trống] (267 byte)
-[00:11:10] #1 [GAME] nhận 12 byte:
-    0000  90 00 03 01 17 73 90 00 03 01 1b 72              .....s.....r
-[00:11:10] HTTP GET /mail?country=vn&uId=1 từ 127.0.0.1
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=6003 [sendGetDailyQuestInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveDailyQuest
-[00:11:10]     -> trả /mail: danh sách thư rỗng
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=6003 lớp DailyQuest, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=7026 [sendGetMonthGiftInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMonthGiftInfo
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=7026 lớp MonthGiftInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME] nhận 44 byte:
-    0000  90 00 03 01 0f ae 90 00 07 01 04 3a 00 00 00 01  ...........:....
-    0010  90 00 03 01 04 39 90 00 03 01 1b c0 90 00 03 01  .....9..........
-    0020  1b c2 90 00 07 01 04 3d 00 00 00 01              .......=....
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=4014 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveMailV3
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=4014 lớp MailV3, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=1082 [(equipment; gửi từ CityMgr.onGetPlayerInfo, dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 00000001
-[00:11:10] #1 [GAME]   -> GỬI cmd=1082 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=1081 [EquipmentManager.getEquipmentInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=1081 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=7104 [sendNewUser14dayGetInfo] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=7104 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=7106 [sendNewUser14dayGetShop] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=7106 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=1085 [sendTopTrophyGetInfo (dữ liệu = userId)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 00000001
-[00:11:10] #1 [GAME]   -> GỬI cmd=1085 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 1f 42                                .....B
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=8002 [Achievement (thành tựu)] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveAchievement
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=8002 Achievement (16 thành tựu) (376 byte)
-[00:11:10] #1 [GAME] nhận 117 byte:
-    0000  90 00 03 01 27 18 90 00 07 01 0b dd 00 00 03 ec  ....'...........
-    0010  90 00 03 01 32 c9 90 00 03 01 1b 71 90 00 03 01  ....2......q....
-    0020  04 0b 90 00 03 01 1b 9f 90 00 03 01 3e 94 90 00  ............>...
-    0030  04 01 04 16 04 90 00 03 01 07 f2 90 00 03 01 07  ................
-    0040  f7 90 00 03 01 1b cd 90 00 07 01 07 f6 00 00 00  ................
-    0050  01 90 00 03 01 04 3f 90 00 03 01 0b e9 90 00 03  ......?.........
-    0060  01 23 57 90 00 03 01 2b 0b 90 00 03 01 1b 60 90  .#W....+......`.
-    0070  00 03 01 07 fc                                   .....
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=10008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveItemInfo
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=10008 kho đồ: 4 vật phẩm (119 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=3037 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveClanDetail
-[00:11:10] #1 [GAME]     hex: 000003ec
-[00:11:10] #1 [GAME]   -> GỬI cmd=3037 CHI TIẾT BANG "LyMeowz" id=1004, 1 thành viên (167 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=13001 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveTopFarm
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   (KHÔNG trả lời cmd 13001: TopFarm: TopFarmTableViewCell::setSlotData sập với dữ liệu rỗng)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=7025 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveCardEventInfo
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=7025 lớp CardEventInfo, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=1035 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=1035 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=7071 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=7071 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=16020 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:10] #1 [GAME]     hex: 
-[00:11:10] #1 [GAME]   -> GỬI cmd=16020 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:10] #1 [GAME]   KHUNG ctl=1 cmd=1046 [?] dữ liệu 1 byte | game xử lý phản hồi bằng CmdReceiveTopTrophyBoard
-[00:11:10] #1 [GAME]     hex: 04
-[00:11:11] #1 [GAME]   -> GỬI cmd=1046 bảng cúp tuần: 15 người (1585 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2034 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=2034 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2039 [?] dữ liệu 0 byte | game KHÔNG có handler cho cmd này
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=7117 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=7117 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2038 [?] dữ liệu 4 byte | game KHÔNG có handler cho cmd này
-[00:11:11] #1 [GAME]     hex: 00000001
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=1087 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=1087 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=3049 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=3049 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=9047 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveReplayBattleList
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=9047 nhật ký trận (0 phòng thủ, 13 tấn công) (2277 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=11019 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=11019 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=7008 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   (KHÔNG trả lời cmd 7008: sự kiện nâng nhà chính: CityMgr::onGetEventTownHall -> UpgradeTHGUI sập với dữ liệu rỗng)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME] nhận 24 byte:
-    0000  90 00 03 01 0b d3 90 00 03 01 3a b5 90 00 03 01  ..........:.....
-    0010  07 fc 90 00 03 01 07 fc                          ........
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=3027 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=3027 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=15029 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=15029 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2044 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=2044 lớp ErrorCode, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME] nhận 6 byte:
-    0000  90 00 03 01 03 f7                                ......
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=1015 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceiveGetCurTime
-[00:11:11] #1 [GAME]     hex: 
-[00:11:11] #1 [GAME]   -> GỬI cmd=1015 giờ máy chủ (79 byte)
-[00:11:11] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 01                    ..........
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:11:11] #1 [GAME]     hex: 00000001
-[00:11:11] #1 [GAME]   THU HOẠCH RES_2 id=1: +42 elixir
-[00:11:11] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:11:11] #1 [GAME] nhận 10 byte:
-    0000  90 00 07 01 07 d4 00 00 00 01                    ..........
-[00:11:11] #1 [GAME]   KHUNG ctl=1 cmd=2004 [sendCollect (thu hoạch mỏ)] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveCmdHarvest
-[00:11:11] #1 [GAME]     hex: 00000001
-[00:11:12] #1 [GAME]   THU HOẠCH RES_1 id=1: +67 gold
-[00:11:12] #1 [GAME]   -> GỬI cmd=2004 lớp CmdHarvest, error=0, dữ liệu 512 byte (519 byte)
-[00:11:17] Đã dừng.
+[22:29:00] #1 [GAME]   KHUNG ctl=1 cmd=3013 [?] dữ liệu 0 byte | game xử lý phản hồi bằng CmdReceivedGetRequestTroop
+[22:29:00] #1 [GAME]     hex: 
+[22:29:00] #1 [GAME]   -> GỬI cmd=3013 lớp dGetRequestTroop, error=0, dữ liệu 512 byte (519 byte)
+[22:29:20] #1 [GAME] nhận 6 byte:
+    0000  90 00 03 01 1b 76                                .....v
+[22:29:20] #1 [GAME]   KHUNG ctl=1 cmd=7030 [?] dữ liệu 0 byte | game KHÔNG có handler cho cmd này
+[22:29:20] #1 [GAME]     hex: 
+[22:29:20] #1 [GAME]   -> GỬI cmd=7030 nhận dê miễn phí: dê 1 cấp 1, dê 2 cấp 2, dê 3 cấp 3 (72 byte)
+[22:29:20] #1 [GAME]   -> GỬI cmd=10008 cập nhật kho đồ (cỏ cho dê) (130 byte)
+[22:29:34] #1 [GAME] nhận 7 byte:
+    0000  90 00 04 01 1b 5d 01                             .....].
+[22:29:34] #1 [GAME]   KHUNG ctl=1 cmd=7005 [?] dữ liệu 1 byte | game KHÔNG có handler cho cmd này
+[22:29:34] #1 [GAME]     hex: 01
+[22:29:34] #1 [GAME]   NHẬN QUÀ 7 NGÀY ngày 1: loại 1 x2, loại 2 x2, loại 4 x2
+[22:29:34] #1 [GAME]   -> GỬI cmd=10008 cập nhật kho đồ (141 byte)
+[22:29:44] #1 [GAME] nhận 10 byte:
+    0000  90 00 07 01 1b a0 00 00 00 01                    ..........
+[22:29:44] #1 [GAME]   KHUNG ctl=1 cmd=7072 [?] dữ liệu 4 byte | game xử lý phản hồi bằng CmdReceiveErrorCode
+[22:29:44] #1 [GAME]     hex: 00000001
+[22:29:44] #1 [GAME]   -> GỬI cmd=7072 quay kho báu x1 (1 vé, 0 bằng G): {13: 1} (51 byte)
+[22:29:47] #1 [GAME] client đóng kết nối (tổng 591 byte).
+[22:29:47] #2 [CHAT] client đóng kết nối (tổng 245 byte).
+[22:30:07] Đã dừng.
