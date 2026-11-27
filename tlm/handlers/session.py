@@ -58,7 +58,27 @@ def get_user_info(ctx, ctl, cmd, payload):
 
 @handler(1006)
 def visit_friend(ctx, ctl, cmd, payload):
-    """Bấm "về nhà" (CityMgr::returnMyHome) = sendVisitFriend(userId): gửi lại toàn bộ làng."""
-    if not ctx.silent:
-        push_city(ctx, ctl, with_player=True)
+    """CityMgr::sendVisitPlayer(uid) (về nhà = uid của mình; thăm bạn / thăm chủ đảo từ bản đồ thế giới
+    OccupyIslandGui::sendVisit = uid khác, game đặt trạng thái 2 = đang thăm). Không có phản hồi riêng: game dựng làng
+    từ 1001/1002/1003 được đẩy. Ở trạng thái thăm CityMgr::onGetPlayerInfo chỉ chép vào GameDataMgr+0x298 (người được
+    thăm), không đè dữ liệu của mình (+0xd0)."""
+    if ctx.silent:
+        return True
+    uid = int.from_bytes(payload[:4], "big") if len(payload) >= 4 else 0
+    from .. import clans
+    acc = clans.account_of_uid(uid) if uid else None
+    if acc and acc != ctx.account:
+        try:
+            vst = state.load(acc)
+        except Exception:
+            vst = None
+        if vst:
+            ctx.log("THĂM LÀNG %s (uid %d)" % (vst["player"].get("name", acc), uid))
+            ctx.push(ctl, 1001, player_info.build(vst, account=acc), " [người được thăm]")
+            ctx.push(ctl, 1002, building_info.build(vst, account=acc), " [làng %s: %d công trình]" % (acc, len(vst["buildings"])))
+            ctx.push(ctl, 1003, troop_info.build(vst), " [quân người được thăm]")
+            return True
+    if uid and acc != ctx.account:
+        ctx.log("thăm uid %d: không có người chơi này (đảo trống / máy) -> về nhà" % uid)
+    push_city(ctx, ctl, with_player=True)
     return True

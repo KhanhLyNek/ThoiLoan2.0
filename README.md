@@ -202,6 +202,13 @@ def ten_lenh(ctx, ctl, cmd, payload):
 
 ## Thay đổi
 
+**v8.6**
+- Quà VIP: server gửi danh sách cấp VIP đã nhận quà trong PlayerInfo, game hết đòi quà lại mỗi lần vào. Mỗi cấp nhận
+  quà G 1 lần (Vip.json); gói trang bị VIP chưa hỗ trợ.
+- Uranium của bang hiện trong bảng bang (phần uranium đảo không về người thu hoạch được cộng vào quỹ bang).
+- Thăm làng người chơi khác (bạn bè / chủ đảo trên bản đồ thế giới). Đảo của chính mình -> làng của mình.
+- Mở sự kiện Sao chiến thắng (đánh trận cộng sao, đủ mốc nhận G, làm lại mỗi tuần). json_version 102.
+
 **v8.5.2**
 - Sửa: mang phép vào trận làm phép (SPE_*) bị ghi vào trại lính -> về nhà sau trận game nhận lính lạ và văng.
   Phép giờ đồng bộ vào kho phép; làng cũ bị lỗi tự dọn khi vào game.

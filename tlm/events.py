@@ -14,7 +14,7 @@ import json
 
 from .data import load_table
 
-JSON_VERSION = "101"
+JSON_VERSION = "102"
 START, END = 1577811600, 2051197200          # 2020-01-01 .. 2035-01-01 (giờ VN)
 
 # sự kiện -> (khoá bắt đầu, khoá kết thúc, các khoá phụ đặt = END để tắt giai đoạn phụ)
@@ -22,6 +22,7 @@ OPEN = {
     "goat": ("goatEventStart", "goatEventEnd", ()),                     # dê đi dạo trong làng (handlers/goat.py)
     "giftHunting": ("giftHuntingStart", "giftHuntingEnd",               # kho báu yêu tinh (handlers/goblin_treasure.py)
                     ("giftHuntingMiddle", "giftHuntingDiscountSpin10Start")),
+    "vicStar": ("vicStarStart", "vicStarEnd", ()),                      # sao chiến thắng (handlers/vicstar.py)
 }
 
 

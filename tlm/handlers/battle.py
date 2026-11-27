@@ -247,6 +247,8 @@ def end_battle(ctx, ctl, cmd, payload):
         _daily_battle(st, stars, gold, elixir, dark)
         from .goblin_treasure import on_battle as _gt_battle
         _gt_battle(st, gold, elixir, dark)
+        from .vicstar import on_battle as _vic_battle
+        _vic_battle(st, stars)
     add_progress(st, 2, stars)
     add_progress(st, 6, gold)
     add_progress(st, 7, elixir)

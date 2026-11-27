@@ -13,6 +13,8 @@
 1047 (server -> game) VIP: [byte cấp VIP][int điểm VIP] -> GameDataMgr+0x424/+0x428 rồi VIPmanager::checkVip.
      Cấp = số mốc Vip.json "requireVipPoint" đã đạt (20, 50, 100, 500, 1000, 5000, 10000, 20000, 50000, 100000).
      Điểm VIP = tổng G đã nạp / VIP_RATE. Đẩy lúc vào game và sau mỗi lần nạp.
+1059 VIPmanager::addVipGift [byte cấp VIP]: nhận quà lên cấp VIP (Vip.json Vip[cấp-1].coin G; packId = gói trang bị
+     VipBonus - hệ trang bị chưa có). Cấp đã nhận lưu player.vip_gifts -> PlayerInfo @0x1c0 (GameDataMgr+0x268).
 1010 (server -> game) cập nhật G: [double số G] -> CityMgr::onGetUpdateCoin -> GameDataMgr::setMoney("coin").
 2046 rương yêu thương (ShopGUI2Mgr::onReceiveChestLove): [int số thứ tự quà, từ 1][double giờ mở lần sau].
      Danh sách quà = PackOrder.json poChestLove; trả 0 (bản cũ) -> chỉ số -1 -> vector::at ném lỗi -> game sập.
@@ -127,4 +129,31 @@ def chest_love(ctx, ctl, cmd, payload):
     state.save(st, ctx.account)
     ctx.reply(ctl, 2046, 0, u32(idx) + f64(nxt) + bytes(64),
               "GỬI cmd=2046 RƯƠNG YÊU THƯƠNG: quà #%d = %d x %s" % (idx, int(e["num"]), item_name(e["type"], e["level"])))
+    return True
+
+
+try:
+    VIP_ROWS = load_table("Vip.json")["Vip"]
+except Exception:
+    VIP_ROWS = []
+
+
+@handler(1059)
+def vip_gift(ctx, ctl, cmd, payload):
+    lvl = payload[0] if payload else 0
+    st = state.load(ctx.account)
+    p = st["player"]
+    got = p.setdefault("vip_gifts", [])
+    if lvl < 1 or lvl in got or lvl > vip_level(vip_point(st)):
+        ctx.log("quà VIP cấp %d: bỏ qua (đã nhận %s, VIP hiện tại %d)" % (lvl, got, vip_level(vip_point(st))))
+        return True
+    got.append(lvl)
+    row = VIP_ROWS[lvl - 1] if lvl - 1 < len(VIP_ROWS) else {}
+    coin = int(row.get("coin", 0))
+    if coin:
+        p["coin"] = int(p.get("coin", 0)) + coin
+    state.save(st, ctx.account)
+    ctx.log("NHẬN QUÀ VIP cấp %d: +%d G%s" % (lvl, coin, " (gói trang bị %s chưa hỗ trợ)" % row.get("packId") if row.get("packId") else ""))
+    if coin:
+        push_coin(ctx, ctl, st)
     return True

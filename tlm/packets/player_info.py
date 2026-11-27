@@ -45,7 +45,10 @@ def build(st, log=None, account=None):
     d += u8(0) + u8(0)                      # hai danh sách byte: 0
     d += u32(0) + f64(0) + u8(0) + u8(0)    # @0x1b0 @0x218 cờ@0x220 @0x1b4
     d += u32(0)                             # @0x1b8
-    d += u8(0)                              # danh sách byte thứ ba: 0
+    gifts = [int(v) for v in p.get("vip_gifts", [])][:255]
+    d += u8(len(gifts)) + b"".join(u8(v) for v in gifts)  # @0x1c0 -> GameDataMgr+0x268 CẤP VIP ĐÃ NHẬN QUÀ
+    #   (VIPmanager::checkVip: cấp nào chưa có ở đây -> addVipGift = gửi 1059 + hiện bảng quà; rỗng = mỗi lần vào game
+    #    đều đòi quà lại từ cấp 1)
     d += u8(0) + u8(0)                      # @0x224 @0x228
     d += u8(0) + u8(0) + u8(0)              # @0x1d8 @0x1d9 @0x1da
     d += u16(0)                             # @0x1dc

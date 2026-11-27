@@ -9,7 +9,7 @@
 3037 sendGetClanDetail [int id] -> CmdReceiveClanDetail:
      [int id][chuỗi tên][byte biểu tượng][byte kiểu][int cúp tối thiểu][chuỗi mô tả][int tổng cúp][byte n]
      n x [int uid][byte chức 1/2/3][int cấp][byte 1][int cúp][chuỗi tên][int quân đã cho][int quân đã nhận]
-     [chuỗi][int][int][int CẤP BANG >= 1 (tra WorldMap.json "clan"[cấp-1])][double][chuỗi]
+     [chuỗi][int][int URANIUM BANG][int CẤP BANG >= 1 (tra WorldMap.json "clan"[cấp-1])][double][chuỗi]
      [int n x (int,int,int) urani tuần này][bool][int n x (int,int,int) tuần trước][int][int]
      Game tìm chính mình (uid = GameDataMgr+0xd0) trong danh sách; không thấy -> coi như không có bang.
 3005 sendJoinClan [int id][chuỗi lời nhắn]: game tự gán +0x150 = id; phản hồi rỗng; server đẩy 3033 [int id]
@@ -54,7 +54,8 @@ def build_detail(c):
     for m in ms:
         d += u32(m["uid"]) + u8(m["role"]) + u32(m["level"]) + u8(1) + u32(m["trophy"]) + pstr(m["name"])
         d += u32(m.get("donated", 0)) + u32(m.get("received", 0))
-    d += pstr("") + u32(0) + u32(0) + u32(max(1, int(c.get("level", 1)))) + f64(0) + pstr("")
+    # [chuỗi][int @0x60][int @0x64 = URANIUM CỦA BANG (ClanInfoStruct+0x3c, MyClanGUI "lb_cur_uranium")][int cấp]
+    d += pstr("") + u32(0) + u32(int(c.get("uranium", 0))) + u32(max(1, int(c.get("level", 1)))) + f64(0) + pstr("")
     d += u32(0) + u8(0) + u32(0) + u32(0) + u32(0)
     return d + bytes(64)
 
